@@ -230,7 +230,6 @@
             border-radius: 8px;
             margin-bottom: 10px;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
             transition: background-color 0.3s;
         }
@@ -426,7 +425,8 @@
             sabPowder: "Saburra Powder", calxPowder: "Calx Powder", coal: "Coal", bloodOre: "Blood Ore", coke: "Coke",
             pigIron: "Pig Iron", grainSteel: "Grain Steel", steel: "Steel", gold: "g",
             grind: "Grind", crush: "Crush", attractor: "Attractor", furnace: "Furnace", oven: "Refining Oven",
-            yields: "Yields", and: "&", req: "Req", bank: "Bank", def: "Gather", perCrafter: "(Per Crafter)", copied: "✅ Copied!"
+            yields: "Yields", and: "&", req: "Req", bank: "Bank", def: "Gather", perCrafter: "(Per Crafter)",
+            copied: "✅ Copied!", noMats: "✅ You have all the raw materials needed!"
         },
         fr: {
             title: "Suite Logistique d'Acier", input: "Objectif de production :", display: "Format d'Affichage :",
@@ -439,7 +439,8 @@
             sabPowder: "Saburra Powder", calxPowder: "Calx Powder", coal: "Coal", bloodOre: "Blood Ore", coke: "Coke",
             pigIron: "Pig Iron", grainSteel: "Grain Steel", steel: "Steel", gold: "g",
             grind: "Broyer", crush: "Concasser", attractor: "Attracteur", furnace: "Fourneau", oven: "Four de Raffinage",
-            yields: "Produit", and: "et", req: "Req", bank: "Banque", def: "À Récolter", perCrafter: "(Par Artisan)", copied: "✅ Copié !"
+            yields: "Produit", and: "et", req: "Req", bank: "Banque", def: "À Récolter", perCrafter: "(Par Artisan)", 
+            copied: "✅ Copié !", noMats: "✅ Vous avez toutes les matières premières nécessaires !"
         },
         es: {
             title: "Suite de Logística de Acero", input: "Rendimiento Objetivo:", display: "Formato:",
@@ -452,7 +453,8 @@
             sabPowder: "Saburra Powder", calxPowder: "Calx Powder", coal: "Coal", bloodOre: "Blood Ore", coke: "Coke",
             pigIron: "Pig Iron", grainSteel: "Grain Steel", steel: "Steel", gold: "g",
             grind: "Moler", crush: "Triturar", attractor: "Atractor", furnace: "Horno", oven: "Horno Refin.",
-            yields: "Produce", and: "y", req: "Req", bank: "Banco", def: "Recolectar", perCrafter: "(Por Artesano)", copied: "✅ Copiado!"
+            yields: "Produce", and: "y", req: "Req", bank: "Banco", def: "Recolectar", perCrafter: "(Por Artesano)", 
+            copied: "✅ Copiado!", noMats: "✅ ¡Tienes todas las materias primas necesarias!"
         },
         pt: {
             title: "Suite de Logística de Aço", input: "Rendimento Alvo:", display: "Formato:",
@@ -465,7 +467,8 @@
             sabPowder: "Saburra Powder", calxPowder: "Calx Powder", coal: "Coal", bloodOre: "Blood Ore", coke: "Coke",
             pigIron: "Pig Iron", grainSteel: "Grain Steel", steel: "Steel", gold: "g",
             grind: "Moer", crush: "Triturar", attractor: "Atrator", furnace: "Fornalha", oven: "Forno Refino",
-            yields: "Produz", and: "e", req: "Req", bank: "Banco", def: "Coletar", perCrafter: "(Por Artesão)", copied: "✅ Copiado!"
+            yields: "Produz", and: "e", req: "Req", bank: "Banco", def: "Coletar", perCrafter: "(Por Artesão)", 
+            copied: "✅ Copiado!", noMats: "✅ Você tem todas as matérias-primas necessárias!"
         },
         de: {
             title: "Stahl-Logistik-Suite", input: "Ziel-Ertrag:", display: "Format:",
@@ -478,7 +481,8 @@
             sabPowder: "Saburra Powder", calxPowder: "Calx Powder", coal: "Coal", bloodOre: "Blood Ore", coke: "Coke",
             pigIron: "Pig Iron", grainSteel: "Grain Steel", steel: "Steel", gold: "g",
             grind: "Mahlen", crush: "Zerkleinern", attractor: "Attraktor", furnace: "Ofen", oven: "Raffinierofen",
-            yields: "Ergibt", and: "und", req: "Bedarf", bank: "Bank", def: "Sammeln", perCrafter: "(Pro Handwerker)", copied: "✅ Kopiert!"
+            yields: "Ergibt", and: "und", req: "Bedarf", bank: "Bank", def: "Sammeln", perCrafter: "(Pro Handwerker)", 
+            copied: "✅ Kopiert!", noMats: "✅ Du hast alle benötigten Rohstoffe!"
         }
     };
 
@@ -553,7 +557,6 @@
         return num.toLocaleString();
     }
 
-    // Mathematical Core
     function getCalculations(desiredSteel) {
         const mode = document.getElementById('displayMode').value;
         const getBank = (id) => mode === 'stacks' ? (Number(document.getElementById(id).value)||0) * 10000 : (Number(document.getElementById(id).value)||0);
@@ -639,20 +642,17 @@
 
     function calculateMaxFromBank() {
         let low = 0;
-        let high = 1000000000; // Cap at 1 billion yield to prevent lockups
+        let high = 1000000000;
         let maxSteel = 0;
 
-        // Binary Search to find the absolute maximum steel yield based on current bank inventory
         while (low <= high) {
             let mid = Math.floor((low + high) / 2);
             let c = getCalculations(mid);
-            
-            // If we have zero deficits for base raw materials, we can make this much steel!
             if (c.defGranum === 0 && c.defCalx === 0 && c.defSaburra === 0 && c.defWater === 0) {
                 maxSteel = mid;
-                low = mid + 1; // Try to push higher
+                low = mid + 1;
             } else {
-                high = mid - 1; // Drop down
+                high = mid - 1;
             }
         }
         
@@ -666,8 +666,8 @@
     function calculate() {
         let desiredSteelInput = Number(document.getElementById('steelInput').value) || 0;
         let crafters = Math.max(1, parseInt(document.getElementById('crafterCount').value) || 1);
-        if (desiredSteelInput <= 0) return;
-
+        
+        // Always calculate, even for zero, to clear UI properly
         const mode = document.getElementById('displayMode').value;
         const desiredSteel = mode === 'stacks' ? desiredSteelInput * 10000 : desiredSteelInput;
 
@@ -677,8 +677,6 @@
         const pWater = Number(document.getElementById('priceWater').value) || 0;
 
         const t = text[currentLang];
-
-        // Retrieve calculations
         const c = getCalculations(desiredSteel);
 
         const defCost = (c.defGranum / 10000) * pGranum + 
@@ -691,6 +689,9 @@
         // Save data for Export/Discord
         lastCalcData = { desiredSteel, crafters, defCost, ...c };
 
+        // DYNAMIC RAW MATERIALS GRID
+        let matsHTML = '';
+        let matCount = 0;
         const makeGridCol = (matName, req, bank, def) => `
             <div class="summary-col">
                 <div class="req-val">${formatAmount(req)} <span style="font-size:0.6em;color:var(--text-dim)">${t.req}</span></div>
@@ -699,11 +700,17 @@
                 <div class="mat-label">${matName}</div>
             </div>`;
 
-        document.getElementById('rawMaterials').innerHTML = 
-            makeGridCol(t.granum, c.reqGranum, c.bGranum, c.defGranum) +
-            makeGridCol(t.calx, c.reqCalx, c.bCalx, c.defCalx) +
-            makeGridCol(t.saburra, c.reqSaburra, c.bSaburra, c.defSaburra) +
-            makeGridCol(t.water, c.reqWater, c.bWater, c.defWater);
+        if (c.reqGranum > 0) { matsHTML += makeGridCol(t.granum, c.reqGranum, c.bGranum, c.defGranum); matCount++; }
+        if (c.reqCalx > 0) { matsHTML += makeGridCol(t.calx, c.reqCalx, c.bCalx, c.defCalx); matCount++; }
+        if (c.reqSaburra > 0) { matsHTML += makeGridCol(t.saburra, c.reqSaburra, c.bSaburra, c.defSaburra); matCount++; }
+        if (c.reqWater > 0) { matsHTML += makeGridCol(t.water, c.reqWater, c.bWater, c.defWater); matCount++; }
+
+        if (matCount === 0 || desiredSteel === 0) {
+            matsHTML = `<div style="grid-column: 1 / -1; text-align: center; color: var(--success); font-weight: bold; padding: 20px;">${t.noMats}</div>`;
+        }
+        
+        document.getElementById('rawMaterials').style.gridTemplateColumns = matCount > 0 && desiredSteel > 0 ? `repeat(${matCount}, 1fr)` : '1fr';
+        document.getElementById('rawMaterials').innerHTML = matsHTML;
         
         document.getElementById('costSummary').innerHTML = `
             <div class="cost-item">
@@ -716,19 +723,45 @@
             </div>
         `;
 
+        // DYNAMIC STEPS LOGIC
         const split = (val) => Math.ceil(val / crafters).toLocaleString();
         const crftTag = crafters > 1 ? `<span style="color:var(--warning); font-size:0.9em;">${t.perCrafter}</span>` : '';
+        let stepsHTML = '';
+        let stepNum = 1;
 
-        document.getElementById('stepList').innerHTML = `
-            <div class="step-card"><strong>${t.step} 1 ${crftTag}:</strong> ${t.grind} <span class="highlight">${split(c.reqSaburra)} ${t.saburra}</span> + <span class="highlight">${split(c.waterForSaburra)} ${t.water}</span> &#8594; ${t.yields} ${split(c.saburraPowderToCraft)} ${t.sabPowder}</div>
-            <div class="step-card"><strong>${t.step} 2 ${crftTag}:</strong> ${t.grind} <span class="highlight">${split(c.calxToGrind)} ${t.calx}</span> + <span class="highlight">${split(c.waterForCalx)} ${t.water}</span> &#8594; ${t.yields} ${split(c.calxPowderToCraft)} ${t.calxPowder} ${t.and} ${split(c.coalFromGrinding)} ${t.coal}</div>
-            <div class="step-card"><strong>${t.step} 3 ${crftTag}:</strong> ${t.crush} <span class="highlight">${split(c.calxToCrush)} ${t.calx}</span> &#8594; ${t.yields} ${split(c.extraCoalNeeded)} ${t.coal}</div>
-            <div class="step-card"><strong>${t.step} 4 ${crftTag}:</strong> ${t.attractor}: <span class="highlight">${split(c.reqGranum)} ${t.granum}</span> + <span class="highlight">${split(c.calxPowderForBloodOre)} ${t.calxPowder}</span> &#8594; ${t.yields} ${split(c.reqBloodOreToSmelt)} ${t.bloodOre}</div>
-            <div class="step-card"><strong>${t.step} 5 ${crftTag}:</strong> ${t.furnace}: <span class="highlight">${split(c.coalForCoke)} ${t.coal}</span> + <span class="highlight">${split(c.calxPowderForCoke)} ${t.calxPowder}</span> &#8594; ${t.yields} ${split(c.cokeToCraft)} ${t.coke}</div>
-            <div class="step-card"><strong>${t.step} 6 ${crftTag}:</strong> ${t.furnace}: <span class="highlight">${split(c.reqBloodOreToSmelt)} ${t.bloodOre}</span> + <span class="highlight">${split(c.cokeForPI)} ${t.coke}</span> &#8594; ${t.yields} ${split(c.pigIronToCraft)} ${t.pigIron}</div>
-            <div class="step-card"><strong>${t.step} 7 ${crftTag}:</strong> ${t.oven}: <span class="highlight">${split(c.pigIronToCraft)} ${t.pigIron}</span> + <span class="highlight">${split(c.cokeForGS)} ${t.coke}</span> + <span class="highlight">${split(c.calxPowderForGS)} ${t.calxPowder}</span> &#8594; ${t.yields} ${split(c.grainSteelToCraft)} ${t.grainSteel}</div>
-            <div class="step-card"><strong>${t.step} 8 ${crftTag}:</strong> ${t.oven}: <span class="highlight">${split(c.reqGrainSteelToBake)} ${t.grainSteel}</span> + <span class="highlight">${split(c.coalForSteel)} ${t.coal}</span> + <span class="highlight">${split(c.saburraPowderForSteel)} ${t.sabPowder}</span> &#8594; ${t.yields} ${split(desiredSteel)} ${t.steel}</div>
-        `;
+        if (desiredSteel > 0) {
+            if (c.saburraPowderToCraft > 0) {
+                stepsHTML += `<div class="step-card"><strong>${t.step} ${stepNum} ${crftTag}:</strong> ${t.grind} <span class="highlight">${split(c.reqSaburra)} ${t.saburra}</span> + <span class="highlight">${split(c.waterForSaburra)} ${t.water}</span> &#8594; ${t.yields} ${split(c.saburraPowderToCraft)} ${t.sabPowder}</div>`;
+                stepNum++;
+            }
+            if (c.calxToGrind > 0) {
+                stepsHTML += `<div class="step-card"><strong>${t.step} ${stepNum} ${crftTag}:</strong> ${t.grind} <span class="highlight">${split(c.calxToGrind)} ${t.calx}</span> + <span class="highlight">${split(c.waterForCalx)} ${t.water}</span> &#8594; ${t.yields} ${split(c.calxPowderToCraft)} ${t.calxPowder} ${t.and} ${split(c.coalFromGrinding)} ${t.coal}</div>`;
+                stepNum++;
+            }
+            if (c.calxToCrush > 0) {
+                stepsHTML += `<div class="step-card"><strong>${t.step} ${stepNum} ${crftTag}:</strong> ${t.crush} <span class="highlight">${split(c.calxToCrush)} ${t.calx}</span> &#8594; ${t.yields} ${split(c.extraCoalNeeded)} ${t.coal}</div>`;
+                stepNum++;
+            }
+            if (c.reqBloodOreToSmelt > 0) {
+                stepsHTML += `<div class="step-card"><strong>${t.step} ${stepNum} ${crftTag}:</strong> ${t.attractor}: <span class="highlight">${split(c.reqGranum)} ${t.granum}</span> + <span class="highlight">${split(c.calxPowderForBloodOre)} ${t.calxPowder}</span> &#8594; ${t.yields} ${split(c.reqBloodOreToSmelt)} ${t.bloodOre}</div>`;
+                stepNum++;
+            }
+            if (c.cokeToCraft > 0) {
+                stepsHTML += `<div class="step-card"><strong>${t.step} ${stepNum} ${crftTag}:</strong> ${t.furnace}: <span class="highlight">${split(c.coalForCoke)} ${t.coal}</span> + <span class="highlight">${split(c.calxPowderForCoke)} ${t.calxPowder}</span> &#8594; ${t.yields} ${split(c.cokeToCraft)} ${t.coke}</div>`;
+                stepNum++;
+            }
+            if (c.pigIronToCraft > 0) {
+                stepsHTML += `<div class="step-card"><strong>${t.step} ${stepNum} ${crftTag}:</strong> ${t.furnace}: <span class="highlight">${split(c.reqBloodOreToSmelt)} ${t.bloodOre}</span> + <span class="highlight">${split(c.cokeForPI)} ${t.coke}</span> &#8594; ${t.yields} ${split(c.pigIronToCraft)} ${t.pigIron}</div>`;
+                stepNum++;
+            }
+            if (c.grainSteelToCraft > 0) {
+                stepsHTML += `<div class="step-card"><strong>${t.step} ${stepNum} ${crftTag}:</strong> ${t.oven}: <span class="highlight">${split(c.pigIronToCraft)} ${t.pigIron}</span> + <span class="highlight">${split(c.cokeForGS)} ${t.coke}</span> + <span class="highlight">${split(c.calxPowderForGS)} ${t.calxPowder}</span> &#8594; ${t.yields} ${split(c.grainSteelToCraft)} ${t.grainSteel}</div>`;
+                stepNum++;
+            }
+            stepsHTML += `<div class="step-card"><strong>${t.step} ${stepNum} ${crftTag}:</strong> ${t.oven}: <span class="highlight">${split(c.reqGrainSteelToBake)} ${t.grainSteel}</span> + <span class="highlight">${split(c.coalForSteel)} ${t.coal}</span> + <span class="highlight">${split(c.saburraPowderForSteel)} ${t.sabPowder}</span> &#8594; ${t.yields} ${split(desiredSteel)} ${t.steel}</div>`;
+        }
+        
+        document.getElementById('stepList').innerHTML = stepsHTML;
     }
 
     function copyToDiscord() {
@@ -740,23 +773,27 @@
         msg += `**Target:** ${d.desiredSteel.toLocaleString()} Steel\n`;
         msg += `**Crafters Assigned:** ${d.crafters}\n\n`;
         
-        msg += `**🛒 Deficit to Gather:**\n`;
-        msg += `\`\`\`\n`;
-        msg += `- Granum:  ${d.defGranum.toLocaleString()} (${stk(d.defGranum)} Stacks)\n`;
-        msg += `- Calx:    ${d.defCalx.toLocaleString()} (${stk(d.defCalx)} Stacks)\n`;
-        msg += `- Saburra: ${d.defSaburra.toLocaleString()} (${stk(d.defSaburra)} Stacks)\n`;
-        msg += `- Water:   ${d.defWater.toLocaleString()} (${stk(d.defWater)} Stacks)\n`;
+        msg += `**🛒 Deficit to Gather:**\n\`\`\`\n`;
+        let defCount = 0;
+        if (d.reqGranum > 0) { msg += `- Granum:  ${d.defGranum.toLocaleString()} (${stk(d.defGranum)} Stacks)\n`; defCount++; }
+        if (d.reqCalx > 0) { msg += `- Calx:    ${d.defCalx.toLocaleString()} (${stk(d.defCalx)} Stacks)\n`; defCount++; }
+        if (d.reqSaburra > 0) { msg += `- Saburra: ${d.defSaburra.toLocaleString()} (${stk(d.defSaburra)} Stacks)\n`; defCount++; }
+        if (d.reqWater > 0) { msg += `- Water:   ${d.defWater.toLocaleString()} (${stk(d.defWater)} Stacks)\n`; defCount++; }
+        if (defCount === 0 || d.desiredSteel === 0) { msg += `No raw materials needed!\n`; }
         msg += `\`\`\`\n`;
 
-        msg += `**⚙️ Instructions ${d.crafters > 1 ? '(Per Crafter)' : ''}:**\n`;
-        msg += `**1.** Grind ${s(d.reqSaburra)} Saburra + ${s(d.waterForSaburra)} Water\n`;
-        msg += `**2.** Grind ${s(d.calxToGrind)} Calx + ${s(d.waterForCalx)} Water\n`;
-        msg += `**3.** Crush ${s(d.calxToCrush)} Calx\n`;
-        msg += `**4.** Attractor: ${s(d.reqGranum)} Granum + ${s(d.calxPowderForBloodOre)} Calx Pwdr\n`;
-        msg += `**5.** Furnace: ${s(d.coalForCoke)} Coal + ${s(d.calxPowderForCoke)} Calx Pwdr\n`;
-        msg += `**6.** Furnace: ${s(d.reqBloodOreToSmelt)} Blood Ore + ${s(d.cokeForPI)} Coke\n`;
-        msg += `**7.** Oven: ${s(d.pigIronToCraft)} Pig Iron + ${s(d.cokeForGS)} Coke + ${s(d.calxPowderForGS)} Calx Pwdr\n`;
-        msg += `**8.** Oven: ${s(d.reqGrainSteelToBake)} Grain Steel + ${s(d.coalForSteel)} Coal + ${s(d.saburraPowderForSteel)} Saburra Pwdr\n`;
+        if (d.desiredSteel > 0) {
+            msg += `**⚙️ Instructions ${d.crafters > 1 ? '(Per Crafter)' : ''}:**\n`;
+            let dStepNum = 1;
+            if (d.saburraPowderToCraft > 0) { msg += `**${dStepNum}.** Grind ${s(d.reqSaburra)} Saburra + ${s(d.waterForSaburra)} Water\n`; dStepNum++; }
+            if (d.calxToGrind > 0) { msg += `**${dStepNum}.** Grind ${s(d.calxToGrind)} Calx + ${s(d.waterForCalx)} Water\n`; dStepNum++; }
+            if (d.calxToCrush > 0) { msg += `**${dStepNum}.** Crush ${s(d.calxToCrush)} Calx\n`; dStepNum++; }
+            if (d.reqBloodOreToSmelt > 0) { msg += `**${dStepNum}.** Attractor: ${s(d.reqGranum)} Granum + ${s(d.calxPowderForBloodOre)} Calx Pwdr\n`; dStepNum++; }
+            if (d.cokeToCraft > 0) { msg += `**${dStepNum}.** Furnace: ${s(d.coalForCoke)} Coal + ${s(d.calxPowderForCoke)} Calx Pwdr\n`; dStepNum++; }
+            if (d.pigIronToCraft > 0) { msg += `**${dStepNum}.** Furnace: ${s(d.reqBloodOreToSmelt)} Blood Ore + ${s(d.cokeForPI)} Coke\n`; dStepNum++; }
+            if (d.grainSteelToCraft > 0) { msg += `**${dStepNum}.** Oven: ${s(d.pigIronToCraft)} Pig Iron + ${s(d.cokeForGS)} Coke + ${s(d.calxPowderForGS)} Calx Pwdr\n`; dStepNum++; }
+            msg += `**${dStepNum}.** Oven: ${s(d.reqGrainSteelToBake)} Grain Steel + ${s(d.coalForSteel)} Coal + ${s(d.saburraPowderForSteel)} Saburra Pwdr\n`;
+        }
 
         navigator.clipboard.writeText(msg).then(() => {
             const btn = document.getElementById('btnDiscord');

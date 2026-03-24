@@ -3,211 +3,449 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quartermaster Steel Logistics Suite v2.1</title>
+    <title>Quartermaster Steel Logistics Suite</title>
     <style>
         :root {
-            --bg-main: #1e1e24; --bg-container: #2b2b36; --text-main: #f5f5f5;
-            --accent: #d4af37; --accent-hover: #b5952f; --border-color: #3a3a48;
-            --bg-input: #1e1e24; --bg-box: #3a3a48; --bg-step: #23232c;
-            --bg-cost: #2a2a1e; --text-dim: #a9a9b3; --success: #4CAF50;
-            --warning: #ff9800; --danger: #ff4d4d;
+            /* Dark Theme (Default) */
+            --bg-main: #1e1e24;
+            --bg-container: #2b2b36;
+            --text-main: #f5f5f5;
+            --accent: #d4af37;
+            --accent-hover: #b5952f;
+            --border-color: #3a3a48;
+            --bg-input: #1e1e24;
+            --bg-box: #3a3a48;
+            --bg-step: #23232c;
+            --bg-cost: #2a2a1e;
+            --text-dim: #a9a9b3;
+            --text-value: #e0e0e0;
+            --success: #4CAF50;
+            --warning: #ff9800;
+            --danger: #ff4d4d;
         }
+
         .light-theme {
-            --bg-main: #f0f2f5; --bg-container: #ffffff; --text-main: #333333;
-            --accent: #b5952f; --border-color: #cccccc; --bg-input: #f9f9f9;
-            --bg-box: #e9ecef; --bg-step: #f8f9fa; --bg-cost: #fff8e1;
+            --bg-main: #f0f2f5;
+            --bg-container: #ffffff;
+            --text-main: #333333;
+            --accent: #b5952f;
+            --accent-hover: #8f7524;
+            --border-color: #cccccc;
+            --bg-input: #f9f9f9;
+            --bg-box: #e9ecef;
+            --bg-step: #f8f9fa;
+            --bg-cost: #fff8e1;
+            --text-dim: #666666;
+            --text-value: #111111;
         }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-main); color: var(--text-main); padding: 40px 20px; display: flex; justify-content: center; }
-        .container { max-width: 900px; width: 100%; background-color: var(--bg-container); padding: 30px; border-radius: 10px; box-shadow: 0 8px 16px rgba(0,0,0,0.4); position: relative; }
-        h1, h2 { color: var(--accent); text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; }
-        .controls { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin: 20px 0; }
-        .input-group { display: flex; flex-direction: column; align-items: center; }
-        .input-wrapper { display: flex; align-items: center; background: var(--bg-input); border: 2px solid var(--accent); border-radius: 5px; overflow: hidden; }
-        .input-wrapper input { font-size: 1.5em; padding: 8px; width: 150px; text-align: center; background: transparent; color: var(--text-main); border: none; outline: none; }
-        .header-btn, .header-select { background: var(--accent); color: #1e1e24; border: none; padding: 8px 12px; font-weight: bold; border-radius: 5px; cursor: pointer; }
-        .inventory-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; background: var(--bg-step); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-        .intermediate-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; background: var(--bg-step); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
-        .inv-cell input { width: 80%; padding: 5px; text-align: center; background: var(--bg-input); color: var(--text-main); border: 1px solid var(--accent); border-radius: 4px; }
-        .summary-box { display: grid; gap: 10px; background: var(--bg-box); padding: 15px; border-radius: 8px; margin-bottom: 10px; }
-        .summary-col { text-align: center; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background-color: var(--bg-container);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.4);
+            position: relative;
+        }
+        h1, h2, h3 { color: var(--accent); }
+        h1 { text-align: center; border-bottom: 2px solid var(--border-color); padding-bottom: 15px; }
+        
+        .header-controls {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            gap: 10px;
+        }
+        .header-btn, .header-select {
+            background-color: var(--accent);
+            color: #1e1e24;
+            border: none;
+            padding: 8px 12px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .header-btn:hover { background-color: var(--accent-hover); }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .input-group label { font-size: 1.1em; margin-bottom: 8px; font-weight: bold; }
+        
+        .input-wrapper {
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-input);
+            border: 2px solid var(--accent);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .input-wrapper input {
+            font-size: 1.5em;
+            padding: 8px;
+            width: 100%;
+            text-align: center;
+            background-color: transparent;
+            color: var(--text-main);
+            border: none;
+            outline: none;
+        }
+
+        .bonus-toggles {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            background-color: var(--bg-cost);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--accent);
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 5px 10px;
+            cursor: pointer;
+        }
+        
+        .inventory-grid, .intermediate-grid {
+            display: grid;
+            gap: 10px;
+            background-color: var(--bg-step);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+            align-items: center;
+        }
+        .inventory-grid { grid-template-columns: 1fr 1fr 1fr; }
+        .intermediate-grid { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+        .summary-box {
+            background-color: var(--bg-box);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            display: grid;
+            gap: 10px;
+        }
+        .summary-col { text-align: center; display: flex; flex-direction: column; gap: 5px; }
+        .req-val { font-size: 1.1em; font-weight: bold; color: var(--text-dim); }
         .def-val { font-size: 1.4em; font-weight: bold; }
-        .status-none { color: var(--text-dim); opacity: 0.4; }
+        
+        /* Heat Map Colors */
+        .status-none { color: var(--text-dim); opacity: 0.5; }
         .status-minor { color: var(--warning); }
-        .status-major { color: var(--danger); }
-        .step-card { background: var(--bg-step); padding: 12px; margin-bottom: 8px; border-left: 4px solid var(--accent); border-radius: 4px; }
-        .bonus-toggles { display: flex; justify-content: space-around; background: var(--bg-cost); padding: 10px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid var(--accent); }
+        .status-major { color: var(--danger); font-size: 1.6em; }
+
+        .cost-box {
+            background-color: var(--bg-cost);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-around;
+            border-left: 4px solid var(--accent);
+        }
+        .cost-value { font-size: 1.5em; font-weight: bold; color: var(--text-value); }
+
+        .step-card {
+            background-color: var(--bg-step);
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--accent);
+            border-radius: 4px;
+        }
+        .highlight { color: var(--accent); font-weight: bold; }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .btn-action {
+            background-color: var(--accent);
+            color: #1e1e24;
+            border: none;
+            padding: 12px 24px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+
 <div class="container">
-    <h1>Steel Logistics Suite v2.1</h1>
+    <div class="header-controls">
+        <select class="header-select" id="langSelect" onchange="changeLanguage()">
+            <option value="en">EN</option>
+            <option value="fr">FR</option>
+        </select>
+        <button class="header-btn" onclick="toggleTheme()">☀️/🌙</button>
+    </div>
+
+    <h1 id="mainTitle">Steel Logistics Suite</h1>
+
     <div class="controls">
         <div class="input-group">
-            <label>Target Steel:</label>
-            <div style="display: flex; gap: 5px;">
-                <div class="input-wrapper"><input type="number" id="steelInput" value="7000" oninput="calculate()"></div>
-                <button class="header-btn" onclick="runMax()">⚡ Max</button>
+            <label id="inputLabel">Target Steel Yield:</label>
+            <div style="display: flex; gap: 8px;">
+                <div class="input-wrapper" style="width: 180px;">
+                    <input type="number" id="steelInput" value="7000" oninput="debouncedCalc()">
+                </div>
+                <button class="header-btn" onclick="calculateMaxFromBank()" id="btnMax">⚡ Max</button>
             </div>
         </div>
+        
         <div class="input-group">
-            <label>Format:</label>
+            <label id="displayLabel">Format:</label>
             <select id="displayMode" class="header-select" onchange="handleModeChange()">
                 <option value="units">Units</option>
                 <option value="stacks">Stacks (10k)</option>
             </select>
         </div>
-        <button class="header-btn" onclick="toggleTheme()">☀️/🌙</button>
     </div>
 
     <div class="bonus-toggles">
-        <label><input type="checkbox" id="chkMastery" onchange="calculate()"> Mastery (+6%)</label>
-        <label><input type="checkbox" id="chkExtract" onchange="calculate()"> Extract (+3%)</label>
-        <label><input type="checkbox" id="chkRefine" onchange="calculate()"> Refine (+3%)</label>
+        <label class="checkbox-group"><input type="checkbox" id="chkMastery" onchange="calculate()"> <span id="lblMastery">Mastery (+6%)</span></label>
+        <label class="checkbox-group"><input type="checkbox" id="chkExtract" onchange="calculate()"> <span id="lblExtract">Extract (+3%)</span></label>
+        <label class="checkbox-group"><input type="checkbox" id="chkRefine" onchange="calculate()"> <span id="lblRefine">Refine (+3%)</span></label>
     </div>
 
-    <h2>Bank & Market</h2>
-    <div class="inventory-grid" id="rawInputs"></div>
-    <div class="intermediate-grid" id="intInputs"></div>
+    <h2 id="marketTitle">Raw Bank & Market</h2>
+    <div class="inventory-grid" id="rawInputs">
+        </div>
 
-    <h2>Deficits & Steps</h2>
-    <div class="summary-box" id="summaryBox"></div>
-    <div id="stepList"></div>
+    <h2 id="intBankTitle">Refined Bank</h2>
+    <div class="intermediate-grid" id="intInputs">
+        </div>
 
-    <div class="controls">
-        <button class="header-btn" onclick="copyDiscord()">📋 Copy Discord</button>
-        <button class="header-btn" style="background:#666" onclick="clearBank()">🧹 Clear Bank</button>
+    <h2 id="rawTitle">Logistics: Deficits</h2>
+    <div class="summary-box" id="rawMaterials"></div>
+    
+    <div class="cost-box" id="costSummary"></div>
+
+    <h2 id="stepsTitle">Instructions</h2>
+    <div class="steps" id="stepList"></div>
+
+    <div class="action-buttons">
+        <button class="btn-action" onclick="copyToDiscord()" id="btnDiscord">📋 Copy Discord</button>
+        <button class="btn-action" onclick="clearBank()" style="background: #444; color: white;">🧹 Clear Bank</button>
     </div>
 </div>
 
 <script>
-    const rawIds = ['Granum', 'Calx', 'Saburra', 'Water'];
-    const intIds = ['SabPowder', 'CalxPowder', 'Coal', 'Coke', 'PigIron', 'GrainSteel'];
-    
-    function init() {
-        const rawDiv = document.getElementById('rawInputs');
-        rawDiv.innerHTML = `<div>Material</div><div>Price (g/10k)</div><div>Bank</div>`;
-        rawIds.forEach(id => {
-            rawDiv.innerHTML += `<div>${id}</div><div class="inv-cell"><input type="number" id="p${id}" value="${id==='Water'?1:15}"></div><div class="inv-cell"><input type="number" id="b${id}" value="0" oninput="calculate()"></div>`;
+    let currentLang = 'en';
+    let previousMode = 'units';
+    let calcTimeout;
+
+    const resources = [
+        { id: 'Granum', label: 'Granum', price: 15 },
+        { id: 'Calx', label: 'Calx', price: 35 },
+        { id: 'Saburra', label: 'Saburra', price: 15 },
+        { id: 'Water', label: 'Water', price: 1 }
+    ];
+
+    const refined = [
+        { id: 'SabPowder', label: 'Saburra Powder' },
+        { id: 'CalxPowder', label: 'Calx Powder' },
+        { id: 'Coal', label: 'Coal' },
+        { id: 'Coke', label: 'Coke' },
+        { id: 'PigIron', label: 'Pig Iron' },
+        { id: 'GrainSteel', label: 'Grain Steel' }
+    ];
+
+    function initInputs() {
+        let rawHTML = `<div class="inv-header">Material</div><div class="inv-header">Price</div><div class="inv-header">Bank</div>`;
+        resources.forEach(r => {
+            rawHTML += `
+                <div class="inv-label">${r.label}</div>
+                <div class="inv-cell"><input type="number" id="price${r.id}" value="${r.price}" oninput="debouncedCalc()">g</div>
+                <div class="inv-cell"><input type="number" id="bank${r.id}" value="0" oninput="debouncedCalc()"></div>`;
         });
-        const intDiv = document.getElementById('intInputs');
-        intIds.forEach(id => {
-            intDiv.innerHTML += `<div>${id}<br><input type="number" id="b${id}" value="0" oninput="calculate()"></div>`;
+        document.getElementById('rawInputs').innerHTML = rawHTML;
+
+        let intHTML = '';
+        refined.forEach(r => {
+            intHTML += `<div class="inv-label">${r.label}</div><div class="inv-cell"><input type="number" id="bank${r.id}" value="0" oninput="debouncedCalc()"></div>`;
         });
-        load();
-        calculate();
+        document.getElementById('intInputs').innerHTML = intHTML;
     }
 
-    function handleModeChange() {
+    function debouncedCalc() {
+        clearTimeout(calcTimeout);
+        calcTimeout = setTimeout(() => {
+            calculate();
+            saveToLocal();
+        }, 150);
+    }
+
+    function saveToLocal() {
+        const data = {};
+        document.querySelectorAll('input').forEach(i => data[i.id] = i.value);
+        data['displayMode'] = document.getElementById('displayMode').value;
+        localStorage.setItem('mo2_logistics', JSON.stringify(data));
+    }
+
+    function loadFromLocal() {
+        const saved = localStorage.getItem('mo2_logistics');
+        if (saved) {
+            const data = JSON.parse(saved);
+            Object.keys(data).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = data[id];
+            });
+            previousMode = data['displayMode'] || 'units';
+        }
+    }
+
+    function getCalculations(desiredSteel) {
         const mode = document.getElementById('displayMode').value;
-        const mult = (mode === 'stacks') ? 0.0001 : 10000;
-        ['steelInput', ...rawIds.map(i=>'b'+i), ...intIds.map(i=>'b'+i)].forEach(id => {
-            let el = document.getElementById(id);
-            el.value = parseFloat((el.value * mult).toFixed(4));
-        });
-        calculate();
-    }
+        const getB = (id) => mode === 'stacks' ? (Number(document.getElementById('bank'+id).value)||0)*10000 : (Number(document.getElementById('bank'+id).value)||0);
+        
+        const multExt = document.getElementById('chkExtract').checked ? 1.03 : 1;
+        const multRef = document.getElementById('chkRefine').checked ? 1.03 : 1;
+        const multMast = document.getElementById('chkMastery').checked ? 1.06 : 1;
 
-    function getVals(id) {
-        const m = document.getElementById('displayMode').value === 'stacks' ? 10000 : 1;
-        return (Number(document.getElementById(id).value) || 0) * m;
+        // Pipeline Logic
+        const reqGrainSteel = Math.ceil(desiredSteel / (0.7 * multRef));
+        const grainToCraft = Math.max(0, reqGrainSteel - getB('GrainSteel'));
+        
+        const reqPigIron = Math.ceil(grainToCraft / (0.7 * multRef));
+        const pigToCraft = Math.max(0, reqPigIron - getB('PigIron'));
+
+        const reqBloodOre = Math.ceil(pigToCraft / (0.4 * multRef));
+        const reqGranum = Math.ceil(reqBloodOre / (0.198 * multExt * multMast));
+
+        // Catalysts
+        const cokeNeeded = (Math.ceil(grainToCraft * 0.5)) + (Math.ceil(reqBloodOre * 0.0385));
+        const cokeToCraft = Math.max(0, cokeNeeded - getB('Coke'));
+
+        const coalNeeded = (Math.ceil(reqGrainSteel * 0.5)) + (Math.ceil(cokeToCraft / (0.72 * multRef)));
+        const coalToCraft = Math.max(0, coalNeeded - getB('Coal'));
+
+        const cpForBlood = Math.ceil(reqGranum * 0.0715);
+        const cpForCoke = Math.ceil((cokeToCraft / (0.72 * multRef)) * 0.0715);
+        const cpForGS = Math.ceil(reqPigIron * 0.5);
+        const cpToCraft = Math.max(0, (cpForBlood + cpForCoke + cpForGS) - getB('CalxPowder'));
+
+        const sabPowderToCraft = Math.max(0, (Math.ceil(reqGrainSteel * 0.5)) - getB('SabPowder'));
+
+        const reqSaburra = Math.ceil(sabPowderToCraft / (0.4275 * multExt));
+        const calxToGrind = Math.ceil(cpToCraft / (0.2058 * multExt));
+        const coalFromGrind = Math.ceil(calxToGrind * 0.1140 * multExt);
+        const calxToCrush = Math.ceil(Math.max(0, coalToCraft - coalFromGrind) / (0.2160 * multExt));
+
+        const reqCalx = calxToGrind + calxToCrush;
+        const reqWater = Math.ceil((reqSaburra + calxToGrind) * 0.10);
+
+        return {
+            reqGranum, reqCalx, reqSaburra, reqWater,
+            defGranum: Math.max(0, reqGranum - getB('Granum')),
+            defCalx: Math.max(0, reqCalx - getB('Calx')),
+            defSaburra: Math.max(0, reqSaburra - getB('Saburra')),
+            defWater: Math.max(0, reqWater - getB('Water')),
+            steps: { sabPowderToCraft, calxToGrind, calxToCrush, reqBloodOre, cokeToCraft, pigToCraft, grainToCraft, desiredSteel, reqGranum, reqSaburra, reqGrainSteel }
+        };
     }
 
     function calculate() {
-        const target = getVals('steelInput');
-        const mExt = document.getElementById('chkExtract').checked ? 1.03 : 1;
-        const mRef = document.getElementById('chkRefine').checked ? 1.03 : 1;
-        const mMast = document.getElementById('chkMastery').checked ? 1.06 : 1;
+        const mode = document.getElementById('displayMode').value;
+        const targetInput = Number(document.getElementById('steelInput').value) || 0;
+        const target = mode === 'stacks' ? targetInput * 10000 : targetInput;
 
-        // Pipeline Logic (Using Official Table)
-        const reqGS = Math.ceil(target / (0.7 * mRef));
-        const craftGS = Math.max(0, reqGS - getVals('bGrainSteel'));
+        const c = getCalculations(target);
         
-        const reqPI = Math.ceil(craftGS / (0.7 * mRef));
-        const craftPI = Math.max(0, reqPI - getVals('bPigIron'));
-
-        const reqBO = Math.ceil(craftPI / (0.4 * mRef));
-        const reqGra = Math.ceil(reqBO / (0.198 * mExt * mMast));
-
-        const cokeNeed = Math.ceil(craftGS * 0.5) + Math.ceil(reqBO * 0.0385);
-        const craftCoke = Math.max(0, cokeNeed - getVals('bCoke'));
-
-        const coalNeed = Math.ceil(reqGS * 0.5) + Math.ceil(craftCoke / (0.72 * mRef));
-        const craftCoal = Math.max(0, coalNeed - getVals('bCoal'));
-
-        const cpNeed = Math.ceil(reqGra * 0.0715) + Math.ceil((craftCoke/(0.72*mRef))*0.0715) + Math.ceil(reqPI * 0.5);
-        const craftCP = Math.max(0, cpNeed - getVals('bCalxPowder'));
-
-        const spNeed = Math.ceil(reqGS * 0.5);
-        const craftSP = Math.max(0, spNeed - getVals('bSabPowder'));
-
-        const reqSab = Math.ceil(craftSP / (0.4275 * mExt));
-        const calxGrind = Math.ceil(craftCP / (0.2058 * mExt));
-        const coalFromGrind = Math.ceil(calxGrind * 0.1140 * mExt);
-        const calxCrush = Math.ceil(Math.max(0, craftCoal - coalFromGrind) / (0.2160 * mExt));
-
-        const defs = {
-            Granum: Math.max(0, reqGra - getVals('bGranum')),
-            Calx: Math.max(0, (calxGrind + calxCrush) - getVals('bCalx')),
-            Saburra: Math.max(0, reqSab - getVals('bSaburra')),
-            Water: Math.max(0, (Math.ceil((reqSab + calxGrind) * 0.1)) - getVals('bWater'))
+        // Render Deficits with Heat Map
+        const getStatus = (val) => {
+            if (val <= 0) return 'status-none';
+            if (val < 10000) return 'status-minor';
+            return 'status-major';
         };
 
-        // Render Summary
-        let sumHtml = '';
-        Object.keys(defs).forEach(k => {
-            const d = defs[k];
-            const style = d <= 0 ? 'status-none' : (d < 10000 ? 'status-minor' : 'status-major');
-            const fmt = document.getElementById('displayMode').value === 'stacks' ? (d/10000).toFixed(2) + ' Stk' : d.toLocaleString();
-            sumHtml += `<div class="summary-col"><div class="def-val ${style}">${fmt}</div><div style="font-size:0.8em">${k}</div></div>`;
-        });
-        document.getElementById('summaryBox').innerHTML = sumHtml;
-        document.getElementById('summaryBox').style.gridTemplateColumns = `repeat(4, 1fr)`;
+        let html = '';
+        const mats = [
+            {n: 'Granum', r: c.reqGranum, b: (Number(document.getElementById('bankGranum').value)||0), d: c.defGranum},
+            {n: 'Calx', r: c.reqCalx, b: (Number(document.getElementById('bankCalx').value)||0), d: c.defCalx},
+            {n: 'Saburra', r: c.reqSaburra, b: (Number(document.getElementById('bankSaburra').value)||0), d: c.defSaburra},
+            {n: 'Water', r: c.reqWater, b: (Number(document.getElementById('bankWater').value)||0), d: c.defWater}
+        ];
 
-        // Render Steps
-        let steps = [];
-        if (craftSP > 0) steps.push(`Grind Saburra &#8594; ${craftSP.toLocaleString()} Saburra Powder`);
-        if (calxGrind > 0) steps.push(`Grind Calx &#8594; ${craftCP.toLocaleString()} Calx Powder`);
-        if (calxCrush > 0) steps.push(`Crush Calx &#8594; Coal`);
-        if (reqBO > 0) steps.push(`Attractor Granum &#8594; ${reqBO.toLocaleString()} Blood Ore`);
-        if (craftCoke > 0) steps.push(`Furnace Coal &#8594; ${craftCoke.toLocaleString()} Coke`);
-        if (craftPI > 0) steps.push(`Furnace Blood Ore &#8594; ${craftPI.toLocaleString()} Pig Iron`);
-        if (craftGS > 0) steps.push(`Oven Pig Iron &#8594; ${craftGS.toLocaleString()} Grain Steel`);
-        if (target > 0) steps.push(`Final Oven: Grain Steel &#8594; ${target.toLocaleString()} Steel`);
-        
-        document.getElementById('stepList').innerHTML = steps.map((s, i) => `<div class="step-card"><strong>Step ${i+1}:</strong> ${s}</div>`).join('');
-        save();
+        mats.forEach(m => {
+            if (m.r > 0) {
+                html += `
+                <div class="summary-col">
+                    <div class="req-val">${formatAmount(m.r)} Req</div>
+                    <div class="def-val ${getStatus(m.d)}">${formatAmount(m.d)} Gather</div>
+                    <div class="mat-label">${m.n}</div>
+                </div>`;
+            }
+        });
+        document.getElementById('rawMaterials').innerHTML = html || 'All materials in stock!';
+        document.getElementById('rawMaterials').style.gridTemplateColumns = `repeat(${mats.filter(m => m.r > 0).length || 1}, 1fr)`;
+
+        // Steps Logic... (Dynamically hidden if 0)
+        let sHtml = '';
+        let stepCount = 1;
+        const s = c.steps;
+        if (s.sabPowderToCraft > 0) sHtml += `<div class="step-card">Step ${stepCount++}: Grind Saburra &#8594; ${s.sabPowderToCraft.toLocaleString()} Powder</div>`;
+        if (s.calxToGrind > 0) sHtml += `<div class="step-card">Step ${stepCount++}: Grind Calx &#8594; Powder + Coal</div>`;
+        if (s.calxToCrush > 0) sHtml += `<div class="step-card">Step ${stepCount++}: Crush Calx &#8594; Extra Coal</div>`;
+        if (s.reqBloodOre > 0) sHtml += `<div class="step-card">Step ${stepCount++}: Attractor &#8594; Blood Ore</div>`;
+        if (s.cokeToCraft > 0) sHtml += `<div class="step-card">Step ${stepCount++}: Furnace &#8594; Coke</div>`;
+        if (s.pigToCraft > 0) sHtml += `<div class="step-card">Step ${stepCount++}: Furnace &#8594; Pig Iron</div>`;
+        if (s.grainToCraft > 0) sHtml += `<div class="step-card">Step ${stepCount++}: Oven &#8594; Grain Steel</div>`;
+        if (target > 0) sHtml += `<div class="step-card">Final Step: Oven &#8594; ${target.toLocaleString()} Steel</div>`;
+        document.getElementById('stepList').innerHTML = sHtml;
     }
 
-    function runMax() {
-        let low = 0, high = 10000000, best = 0;
-        while(low <= high) {
+    function calculateMaxFromBank() {
+        let low = 0, high = 1000000, best = 0;
+        while (low <= high) {
             let mid = Math.floor((low + high) / 2);
-            // Check Granum deficit only (The metal bottleneck)
-            const check = getCalculations(mid);
-            if (check.defGranum <= 0) { best = mid; low = mid + 1; }
+            if (getCalculations(mid * 10).defGranum === 0) { best = mid * 10; low = mid + 1; }
             else high = mid - 1;
         }
-        document.getElementById('steelInput').value = document.getElementById('displayMode').value === 'stacks' ? (best/10000) : best;
-        calculate();
+        document.getElementById('steelInput').value = (document.getElementById('displayMode').value === 'stacks') ? (best/10000) : best;
+        debouncedCalc();
     }
 
-    function save() {
-        const d = {}; document.querySelectorAll('input, select').forEach(i => d[i.id] = i.value);
-        localStorage.setItem('mo2_v2.1', JSON.stringify(d));
+    function clearBank() {
+        document.querySelectorAll('.bank-input, [id^="bank"]').forEach(i => i.value = 0);
+        debouncedCalc();
     }
-    function load() {
-        const s = localStorage.getItem('mo2_v2.1');
-        if(s) { const d = JSON.parse(s); Object.keys(d).forEach(id => { if(document.getElementById(id)) document.getElementById(id).value = d[id]; }); }
-    }
-    function clearBank() { document.querySelectorAll('[id^="b"]').forEach(i => i.value = 0); calculate(); }
+
     function toggleTheme() { document.body.classList.toggle('light-theme'); }
-    function copyDiscord() {
-        const msg = `**⚔️ Steel Logistics Order ⚔️**\nTarget: ${document.getElementById('steelInput').value} Stacks\n\n` + document.getElementById('stepList').innerText;
-        navigator.clipboard.writeText(msg);
-        alert("Copied to Discord!");
-    }
 
-    init();
+    // Initialize
+    initInputs();
+    loadFromLocal();
+    calculate();
 </script>
 </body>
 </html>

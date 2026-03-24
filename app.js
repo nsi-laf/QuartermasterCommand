@@ -297,6 +297,10 @@ function calculate() {
     let purchased = {};
     
     rawKeys.forEach(k => {
+        // Cache the elements so you aren't searching the document repeatedly
+        const costEl = document.getElementById('cost_' + k);
+        const stashEl = document.getElementById('stash_' + k);
+        
         const price = Number(document.getElementById('p_' + k).value) || 0;
         const buyQtyRaw = Number(document.getElementById('buy_' + k).value) || 0;
         const bankQtyRaw = Number(document.getElementById('b_' + k).value) || 0;
@@ -306,11 +310,12 @@ function calculate() {
         
         const cost = (buyQtyUnits / 10000) * price;
         totalGold += cost;
-        if(document.getElementById('cost_' + k)) document.getElementById('cost_' + k).innerText = cost > 0 ? cost.toFixed(2) : "0.00";
         
-        const totalStashRaw = bankQtyRaw + buyQtyRaw;
-        if(document.getElementById('stash_' + k)) {
-            document.getElementById('stash_' + k).innerText = mode === 'stacks' ? totalStashRaw.toFixed(2) + " Stk" : totalStashRaw.toLocaleString();
+        // Only update the DOM if the element actually exists to prevent errors
+        if (costEl) costEl.innerText = cost > 0 ? cost.toFixed(2) : "0.00";
+        if (stashEl) {
+            const totalStashRaw = bankQtyRaw + buyQtyRaw;
+            stashEl.innerText = mode === 'stacks' ? totalStashRaw.toFixed(2) + " Stk" : totalStashRaw.toLocaleString();
         }
     });
 

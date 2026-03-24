@@ -51,7 +51,7 @@ function toggleStep(index) {
 function changeLang() {
     currentLang = document.getElementById('lang').value;
     const t = i18n[currentLang];
-    ['tabPrefs', 'tabInteg', 'tabData', 'resetDesc', 'themeToggle', 'format', 'optUnits', 'optStacks', 'webhook', 'prodCmd', 'targetMetalLabel', 'boSource', 'optAttractor', 'optCrusher', 'target', 'crafters', 'yieldMods', 'mastery', 'refining', 'extraction', 'btnMaxText', 'btnDiscord', 'btnSend', 'invBank', 'showAllBank', 'btnReset', 'defGather', 'mfgPipe', 'marketCart', 'btnAutoFill'].forEach(id => {
+    ['tabPrefs', 'tabInteg', 'tabData', 'resetDesc', 'themeToggle', 'format', 'optUnits', 'optStacks', 'webhook', 'prodCmd', 'targetMetalLabel', 'boSource', 'optAttractor', 'optCrusher', 'target', 'crafters', 'yieldMods', 'mastery', 'refining', 'extraction', 'btnMaxText', 'btnDiscord', 'btnSend', 'invBank', 'showAllBank', 'btnReset', 'defGather', 'mfgPipe', 'marketCart', 'btnAutoFill', 'shareTitle', 'shareDesc', 'btnGenCode', 'btnLoadCode'].forEach(id => {
         let el = document.getElementById('ui_' + id);
         if(el) {
             if (id === 'btnMaxText') el.innerText = t[id] || i18n.en[id];
@@ -210,6 +210,66 @@ function handleModeChange() {
     const label = mode === 'stacks' ? i18n[currentLang].qAddStk : i18n[currentLang].qAdd;
     document.querySelectorAll('.q-add').forEach(btn => btn.innerText = label);
     prevMode = mode; run();
+}
+
+// Generate an encoded string of the user's setup to share
+function generateShareCode() {
+    let state = { b: {}, m: {}, s: {} };
+    Object.values(CATEGORIES).flatMap(c => c.items).forEach(k => {
+        let v = Number(document.getElementById('b_'+k)?.value);
+        if (v) state.b[k] = v;
+    });
+    rawKeys.forEach(k => {
+        let v = Number(document.getElementById('buy_'+k)?.value);
+        if (v) state.m[k] = v;
+    });
+    
+    state.s.t = document.getElementById('targetMetal').value;
+    state.s.a = document.getElementById('targetAmount').value;
+    state.s.c = document.getElementById('crafters').value;
+    state.s.e = document.getElementById('extStrategy').value;
+    state.s.m = document.getElementById('mode').value;
+    
+    const code = btoa(JSON.stringify(state));
+    const codeEl = document.getElementById('shareCode');
+    codeEl.value = code;
+    
+    navigator.clipboard.writeText(code);
+    alert(i18n[currentLang].exportSuccess || "Code copied to clipboard!");
+}
+
+// Decode and apply a shared setup code
+function loadShareCode() {
+    try {
+        const code = document.getElementById('shareCode').value.trim();
+        if (!code) return;
+        const state = JSON.parse(atob(code));
+        
+        // Wipe slate clean before applying the loadout
+        document.querySelectorAll('input[id^="b_"], input[id^="buy_"]').forEach(el => el.value = 0);
+        
+        if (state.b) Object.keys(state.b).forEach(k => { const el = document.getElementById('b_'+k); if(el) el.value = state.b[k]; });
+        if (state.m) Object.keys(state.m).forEach(k => { const el = document.getElementById('buy_'+k); if(el) el.value = state.m[k]; });
+        
+        if (state.s) {
+            if(state.s.t) document.getElementById('targetMetal').value = state.s.t;
+            if(state.s.a) document.getElementById('targetAmount').value = state.s.a;
+            if(state.s.c) document.getElementById('crafters').value = state.s.c;
+            if(state.s.e) document.getElementById('extStrategy').value = state.s.e;
+            if(state.s.m) {
+                document.getElementById('mode').value = state.s.m;
+                prevMode = state.s.m; // align memory to avoid bad format scaling
+                const label = state.s.m === 'stacks' ? i18n[currentLang].qAddStk : i18n[currentLang].qAdd;
+                document.querySelectorAll('.q-add').forEach(btn => btn.innerText = label);
+            }
+        }
+        
+        save();
+        run();
+        alert(i18n[currentLang].importSuccess || "Setup loaded successfully!");
+    } catch(e) {
+        alert(i18n[currentLang].importError || "Invalid code provided.");
+    }
 }
 
 function run() { clearTimeout(timer); timer = setTimeout(calculate, 150); }

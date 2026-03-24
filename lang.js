@@ -11,6 +11,8 @@ const baseItems = {
 const i18n = {
     en: {
         tabPrefs: "Preferences", tabInteg: "Integrations", tabData: "Data", resetDesc: "Clear all your saved bank inventory, market cart quantities, and targets.",
+        shareTitle: "Share / Import Setup", shareDesc: "Generate a code to share your current bank, market cart, and target with others, or paste a code to load theirs.",
+        btnGenCode: "📤 Generate & Copy", btnLoadCode: "📥 Load Code", importSuccess: "Setup loaded successfully!", importError: "Invalid code provided.", exportSuccess: "Code copied to clipboard!",
         themeToggle: "☀️ / 🌙 Toggle Day/Night Mode", format: "Display Format", optUnits: "Units", optStacks: "Stacks (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Production Command", targetMetalLabel: "Target Metal", boSource: "Extraction Strategy", optAttractor: "Efficient (Grinders)", optCrusher: "Max Yield (Crushers)", crafters: "Crafters", target: "Amount", 
         btnMaxText: "⚡ Calculate Craftable From Inventory",
@@ -29,6 +31,8 @@ const i18n = {
     
     fr: {
         tabPrefs: "Préférences", tabInteg: "Intégrations", tabData: "Données", resetDesc: "Effacez tout votre inventaire, les quantités du panier et les objectifs.",
+        shareTitle: "Partager / Importer", shareDesc: "Générez un code pour partager votre banque, panier et objectif, ou collez un code pour charger celui d'un autre joueur.",
+        btnGenCode: "📤 Générer & Copier", btnLoadCode: "📥 Charger", importSuccess: "Configuration chargée avec succès !", importError: "Code invalide.", exportSuccess: "Code copié dans le presse-papiers !",
         themeToggle: "☀️ / 🌙 Mode Jour/Nuit", format: "Format d'affichage", optUnits: "Unités", optStacks: "Piles (10k)", webhook: "URL Webhook Discord",
         prodCmd: "Commande de Production", targetMetalLabel: "Métal Cible", boSource: "Stratégie d'Extraction", optAttractor: "Efficace (Broyeurs)", optCrusher: "Rendement Max (Concasseurs)", crafters: "Artisans", target: "Quantité", 
         btnMaxText: "⚡ Calculer la production possible",
@@ -47,6 +51,8 @@ const i18n = {
     
     es: {
         tabPrefs: "Preferencias", tabInteg: "Integraciones", tabData: "Datos", resetDesc: "Borra todo tu inventario, cantidades del carrito y objetivos.",
+        shareTitle: "Compartir / Importar Configuración", shareDesc: "Genera un código para compartir tu banco, carrito y objetivo con otros, o pega un código para cargar el de ellos.",
+        btnGenCode: "📤 Generar y Copiar", btnLoadCode: "📥 Cargar Código", importSuccess: "¡Configuración cargada con éxito!", importError: "Código inválido.", exportSuccess: "¡Código copiado al portapapeles!",
         themeToggle: "☀️ / 🌙 Modo Día/Noche", format: "Formato", optUnits: "Unidades", optStacks: "Pilas (10k)", webhook: "URL Webhook de Discord",
         prodCmd: "Comando de Producción", targetMetalLabel: "Metal Objetivo", boSource: "Estrategia", optAttractor: "Eficiente (Molinillos)", optCrusher: "Rendimiento Max (Trituradoras)", crafters: "Artesanos", target: "Cantidad", 
         btnMaxText: "⚡ Calcular producción posible",
@@ -65,6 +71,8 @@ const i18n = {
     
     de: {
         tabPrefs: "Einstellungen", tabInteg: "Integrationen", tabData: "Daten", resetDesc: "Löschen Sie Ihr gesamtes gespeichertes Inventar und den Warenkorb.",
+        shareTitle: "Setup Teilen / Importieren", shareDesc: "Generiere einen Code, um deine aktuelle Bank, den Warenkorb und das Ziel zu teilen, oder füge einen Code ein, um ihn zu laden.",
+        btnGenCode: "📤 Generieren & Kopieren", btnLoadCode: "📥 Code Laden", importSuccess: "Setup erfolgreich geladen!", importError: "Ungültiger Code angegeben.", exportSuccess: "Code in die Zwischenablage kopiert!",
         themeToggle: "☀️ / 🌙 Tag/Nacht-Modus", format: "Anzeigeformat", optUnits: "Einheiten", optStacks: "Stapel (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Produktionskommando", targetMetalLabel: "Zielmetall", boSource: "Extraktionsstrategie", optAttractor: "Effizient (Schleifer)", optCrusher: "Maximaler Ertrag (Brecher)", crafters: "Handwerker", target: "Menge", 
         btnMaxText: "⚡ Berechne Herstellbares aus Inventar",
@@ -83,6 +91,8 @@ const i18n = {
 
     it: {
         tabPrefs: "Preferenze", tabInteg: "Integrazioni", tabData: "Dati", resetDesc: "Cancella l'inventario, le quantità del carrello e gli obiettivi.",
+        shareTitle: "Condividi / Importa Configurazione", shareDesc: "Genera un codice per condividere la tua banca, il carrello e l'obiettivo, o incolla un codice per caricare quello di altri.",
+        btnGenCode: "📤 Genera e Copia", btnLoadCode: "📥 Carica Codice", importSuccess: "Configurazione caricata con successo!", importError: "Codice fornito non valido.", exportSuccess: "Codice copiato negli appunti!",
         themeToggle: "☀️ / 🌙 Giorno/Notte", format: "Formato", optUnits: "Unità", optStacks: "Stack (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Comando Produzione", targetMetalLabel: "Metallo Obiettivo", boSource: "Strategia", optAttractor: "Efficiente (Macinatori)", optCrusher: "Resa Max (Frantoi)", crafters: "Artigiani", target: "Quantità", 
         btnMaxText: "⚡ Calcola producibile dall'inventario",
@@ -101,6 +111,8 @@ const i18n = {
 
     ro: {
         tabPrefs: "Preferințe", tabInteg: "Integrări", tabData: "Date", resetDesc: "Ștergeți inventarul băncii, coșul și obiectivele.",
+        shareTitle: "Partajează / Importă Configurația", shareDesc: "Generează un cod pentru a partaja banca, coșul și obiectivul tău, sau lipește un cod pentru a încărca pe al altora.",
+        btnGenCode: "📤 Generează & Copiază", btnLoadCode: "📥 Încarcă Codul", importSuccess: "Configurație încărcată cu succes!", importError: "Cod invalid furnizat.", exportSuccess: "Cod copiat în clipboard!",
         themeToggle: "☀️ / 🌙 Mod Zi/Noapte", format: "Format Afișare", optUnits: "Unități", optStacks: "Stive (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Comandă Producție", targetMetalLabel: "Metal Țintă", boSource: "Strategie Extracție", optAttractor: "Eficient (Polizoare)", optCrusher: "Randament Max (Concasoare)", crafters: "Artizani", target: "Cantitate", 
         btnMaxText: "⚡ Calculează ce poți fabrica",
@@ -119,6 +131,8 @@ const i18n = {
 
     pl: {
         tabPrefs: "Preferencje", tabInteg: "Integracje", tabData: "Dane", resetDesc: "Wyczyść zapisany ekwipunek, koszyk i cele.",
+        shareTitle: "Udostępnij / Importuj Konfigurację", shareDesc: "Wygeneruj kod, aby udostępnić swój bank, koszyk i cel, lub wklej kod kogoś innego, aby go załadować.",
+        btnGenCode: "📤 Generuj i Kopiuj", btnLoadCode: "📥 Wczytaj Kod", importSuccess: "Konfiguracja wczytana pomyślnie!", importError: "Podano nieprawidłowy kod.", exportSuccess: "Kod skopiowany do schowka!",
         themeToggle: "☀️ / 🌙 Tryb Dzień/Noc", format: "Format Wyświetlania", optUnits: "Jednostki", optStacks: "Stosy (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Dowództwo Produkcji", targetMetalLabel: "Metal Docelowy", boSource: "Strategia Wydobycia", optAttractor: "Wydajne (Szlifierki)", optCrusher: "Maks. Uzysk (Kruszarki)", crafters: "Rzemieślnicy", target: "Ilość", 
         btnMaxText: "⚡ Oblicz możliwe do wytworzenia",
@@ -137,6 +151,8 @@ const i18n = {
 
     pt: {
         tabPrefs: "Preferências", tabInteg: "Integrações", tabData: "Dados", resetDesc: "Limpe todo o seu inventário, quantidades do carrinho e alvos.",
+        shareTitle: "Compartilhar / Importar Configuração", shareDesc: "Gere um código para compartilhar seu banco, carrinho e alvo com outros, ou cole um código para carregar o deles.",
+        btnGenCode: "📤 Gerar e Copiar", btnLoadCode: "📥 Carregar Código", importSuccess: "Configuração carregada com sucesso!", importError: "Código fornecido inválido.", exportSuccess: "Código copiado para a área de transferência!",
         themeToggle: "☀️ / 🌙 Modo Dia/Noite", format: "Formato de Exibição", optUnits: "Unidades", optStacks: "Pilhas (10k)", webhook: "URL Webhook Discord",
         prodCmd: "Comando de Produção", targetMetalLabel: "Metal Alvo", boSource: "Estratégia", optAttractor: "Eficiente (Moedores)", optCrusher: "Rendimento Max (Trituradores)", crafters: "Artesãos", target: "Quantidade", 
         btnMaxText: "⚡ Calcular fabricável",
@@ -155,6 +171,8 @@ const i18n = {
 
     ru: {
         tabPrefs: "Настройки", tabInteg: "Интеграции", tabData: "Данные", resetDesc: "Очистите инвентарь банка, корзину и цели.",
+        shareTitle: "Поделиться / Импортировать настройки", shareDesc: "Сгенерируйте код, чтобы поделиться своим банком, корзиной и целями, или вставьте чужой код для загрузки.",
+        btnGenCode: "📤 Сгенерировать и Копировать", btnLoadCode: "📥 Загрузить Код", importSuccess: "Настройки успешно загружены!", importError: "Предоставлен неверный код.", exportSuccess: "Код скопирован в буфер обмена!",
         themeToggle: "☀️ / 🌙 День/Ночь", format: "Формат", optUnits: "Единицы", optStacks: "Стаки (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Производство", targetMetalLabel: "Целевой металл", boSource: "Стратегия", optAttractor: "Эффективность", optCrusher: "Макс. Выход", crafters: "Ремесленники", target: "Количество", 
         btnMaxText: "⚡ Рассчитать доступное для крафта",
@@ -173,6 +191,8 @@ const i18n = {
 
     fi: {
         tabPrefs: "Asetukset", tabInteg: "Integraatiot", tabData: "Tiedot", resetDesc: "Tyhjennä pankin varasto, ostoskori ja tavoitteet.",
+        shareTitle: "Jaa / Tuo Asetukset", shareDesc: "Luo koodi jakaaksesi pankkisi, ostoskorisi ja tavoitteesi, tai liitä koodi ladataksesi muiden asetukset.",
+        btnGenCode: "📤 Luo ja Kopioi", btnLoadCode: "📥 Lataa Koodi", importSuccess: "Asetukset ladattu onnistuneesti!", importError: "Virheellinen koodi annettu.", exportSuccess: "Koodi kopioitu leikepöydälle!",
         themeToggle: "☀️ / 🌙 Päivä/Yö", format: "Muoto", optUnits: "Yksiköt", optStacks: "Pinot (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Tuotantokomento", targetMetalLabel: "Kohdemetalli", boSource: "Strategia", optAttractor: "Tehokas", optCrusher: "Maks. Tuotto", crafters: "Käsityöläiset", target: "Määrä", 
         btnMaxText: "⚡ Laske valmistettavissa oleva",
@@ -191,6 +211,8 @@ const i18n = {
 
     hu: {
         tabPrefs: "Beállítások", tabInteg: "Integrációk", tabData: "Adatok", resetDesc: "Törölje a mentett banki készletet, a kosarat és a célokat.",
+        shareTitle: "Megosztás / Importálás Beállítás", shareDesc: "Generálj kódot a bankod, kosarad és célod megosztásához, vagy illessz be egy kódot a betöltéshez.",
+        btnGenCode: "📤 Generálás & Másolás", btnLoadCode: "📥 Kód Betöltése", importSuccess: "Beállítás sikeresen betöltve!", importError: "Érvénytelen kód megadva.", exportSuccess: "Kód a vágólapra másolva!",
         themeToggle: "☀️ / 🌙 Nappali/Éjszakai Mód", format: "Kijelző Formátum", optUnits: "Egységek", optStacks: "Halmok (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Gyártási Parancsnokság", targetMetalLabel: "Cél Fém", boSource: "Kivonási Stratégia", optAttractor: "Hatékony", optCrusher: "Max Hozam", crafters: "Kézművesek", target: "Mennyiség", 
         btnMaxText: "⚡ Készíthető mennyiség kiszámítása",
@@ -209,6 +231,8 @@ const i18n = {
 
     tr: {
         tabPrefs: "Tercihler", tabInteg: "Entegrasyonlar", tabData: "Veriler", resetDesc: "Kayıtlı banka envanterini, sepet miktarlarını ve hedefleri temizle.",
+        shareTitle: "Kurulumu Paylaş / İçe Aktar", shareDesc: "Bankanızı, sepetinizi ve hedefinizi başkalarıyla paylaşmak için bir kod oluşturun veya kod yapıştırarak yükleyin.",
+        btnGenCode: "📤 Oluştur ve Kopyala", btnLoadCode: "📥 Kodu Yükle", importSuccess: "Kurulum başarıyla yüklendi!", importError: "Geçersiz kod sağlandı.", exportSuccess: "Kod panoya kopyalandı!",
         themeToggle: "☀️ / 🌙 Gündüz/Gece Modu", format: "Görünüm Formatı", optUnits: "Birimler", optStacks: "Yığınlar (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Üretim Komutu", targetMetalLabel: "Hedef Metal", boSource: "Çıkarma Stratejisi", optAttractor: "Verimli", optCrusher: "Maks. Verim", crafters: "Zanaatkarlar", target: "Miktar", 
         btnMaxText: "⚡ Envanterden üretilebilir olanı hesapla",
@@ -227,6 +251,8 @@ const i18n = {
 
     sv: {
         tabPrefs: "Inställningar", tabInteg: "Integrationer", tabData: "Data", resetDesc: "Rensa sparat bankinventarie, varukorg och mål.",
+        shareTitle: "Dela / Importera Inställningar", shareDesc: "Generera en kod för att dela din bank, varukorg och mål, eller klistra in en kod för att ladda andras.",
+        btnGenCode: "📤 Generera & Kopiera", btnLoadCode: "📥 Ladda Kod", importSuccess: "Inställningar laddades framgångsrikt!", importError: "Ogiltig kod angiven.", exportSuccess: "Kod kopierad till urklipp!",
         themeToggle: "☀️ / 🌙 Dag/Nattläge", format: "Visningsformat", optUnits: "Enheter", optStacks: "Travar (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Produktionskommando", targetMetalLabel: "Målmetall", boSource: "Extraktionsstrategi", optAttractor: "Effektiv (Kvarnar)", optCrusher: "Max Utbyte (Krossar)", crafters: "Hantverkare", target: "Mängd", 
         btnMaxText: "⚡ Beräkna tillverkningsbart",
@@ -245,6 +271,8 @@ const i18n = {
 
     cs: {
         tabPrefs: "Předvolby", tabInteg: "Integrace", tabData: "Data", resetDesc: "Vymazat uložený inventář, košík a cíle.",
+        shareTitle: "Sdílet / Importovat Nastavení", shareDesc: "Vygenerujte kód pro sdílení vaší banky, košíku a cíle, nebo vložte kód pro načtení jiných.",
+        btnGenCode: "📤 Generovat & Kopírovat", btnLoadCode: "📥 Načíst Kód", importSuccess: "Nastavení úspěšně načteno!", importError: "Byl poskytnut neplatný kód.", exportSuccess: "Kód zkopírován do schránky!",
         themeToggle: "☀️ / 🌙 Den/Noc Režim", format: "Formát Zobrazení", optUnits: "Jednotky", optStacks: "Svazky (10k)", webhook: "Discord Webhook URL",
         prodCmd: "Výrobní Velitelství", targetMetalLabel: "Cílový Kov", boSource: "Strategie", optAttractor: "Efektivní", optCrusher: "Max. Výtěžek", crafters: "Řemeslníci", target: "Množství", 
         btnMaxText: "⚡ Vypočítat vyrobitelné z inventáře",
@@ -263,6 +291,8 @@ const i18n = {
 
     ar: {
         tabPrefs: "التفضيلات", tabInteg: "عمليات الدمج", tabData: "البيانات", resetDesc: "امسح جميع مخزون البنك المحفوظ، وكميات عربة السوق، والأهداف.",
+        shareTitle: "مشاركة / استيراد الإعداد", shareDesc: "قم بإنشاء كود لمشاركة بنكك وعربتك وهدفك مع الآخرين، أو الصق كوداً لتحميل إعداداتهم.",
+        btnGenCode: "📤 إنشاء ونسخ", btnLoadCode: "📥 تحميل الكود", importSuccess: "تم تحميل الإعداد بنجاح!", importError: "تم تقديم كود غير صالح.", exportSuccess: "تم نسخ الكود إلى الحافظة!",
         themeToggle: "☀️ / 🌙 تبديل وضع النهار / الليل", format: "تنسيق العرض", optUnits: "الوحدات", optStacks: "المكدسات (10k)", webhook: "Discord Webhook URL",
         prodCmd: "أمر الإنتاج", targetMetalLabel: "المعدن المستهدف", boSource: "استراتيجية الاستخراج", optAttractor: "فعال (مطاحن)", optCrusher: "الحد الأقصى للعائد (كسارات)", crafters: "الحرفيون", target: "الكمية", 
         btnMaxText: "⚡ حساب ما يمكن صياغته من المخزون",
@@ -280,5 +310,12 @@ const i18n = {
     }
 };
 
-// Map fallback to English for any language missing full translations
-['es', 'pt', 'de', 'ar', 'it', 'ro', 'pl', 'ru', 'fi', 'hu', 'tr', 'sv', 'cs'].forEach(l => i18n[l] = { ...i18n.en, ...(i18n[l] || {}), categories: { ...i18n.en.categories, ...((i18n[l] || {}).categories || {}) }, items: { ...i18n.en.items, ...((i18n[l] || {}).items || {}) } });
+// Safety check for missing nested categories/items on edge cases
+['es', 'pt', 'de', 'ar', 'it', 'ro', 'pl', 'ru', 'fi', 'hu', 'tr', 'sv', 'cs'].forEach(l => {
+    i18n[l] = { 
+        ...i18n.en, 
+        ...(i18n[l] || {}), 
+        categories: { ...i18n.en.categories, ...((i18n[l] || {}).categories || {}) }, 
+        items: { ...i18n.en.items, ...((i18n[l] || {}).items || {}) } 
+    };
+});

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quartermaster Command v5.1 - Made by Jaegh</title>
+    <title>Quartermaster Command v5.3</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#0f0f12">
@@ -15,7 +15,7 @@
 <div class="app-header">
     <button onclick="openSettings('prefs')" class="btn-settings">⚙️ Settings & Integrations</button>
     <h1 class="app-title">Quartermaster Command</h1>
-    <div class="app-subtitle">ADVANCED METALLURGY v5.1 • MADE BY JAEGH</div>
+    <div class="app-subtitle">ADVANCED METALLURGY v5.3 • MADE BY [MTM] JAEGH</div>
 </div>
 
 <div id="settingsModal" class="modal">
@@ -30,11 +30,21 @@
         <div id="tab_prefs" class="tab-content active" style="padding: 15px;">
             <div class="input-row">
                 <select id="lang" onchange="changeLang()" style="width: 100%; margin-bottom: 10px;">
-                    <option value="en">🇬🇧 English</option>
-                    <option value="fr">🇫🇷 Français</option>
-                    <option value="es">🇪🇸 Español</option>
-                    <option value="pt">🇵🇹 Português</option>
-                    <option value="de">🇩🇪 Deutsch</option>
+                    <option value="ar">Arabic</option>
+                    <option value="cs">Czech</option>
+                    <option value="de">Deutsch</option>
+                    <option value="en" selected>English</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="it">Italia</option>
+                    <option value="hu">Magyar</option>
+                    <option value="pl">Polski</option>
+                    <option value="pt">Português</option>
+                    <option value="ro">Română</option>
+                    <option value="ru">Russian</option>
+                    <option value="fi">Suomi</option>
+                    <option value="sv">Svenska</option>
+                    <option value="tr">Türkçe</option>
                 </select>
             </div>
             <button class="btn-theme" id="ui_themeToggle" onclick="toggleTheme()">☀️ / 🌙 Day/Night Mode</button>
@@ -72,7 +82,7 @@
             <div class="module-body">
                 <div class="input-row" style="margin-bottom: 12px;">
                     <label id="ui_targetMetalLabel">Target Metal</label>
-                    <select id="targetMetal" onchange="run()" style="width: 130px; font-weight: bold; color: var(--accent);">
+                    <select id="targetMetal" onchange="run()" style="font-weight: bold; color: var(--accent);">
                         <option value="bron">Bron</option>
                         <option value="messing">Messing</option>
                         <option value="tmessing">Tindremic Messing</option>
@@ -84,16 +94,13 @@
                 </div>
                 <div class="input-row">
                     <label id="ui_target">Amount</label>
-                    <input type="number" id="targetAmount" value="10000" oninput="run()" style="width: 130px;">
+                    <input type="number" id="targetAmount" value="10000" oninput="run()">
                 </div>
-                
-                <button class="btn-max" id="ui_btnMaxText" onclick="calculateMax()">⚡ Calculate Max Possible</button>
-                
                 <div class="input-row"><label id="ui_crafters">Crafters</label><input type="number" id="crafters" value="1" oninput="run()"></div>
                 
                 <div class="input-row" style="margin-top: 10px; border-top: 1px dashed var(--border); padding-top: 10px;">
                     <label id="ui_boSource">Extraction Strategy</label>
-                    <select id="extStrategy" onchange="run()" style="width: 130px;">
+                    <select id="extStrategy" onchange="run()">
                         <option value="efficient" id="ui_optAttractor">Efficient (Grinders)</option>
                         <option value="byproduct" id="ui_optCrusher">Max Yield (Crushers)</option>
                     </select>
@@ -118,11 +125,6 @@
 
     <div class="main">
         
-        <div class="sys-notif info" id="sysNotification">
-            <span class="sys-icon" id="notifIcon">ℹ️</span>
-            <span id="notifText">Awaiting orders, Quartermaster. Enter a target amount or calculate max.</span>
-        </div>
-
         <div class="module" id="mod_invBank">
             <div class="module-header" onclick="toggleCollapse('mod_invBank')">
                 <span id="ui_invBank">Inventory Bank</span>
@@ -130,17 +132,23 @@
             </div>
             <div class="module-body">
                 <div style="text-align: right; margin-bottom: 8px;">
-                    <label style="font-size: 11px; color: var(--text-dim); cursor: pointer;">
-                        <input type="checkbox" id="showAllBank" onchange="run()"> <span id="ui_showAllBank">Show All Materials</span>
+                    <label style="font-size: 11px; color: var(--text-dim); cursor: pointer; display: inline-flex; align-items: center;">
+                        <input type="checkbox" id="showAllBank" onchange="run()"> 
+                        <span id="ui_showAllBank">Show All Materials</span>
                     </label>
                 </div>
                 <table class="data-table" id="bankTable"></table>
+                
+                <button class="btn-max" id="ui_btnMaxText" onclick="calculateMax()">⚡ Calculate Max From Current Inventory</button>
             </div>
         </div>
 
         <div class="module" id="mod_marketCart">
             <div class="module-header" onclick="toggleCollapse('mod_marketCart')">
-                <span><span id="ui_marketCart">Market Cart</span> <button class="btn-cart" id="ui_btnAutoFill" title="Auto-Fill All" onclick="event.stopPropagation(); autoFillCart()" style="margin-left: 10px;">🛒</button></span>
+                <span>
+                    <span id="ui_marketCart">Market Cart</span> 
+                    <button class="btn-cart" id="ui_btnAutoFill" title="Auto-Fill All" onclick="event.stopPropagation(); autoFillCart()" style="margin-left: 10px;">🛒 Auto-Fill All</button>
+                </span>
                 <span class="toggle-icon">▼</span>
             </div>
             <div class="module-body" id="marketContainer"></div>

@@ -1,70 +1,284 @@
+const baseItems = {
+    granum: "Granum", calx: "Calx", saburra: "Saburra", tephra: "Tephra", water: "Water", 
+    sp: "Saburra Powder", cp: "Calx Powder", coal: "Coal", coke: "Coke", 
+    bo: "Blood Ore", pi: "Pig Iron", gs: "Grain Steel", steel: "Steel",
+    cuprum: "Cuprum", bron: "Bron", messing: "Messing", tmessing: "Tindremic Messing", tungsteel: "Tungsteel", cronite: "Cronite", oghmium: "Oghmium",
+    amarantum: "Amarantum", flakestone: "Flakestone", granumpowder: "Granum Powder", malachite: "Malachite", bleckblende: "Bleckblende", calamine: "Calamine",
+    jadeite: "Jadeite", calspar: "Calspar", galbinum: "Galbinum", redbleckblende: "Red Bleckblende", pyroxene: "Pyroxene", almine: "Almine", acronite: "Acronite",
+    sanguinite: "Sanguinite", fumingsalt: "Fuming Salt", lupium: "Lupium", gemmetal: "Gem Metal"
+};
+
 const i18n = {
     en: {
         tabPrefs: "Preferences", tabInteg: "Integrations", tabData: "Data", resetDesc: "Clear all your saved bank inventory, market cart quantities, and targets.",
         themeToggle: "☀️ / 🌙 Toggle Day/Night Mode", format: "Display Format", optUnits: "Units", optStacks: "Stacks (10k)", webhook: "Discord Webhook URL",
-        prodCmd: "Production Command", targetMetalLabel: "Target Metal", boSource: "Extraction Strategy", optAttractor: "Efficient (Grinders)", optCrusher: "Max Yield (Crushers)", crafters: "Crafters", target: "Amount", btnMaxText: "⚡ Calculate Max Possible",
+        prodCmd: "Production Command", targetMetalLabel: "Target Metal", boSource: "Extraction Strategy", optAttractor: "Efficient (Grinders)", optCrusher: "Max Yield (Crushers)", crafters: "Crafters", target: "Amount", 
+        btnMaxText: "⚡ Calculate Craftable From Inventory",
         yieldMods: "Yield Modifiers", mastery: "Mastery (+6%)", refining: "Refining (+3%)", extraction: "Extraction (+3%)",
         btnDiscord: "📋 Copy to Clipboard", btnSend: "🚀 Send Order to Discord",
-        invBank: "Inventory Bank", showAllBank: "Show All Materials", btnReset: "🧹 Reset All Bank & Cart", defGather: "Deficit to Gather Manually", mfgPipe: "Manufacturing Pipeline", marketCart: "Market Cart", btnAutoFill: "🛒",
+        invBank: "Inventory Bank", showAllBank: "Show All Materials", btnReset: "🧹 Reset All Bank & Cart", defGather: "Deficit to Gather Manually", mfgPipe: "Manufacturing Pipeline", marketCart: "Market Cart", btnAutoFill: "🛒 Auto-Fill All",
         tblPrice: "Price/10k", tblBuy: "Amount to Buy", tblCost: "Cost (g)", tblStash: "Bank + Buy", cartTotal: "Cart Total:",
         noTarget: "No target set.", allCovered: "✅ Bank & Cart cover all raw materials!",
         stepYields: "yields", stepExtract: "Extract", stepAnd: "and", perCrafter: "(Per Crafter)", stepPrefix: "Step",
         resetPrompt: "Reset all bank values and shopping cart to zero?", discHeader: "⚔️ LOGISTICS ORDER", discReq: "MANUAL GATHER REQUIRED:", discStock: "All gathering covered.", discCopied: "Copied to clipboard!",
         discMarket: "MARKET PURCHASES:", errWebhook: "Please enter a valid Discord Webhook URL.", errSend: "Failed to send to Discord.", sucSend: "Order dispatched to Discord!",
         qAdd: "+10k", qAddStk: "+1 Stk", byproductsTitle: "RECOVERED BYPRODUCTS",
-        
-        // Dynamic Notifications
-        notifAwaiting: "Awaiting orders, Quartermaster. Enter a target amount or calculate max.",
-        notifAllClear: "All materials secured in bank & cart! You are ready to manufacture.",
-        notifNoPrimaryDetails: "Insufficient primary metals to craft 1 unit. Missing: {0}",
-        notifMaxFoundDetails: "Maximum yield calculated. Missing catalysts: {0}",
-        notifMissingPrimaryDetails: "Deficit detected. Missing primary metals: {0}",
-        notifMissingCatalystDetails: "Primary materials secured! Missing catalysts: {0}",
-
         categories: { raw: "Raw Materials", basicExt: "Basic Extractions", intOre: "Intermediate Ores", advOre: "Advanced Ores", catalyst: "Catalysts", refined: "Refined Metals" },
-        items: { 
-            granum: "Granum", calx: "Calx", saburra: "Saburra", tephra: "Tephra", water: "Water", sp: "Saburra Powder", cp: "Calx Powder", coal: "Coal", coke: "Coke", 
-            bo: "Blood Ore", pi: "Pig Iron", gs: "Grain Steel", steel: "Steel",
-            cuprum: "Cuprum", bron: "Bron", messing: "Messing", tmessing: "Tindremic Messing", tungsteel: "Tungsteel", cronite: "Cronite", oghmium: "Oghmium",
-            amarantum: "Amarantum", flakestone: "Flakestone", granumpowder: "Granum Powder", malachite: "Malachite", bleckblende: "Bleckblende", calamine: "Calamine",
-            jadeite: "Jadeite", calspar: "Calspar", galbinum: "Galbinum", redbleckblende: "Red Bleckblende", pyroxene: "Pyroxene", almine: "Almine", acronite: "Acronite",
-            sanguinite: "Sanguinite", fumingsalt: "Fuming Salt", lupium: "Lupium", gemmetal: "Gem Metal"
-        }
+        items: { ...baseItems }
     },
+    
     fr: {
         tabPrefs: "Préférences", tabInteg: "Intégrations", tabData: "Données", resetDesc: "Effacez tout votre inventaire, les quantités du panier et les objectifs.",
         themeToggle: "☀️ / 🌙 Mode Jour/Nuit", format: "Format d'affichage", optUnits: "Unités", optStacks: "Piles (10k)", webhook: "URL Webhook Discord",
-        prodCmd: "Commande de Production", targetMetalLabel: "Métal Cible", boSource: "Stratégie d'Extraction", optAttractor: "Efficace (Broyeurs)", optCrusher: "Rendement Max (Concasseurs)", crafters: "Artisans", target: "Quantité", btnMaxText: "⚡ Calculer le Maximum",
+        prodCmd: "Commande de Production", targetMetalLabel: "Métal Cible", boSource: "Stratégie d'Extraction", optAttractor: "Efficace (Broyeurs)", optCrusher: "Rendement Max (Concasseurs)", crafters: "Artisans", target: "Quantité", 
+        btnMaxText: "⚡ Calculer la production possible",
         yieldMods: "Modificateurs", mastery: "Maîtrise (+6%)", refining: "Raffinage (+3%)", extraction: "Extraction (+3%)",
         btnDiscord: "📋 Copier l'ordre", btnSend: "🚀 Envoyer sur Discord",
-        invBank: "Banque d'Inventaire", showAllBank: "Afficher Tout", btnReset: "🧹 Réinitialiser Tout", defGather: "Déficit à Récolter", mfgPipe: "Pipeline de Fabrication", marketCart: "Panier", btnAutoFill: "🛒",
+        invBank: "Banque d'Inventaire", showAllBank: "Afficher Tout", btnReset: "🧹 Réinitialiser Tout", defGather: "Déficit à Récolter", mfgPipe: "Pipeline de Fabrication", marketCart: "Panier", btnAutoFill: "🛒 Tout Remplir",
         tblPrice: "Prix/10k", tblBuy: "Qté à Acheter", tblCost: "Coût (o)", tblStash: "Banque + Achat", cartTotal: "Total Panier :",
         noTarget: "Aucun objectif défini.", allCovered: "✅ La banque couvre tout !",
         stepYields: "produit", stepExtract: "Extraire", stepAnd: "et", perCrafter: "(Par Artisan)", stepPrefix: "Étape",
         resetPrompt: "Réinitialiser toutes les valeurs à zéro ?", discHeader: "⚔️ ORDRE LOGISTIQUE", discReq: "RÉCOLTE MANUELLE REQUISE :", discStock: "Toute la récolte est couverte.", discCopied: "Copié dans le presse-papiers !",
         discMarket: "ACHATS AU MARCHÉ :", errWebhook: "URL Webhook invalide.", errSend: "Échec de l'envoi.", sucSend: "Ordre envoyé sur Discord !",
         qAdd: "+10k", qAddStk: "+1 Pile", byproductsTitle: "SOUS-PRODUITS RÉCUPÉRÉS",
-        
-        notifAwaiting: "En attente d'ordres. Entrez un montant ou calculez le max.",
-        notifAllClear: "Tous les matériaux sont sécurisés ! Prêt à fabriquer.",
-        notifNoPrimaryDetails: "Métaux primaires insuffisants pour 1 unité. Manquant : {0}",
-        notifMaxFoundDetails: "Rendement max calculé. Catalyseurs manquants : {0}",
-        notifMissingPrimaryDetails: "Déficit détecté. Métaux primaires manquants : {0}",
-        notifMissingCatalystDetails: "Métaux primaires sécurisés ! Catalyseurs manquants : {0}",
-
         categories: { raw: "Matières Premières", basicExt: "Extractions de Base", intOre: "Minerais Intermédiaires", advOre: "Minerais Avancés", catalyst: "Catalyseurs", refined: "Métaux Raffinés" },
-        items: { 
-            granum: "Granum", calx: "Calx", saburra: "Saburra", tephra: "Tephra", water: "Eau (Water)", sp: "Poudre Saburra (Saburra Powder)", cp: "Poudre Calx (Calx Powder)", coal: "Charbon (Coal)", coke: "Coke", 
-            bo: "Minerai de Sang (Blood Ore)", pi: "Fonte (Pig Iron)", gs: "Acier Grain (Grain Steel)", steel: "Acier (Steel)",
-            cuprum: "Cuprum", bron: "Bron", messing: "Messing", tmessing: "Messing Tindremic (Tindremic Messing)", tungsteel: "Tungsteel", cronite: "Cronite", oghmium: "Oghmium",
-            amarantum: "Amarantum", flakestone: "Flakestone", granumpowder: "Poudre Granum (Granum Powder)", malachite: "Malachite", bleckblende: "Bleckblende", calamine: "Calamine",
-            jadeite: "Jadeite", calspar: "Calspar", galbinum: "Galbinum", redbleckblende: "Bleckblende Rouge (Red Bleckblende)", pyroxene: "Pyroxene", almine: "Almine", acronite: "Acronite",
-            sanguinite: "Sanguinite", fumingsalt: "Sel Fumant (Fuming Salt)", lupium: "Lupium", gemmetal: "Métal Précieux (Gem Metal)"
-        }
+        items: { ...baseItems, water: "Eau", coal: "Charbon", steel: "Acier", pi: "Fonte (Pig Iron)", bo: "Minerai de Sang (Blood Ore)", gs: "Acier Grain (Grain Steel)" }
     },
-    es: { notifAwaiting: "Esperando...", notifAllClear: "¡Todo asegurado!", notifNoPrimaryDetails: "Faltan primarios: {0}", notifMaxFoundDetails: "Max calculado. Faltan: {0}", notifMissingPrimaryDetails: "Faltan primarios: {0}", notifMissingCatalystDetails: "Faltan catalizadores: {0}", tabPrefs: "Preferencias", tabInteg: "Integraciones", tabData: "Datos", showAllBank: "Mostrar Todo", optAttractor: "Eficiente", optCrusher: "Rendimiento Max", stepExtract: "Extraer", stepAnd: "y", stepPrefix: "Paso", btnAutoFill: "🛒", categories: {}, items: { steel: "Acero (Steel)" } },
-    pt: { notifAwaiting: "Aguardando...", notifAllClear: "Tudo garantido!", notifNoPrimaryDetails: "Faltam primários: {0}", notifMaxFoundDetails: "Max calculado. Faltam: {0}", notifMissingPrimaryDetails: "Faltam primários: {0}", notifMissingCatalystDetails: "Faltam catalisadores: {0}", tabPrefs: "Preferências", tabInteg: "Integrações", tabData: "Dados", showAllBank: "Mostrar Tudo", optAttractor: "Eficiente", optCrusher: "Rendimento Max", stepExtract: "Extrair", stepAnd: "e", stepPrefix: "Passo", btnAutoFill: "🛒", categories: {}, items: { steel: "Aço (Steel)" } },
-    de: { notifAwaiting: "Warten auf Befehle...", notifAllClear: "Alles gesichert!", notifNoPrimaryDetails: "Fehlende Primärmetalle: {0}", notifMaxFoundDetails: "Max berechnet. Fehlende: {0}", notifMissingPrimaryDetails: "Fehlende Primärmetalle: {0}", notifMissingCatalystDetails: "Fehlende Katalysatoren: {0}", tabPrefs: "Präferenzen", tabInteg: "Integrationen", tabData: "Daten", showAllBank: "Alle Anzeigen", optAttractor: "Effizient", optCrusher: "Maximaler Ertrag", stepExtract: "Extrahieren", stepAnd: "und", stepPrefix: "Schritt", btnAutoFill: "🛒", categories: {}, items: { steel: "Stahl (Steel)" } }
+    
+    es: {
+        tabPrefs: "Preferencias", tabInteg: "Integraciones", tabData: "Datos", resetDesc: "Borra todo tu inventario, cantidades del carrito y objetivos.",
+        themeToggle: "☀️ / 🌙 Modo Día/Noche", format: "Formato", optUnits: "Unidades", optStacks: "Pilas (10k)", webhook: "URL Webhook de Discord",
+        prodCmd: "Comando de Producción", targetMetalLabel: "Metal Objetivo", boSource: "Estrategia", optAttractor: "Eficiente (Molinillos)", optCrusher: "Rendimiento Max (Trituradoras)", crafters: "Artesanos", target: "Cantidad", 
+        btnMaxText: "⚡ Calcular producción posible",
+        yieldMods: "Modificadores", mastery: "Maestría (+6%)", refining: "Refinación (+3%)", extraction: "Extracción (+3%)",
+        btnDiscord: "📋 Copiar al Portapapeles", btnSend: "🚀 Enviar a Discord",
+        invBank: "Banco de Inventario", showAllBank: "Mostrar Todo", btnReset: "🧹 Restablecer Todo", defGather: "Déficit a Recolectar", mfgPipe: "Tubería de Fabricación", marketCart: "Carrito de Mercado", btnAutoFill: "🛒 Llenar Todo",
+        tblPrice: "Precio/10k", tblBuy: "Cant. a Comprar", tblCost: "Costo (o)", tblStash: "Banco + Compra", cartTotal: "Total Carrito:",
+        noTarget: "Sin objetivo.", allCovered: "✅ ¡Todo cubierto!",
+        stepYields: "produce", stepExtract: "Extraer", stepAnd: "y", perCrafter: "(Por Artesano)", stepPrefix: "Paso",
+        resetPrompt: "¿Restablecer todos los valores a cero?", discHeader: "⚔️ ORDEN LOGÍSTICA", discReq: "RECOLECCIÓN MANUAL:", discStock: "Toda la recolección cubierta.", discCopied: "¡Copiado!",
+        discMarket: "COMPRAS EN MERCADO:", errWebhook: "URL Webhook inválida.", errSend: "Error al enviar.", sucSend: "¡Orden enviada!",
+        qAdd: "+10k", qAddStk: "+1 Pila", byproductsTitle: "SUBPRODUCTOS RECUPERADOS",
+        categories: { raw: "Materias Primas", basicExt: "Extracciones Básicas", intOre: "Minerales Intermedios", advOre: "Minerales Avanzados", catalyst: "Catalizadores", refined: "Metales Refinados" },
+        items: { ...baseItems, water: "Agua", coal: "Carbón", steel: "Acero" }
+    },
+    
+    de: {
+        tabPrefs: "Einstellungen", tabInteg: "Integrationen", tabData: "Daten", resetDesc: "Löschen Sie Ihr gesamtes gespeichertes Inventar und den Warenkorb.",
+        themeToggle: "☀️ / 🌙 Tag/Nacht-Modus", format: "Anzeigeformat", optUnits: "Einheiten", optStacks: "Stapel (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Produktionskommando", targetMetalLabel: "Zielmetall", boSource: "Extraktionsstrategie", optAttractor: "Effizient (Schleifer)", optCrusher: "Maximaler Ertrag (Brecher)", crafters: "Handwerker", target: "Menge", 
+        btnMaxText: "⚡ Berechne Herstellbares aus Inventar",
+        yieldMods: "Ertragsmodifikatoren", mastery: "Meisterschaft (+6%)", refining: "Raffinieren (+3%)", extraction: "Extraktion (+3%)",
+        btnDiscord: "📋 In die Zwischenablage kopieren", btnSend: "🚀 An Discord senden",
+        invBank: "Bankinventar", showAllBank: "Alle Anzeigen", btnReset: "🧹 Alles Zurücksetzen", defGather: "Fehlbetrag Sammeln", mfgPipe: "Herstellungspipeline", marketCart: "Warenkorb", btnAutoFill: "🛒 Alle automatisch ausfüllen",
+        tblPrice: "Preis/10k", tblBuy: "Kaufmenge", tblCost: "Kosten (g)", tblStash: "Bank + Kauf", cartTotal: "Warenkorb Gesamt:",
+        noTarget: "Kein Ziel gesetzt.", allCovered: "✅ Alles abgedeckt!",
+        stepYields: "ergibt", stepExtract: "Extrahieren", stepAnd: "und", perCrafter: "(Pro Handwerker)", stepPrefix: "Schritt",
+        resetPrompt: "Alle Werte auf null zurücksetzen?", discHeader: "⚔️ LOGISTIK-BESTELLUNG", discReq: "MANUELLES SAMMELN ERFORDERLICH:", discStock: "Alles abgedeckt.", discCopied: "Kopiert!",
+        discMarket: "MARKTKÄUFE:", errWebhook: "Ungültige Webhook URL.", errSend: "Senden fehlgeschlagen.", sucSend: "Bestellung gesendet!",
+        qAdd: "+10k", qAddStk: "+1 Stapel", byproductsTitle: "RÜCKGEWONNENE NEBENPRODUKTE",
+        categories: { raw: "Rohmaterialien", basicExt: "Basis-Extraktionen", intOre: "Mittlere Erze", advOre: "Fortgeschrittene Erze", catalyst: "Katalysatoren", refined: "Raffinierte Metalle" },
+        items: { ...baseItems, water: "Wasser", coal: "Kohle", steel: "Stahl", pi: "Roheisen", gs: "Kornstahl" }
+    },
+
+    it: {
+        tabPrefs: "Preferenze", tabInteg: "Integrazioni", tabData: "Dati", resetDesc: "Cancella l'inventario, le quantità del carrello e gli obiettivi.",
+        themeToggle: "☀️ / 🌙 Giorno/Notte", format: "Formato", optUnits: "Unità", optStacks: "Stack (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Comando Produzione", targetMetalLabel: "Metallo Obiettivo", boSource: "Strategia", optAttractor: "Efficiente (Macinatori)", optCrusher: "Resa Max (Frantoi)", crafters: "Artigiani", target: "Quantità", 
+        btnMaxText: "⚡ Calcola producibile dall'inventario",
+        yieldMods: "Modificatori", mastery: "Maestria (+6%)", refining: "Raffinazione (+3%)", extraction: "Estrazione (+3%)",
+        btnDiscord: "📋 Copia negli Appunti", btnSend: "🚀 Invia a Discord",
+        invBank: "Banca Inventario", showAllBank: "Mostra Tutto", btnReset: "🧹 Ripristina Tutto", defGather: "Deficit da Raccogliere", mfgPipe: "Pipeline di Produzione", marketCart: "Carrello", btnAutoFill: "🛒 Riempi Tutto",
+        tblPrice: "Prezzo/10k", tblBuy: "Q.tà da Comprare", tblCost: "Costo (o)", tblStash: "Banca + Compra", cartTotal: "Totale Carrello:",
+        noTarget: "Nessun obiettivo.", allCovered: "✅ Tutto coperto!",
+        stepYields: "produce", stepExtract: "Estrai", stepAnd: "e", perCrafter: "(Per Artigiano)", stepPrefix: "Passo",
+        resetPrompt: "Ripristinare tutti i valori a zero?", discHeader: "⚔️ ORDINE LOGISTICO", discReq: "RACCOLTA MANUALE:", discStock: "Tutta la raccolta coperta.", discCopied: "Copiato!",
+        discMarket: "ACQUISTI DI MERCATO:", errWebhook: "URL Webhook non valido.", errSend: "Errore di invio.", sucSend: "Ordine inviato!",
+        qAdd: "+10k", qAddStk: "+1 Stack", byproductsTitle: "SOTTOPRODOTTI RECUPERATI",
+        categories: { raw: "Materie Prime", basicExt: "Estrazioni di Base", intOre: "Minerali Intermedi", advOre: "Minerali Avanzati", catalyst: "Catalizzatori", refined: "Metalli Raffinati" },
+        items: { ...baseItems, water: "Acqua", coal: "Carbone", steel: "Acciaio" }
+    },
+
+    ro: {
+        tabPrefs: "Preferințe", tabInteg: "Integrări", tabData: "Date", resetDesc: "Ștergeți inventarul băncii, coșul și obiectivele.",
+        themeToggle: "☀️ / 🌙 Mod Zi/Noapte", format: "Format Afișare", optUnits: "Unități", optStacks: "Stive (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Comandă Producție", targetMetalLabel: "Metal Țintă", boSource: "Strategie Extracție", optAttractor: "Eficient (Polizoare)", optCrusher: "Randament Max (Concasoare)", crafters: "Artizani", target: "Cantitate", 
+        btnMaxText: "⚡ Calculează ce poți fabrica",
+        yieldMods: "Modificatori", mastery: "Măiestrie (+6%)", refining: "Rafinare (+3%)", extraction: "Extracție (+3%)",
+        btnDiscord: "📋 Copiază în Clipboard", btnSend: "🚀 Trimite la Discord",
+        invBank: "Inventar Bancă", showAllBank: "Arată Tot", btnReset: "🧹 Resetează Tot", defGather: "Deficit de Adunat", mfgPipe: "Proces de Fabricație", marketCart: "Coș Piață", btnAutoFill: "🛒 Umple Tot",
+        tblPrice: "Preț/10k", tblBuy: "Cant. de Cumpărat", tblCost: "Cost (a)", tblStash: "Bancă + Cumpărat", cartTotal: "Total Coș:",
+        noTarget: "Fără țintă.", allCovered: "✅ Totul este acoperit!",
+        stepYields: "produce", stepExtract: "Extrage", stepAnd: "și", perCrafter: "(Per Artizan)", stepPrefix: "Pas",
+        resetPrompt: "Resetați toate valorile la zero?", discHeader: "⚔️ ORDIN LOGISTIC", discReq: "ADUNARE MANUALĂ NECESARĂ:", discStock: "Necesar acoperit.", discCopied: "Copiat!",
+        discMarket: "CUMPĂRĂTURI PIAȚĂ:", errWebhook: "URL Webhook invalid.", errSend: "Eroare la trimitere.", sucSend: "Ordin trimis!",
+        qAdd: "+10k", qAddStk: "+1 Stivă", byproductsTitle: "SUBPRODUSE RECUPERATE",
+        categories: { raw: "Materii Prime", basicExt: "Extracții de Bază", intOre: "Minereuri Intermediare", advOre: "Minereuri Avansate", catalyst: "Catalizatori", refined: "Metale Rafinate" },
+        items: { ...baseItems, water: "Apă", coal: "Cărbune", steel: "Oțel" }
+    },
+
+    pl: {
+        tabPrefs: "Preferencje", tabInteg: "Integracje", tabData: "Dane", resetDesc: "Wyczyść zapisany ekwipunek, koszyk i cele.",
+        themeToggle: "☀️ / 🌙 Tryb Dzień/Noc", format: "Format Wyświetlania", optUnits: "Jednostki", optStacks: "Stosy (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Dowództwo Produkcji", targetMetalLabel: "Metal Docelowy", boSource: "Strategia Wydobycia", optAttractor: "Wydajne (Szlifierki)", optCrusher: "Maks. Uzysk (Kruszarki)", crafters: "Rzemieślnicy", target: "Ilość", 
+        btnMaxText: "⚡ Oblicz możliwe do wytworzenia",
+        yieldMods: "Modyfikatory", mastery: "Mistrzostwo (+6%)", refining: "Rafinacja (+3%)", extraction: "Wydobycie (+3%)",
+        btnDiscord: "📋 Kopiuj do Schowka", btnSend: "🚀 Wyślij do Discord",
+        invBank: "Bank Ekwipunku", showAllBank: "Pokaż Wszystko", btnReset: "🧹 Resetuj Wszystko", defGather: "Deficyt do Zebrania", mfgPipe: "Linia Produkcyjna", marketCart: "Koszyk", btnAutoFill: "🛒 Wypełnij Wszystko",
+        tblPrice: "Cena/10k", tblBuy: "Ilość do Kupienia", tblCost: "Koszt (z)", tblStash: "Bank + Zakup", cartTotal: "Suma Koszyka:",
+        noTarget: "Brak celu.", allCovered: "✅ Wszystko zabezpieczone!",
+        stepYields: "daje", stepExtract: "Ekstrahuj", stepAnd: "i", perCrafter: "(Na Rzemieślnika)", stepPrefix: "Krok",
+        resetPrompt: "Zresetować wszystkie wartości do zera?", discHeader: "⚔️ ZAMÓWIENIE LOGISTYCZNE", discReq: "WYMAGANE ZBIERANIE:", discStock: "Zbiory zabezpieczone.", discCopied: "Skopiowano!",
+        discMarket: "ZAKUPY NA RYNKU:", errWebhook: "Nieprawidłowy adres URL Webhook.", errSend: "Błąd wysyłania.", sucSend: "Zamówienie wysłane!",
+        qAdd: "+10k", qAddStk: "+1 Stos", byproductsTitle: "ODZYSKANE PRODUKTY UBOCZNE",
+        categories: { raw: "Surowce", basicExt: "Podstawowe Ekstrakcje", intOre: "Średnie Rudy", advOre: "Zaawansowane Rudy", catalyst: "Katalizatory", refined: "Rafinowane Metale" },
+        items: { ...baseItems, water: "Woda", coal: "Węgiel", steel: "Stal" }
+    },
+
+    pt: {
+        tabPrefs: "Preferências", tabInteg: "Integrações", tabData: "Dados", resetDesc: "Limpe todo o seu inventário, quantidades do carrinho e alvos.",
+        themeToggle: "☀️ / 🌙 Modo Dia/Noite", format: "Formato de Exibição", optUnits: "Unidades", optStacks: "Pilhas (10k)", webhook: "URL Webhook Discord",
+        prodCmd: "Comando de Produção", targetMetalLabel: "Metal Alvo", boSource: "Estratégia", optAttractor: "Eficiente (Moedores)", optCrusher: "Rendimento Max (Trituradores)", crafters: "Artesãos", target: "Quantidade", 
+        btnMaxText: "⚡ Calcular fabricável",
+        yieldMods: "Modificadores", mastery: "Maestria (+6%)", refining: "Refinamento (+3%)", extraction: "Extração (+3%)",
+        btnDiscord: "📋 Copiar para Área de Transferência", btnSend: "🚀 Enviar para Discord",
+        invBank: "Banco de Inventário", showAllBank: "Mostrar Tudo", btnReset: "🧹 Redefinir Tudo", defGather: "Déficit para Coletar", mfgPipe: "Linha de Fabricação", marketCart: "Carrinho", btnAutoFill: "🛒 Preencher Tudo",
+        tblPrice: "Preço/10k", tblBuy: "Qtd para Comprar", tblCost: "Custo (o)", tblStash: "Banco + Compra", cartTotal: "Total do Carrinho:",
+        noTarget: "Sem alvo.", allCovered: "✅ Tudo coberto!",
+        stepYields: "rende", stepExtract: "Extrair", stepAnd: "e", perCrafter: "(Por Artesão)", stepPrefix: "Passo",
+        resetPrompt: "Zerar todos os valores?", discHeader: "⚔️ ORDEM LOGÍSTICA", discReq: "COLETA MANUAL NECESSÁRIA:", discStock: "Coleta coberta.", discCopied: "Copiado!",
+        discMarket: "COMPRAS NO MERCADO:", errWebhook: "URL Webhook inválida.", errSend: "Falha ao enviar.", sucSend: "Ordem enviada!",
+        qAdd: "+10k", qAddStk: "+1 Pilha", byproductsTitle: "SUBPRODUTOS RECUPERADOS",
+        categories: { raw: "Matérias-Primas", basicExt: "Extrações Básicas", intOre: "Minérios Intermediários", advOre: "Minérios Avançados", catalyst: "Catalisadores", refined: "Metais Refinados" },
+        items: { ...baseItems, water: "Água", coal: "Carvão", steel: "Aço" }
+    },
+
+    ru: {
+        tabPrefs: "Настройки", tabInteg: "Интеграции", tabData: "Данные", resetDesc: "Очистите инвентарь банка, корзину и цели.",
+        themeToggle: "☀️ / 🌙 День/Ночь", format: "Формат", optUnits: "Единицы", optStacks: "Стаки (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Производство", targetMetalLabel: "Целевой металл", boSource: "Стратегия", optAttractor: "Эффективность", optCrusher: "Макс. Выход", crafters: "Ремесленники", target: "Количество", 
+        btnMaxText: "⚡ Рассчитать доступное для крафта",
+        yieldMods: "Модификаторы", mastery: "Мастерство (+6%)", refining: "Переработка (+3%)", extraction: "Добыча (+3%)",
+        btnDiscord: "📋 Скопировать", btnSend: "🚀 Отправить в Discord",
+        invBank: "Банк", showAllBank: "Показать Все", btnReset: "🧹 Сбросить Все", defGather: "Осталось собрать", mfgPipe: "Процесс крафта", marketCart: "Корзина рынка", btnAutoFill: "🛒 Заполнить всё",
+        tblPrice: "Цена/10k", tblBuy: "Купить", tblCost: "Стоимость", tblStash: "Банк + Покупка", cartTotal: "Итог корзины:",
+        noTarget: "Цель не задана.", allCovered: "✅ Всё обеспечено!",
+        stepYields: "дает", stepExtract: "Извлечь", stepAnd: "и", perCrafter: "(На крафтера)", stepPrefix: "Шаг",
+        resetPrompt: "Сбросить все значения до нуля?", discHeader: "⚔️ ЛОГИСТИЧЕСКИЙ ЗАКАЗ", discReq: "ТРЕБУЕТСЯ СБОР:", discStock: "Сбор обеспечен.", discCopied: "Скопировано!",
+        discMarket: "ПОКУПКИ НА РЫНКЕ:", errWebhook: "Неверный Webhook URL.", errSend: "Ошибка отправки.", sucSend: "Заказ отправлен!",
+        qAdd: "+10k", qAddStk: "+1 Стак", byproductsTitle: "ПОБОЧНЫЕ ПРОДУКТЫ",
+        categories: { raw: "Сырье", basicExt: "Базовые экстракции", intOre: "Средняя руда", advOre: "Продвинутая руда", catalyst: "Катализаторы", refined: "Очищенные металлы" },
+        items: { ...baseItems, water: "Вода", coal: "Уголь", steel: "Сталь" }
+    },
+
+    fi: {
+        tabPrefs: "Asetukset", tabInteg: "Integraatiot", tabData: "Tiedot", resetDesc: "Tyhjennä pankin varasto, ostoskori ja tavoitteet.",
+        themeToggle: "☀️ / 🌙 Päivä/Yö", format: "Muoto", optUnits: "Yksiköt", optStacks: "Pinot (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Tuotantokomento", targetMetalLabel: "Kohdemetalli", boSource: "Strategia", optAttractor: "Tehokas", optCrusher: "Maks. Tuotto", crafters: "Käsityöläiset", target: "Määrä", 
+        btnMaxText: "⚡ Laske valmistettavissa oleva",
+        yieldMods: "Muuttujat", mastery: "Mestaruus (+6%)", refining: "Jalostus (+3%)", extraction: "Louhinta (+3%)",
+        btnDiscord: "📋 Kopioi Leikepöydälle", btnSend: "🚀 Lähetä Discordiin",
+        invBank: "Pankkivarasto", showAllBank: "Näytä Kaikki", btnReset: "🧹 Nollaa Kaikki", defGather: "Kerättävä Vaje", mfgPipe: "Tuotantolinja", marketCart: "Ostoskori", btnAutoFill: "🛒 Täytä Kaikki",
+        tblPrice: "Hinta/10k", tblBuy: "Ostomäärä", tblCost: "Kustannus (k)", tblStash: "Pankki + Osto", cartTotal: "Korin Yhteensä:",
+        noTarget: "Ei tavoitetta.", allCovered: "✅ Kaikki katettu!",
+        stepYields: "tuottaa", stepExtract: "Erota", stepAnd: "ja", perCrafter: "(Per Tekijä)", stepPrefix: "Vaihe",
+        resetPrompt: "Nollaa kaikki arvot nollaan?", discHeader: "⚔️ LOGISTIIKKATILAUS", discReq: "MANUAALINEN KERÄYS:", discStock: "Kaikki keräys katettu.", discCopied: "Kopioitu!",
+        discMarket: "MARKKINAOSTOT:", errWebhook: "Virheellinen Webhook URL.", errSend: "Lähetys epäonnistui.", sucSend: "Tilaus lähetetty!",
+        qAdd: "+10k", qAddStk: "+1 Pino", byproductsTitle: "TALTEENOTETUT SIVUTUOTTEET",
+        categories: { raw: "Raaka-aineet", basicExt: "Peruserottelut", intOre: "Keskivahvat Malmit", advOre: "Kehittyneet Malmit", catalyst: "Katalyytit", refined: "Jalostetut Metallit" },
+        items: { ...baseItems, water: "Vesi", coal: "Hiili", steel: "Teräs" }
+    },
+
+    hu: {
+        tabPrefs: "Beállítások", tabInteg: "Integrációk", tabData: "Adatok", resetDesc: "Törölje a mentett banki készletet, a kosarat és a célokat.",
+        themeToggle: "☀️ / 🌙 Nappali/Éjszakai Mód", format: "Kijelző Formátum", optUnits: "Egységek", optStacks: "Halmok (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Gyártási Parancsnokság", targetMetalLabel: "Cél Fém", boSource: "Kivonási Stratégia", optAttractor: "Hatékony", optCrusher: "Max Hozam", crafters: "Kézművesek", target: "Mennyiség", 
+        btnMaxText: "⚡ Készíthető mennyiség kiszámítása",
+        yieldMods: "Hozam Módosítók", mastery: "Mesterfok (+6%)", refining: "Finomítás (+3%)", extraction: "Kivonás (+3%)",
+        btnDiscord: "📋 Másolás Vágólapra", btnSend: "🚀 Küldés Discordra",
+        invBank: "Bankkészlet", showAllBank: "Összes Mutatása", btnReset: "🧹 Összes Visszaállítása", defGather: "Összegyűjtendő Hiány", mfgPipe: "Gyártási Folyamat", marketCart: "Piaci Kosár", btnAutoFill: "🛒 Összes Kitöltése",
+        tblPrice: "Ár/10k", tblBuy: "Vásárolandó Mennyiség", tblCost: "Költség (a)", tblStash: "Bank + Vásárlás", cartTotal: "Kosár Összesen:",
+        noTarget: "Nincs cél beállítva.", allCovered: "✅ Minden biztosítva!",
+        stepYields: "hozama", stepExtract: "Kivonás", stepAnd: "és", perCrafter: "(Kézművesenként)", stepPrefix: "Lépés",
+        resetPrompt: "Minden érték lenullázása?", discHeader: "⚔️ LOGISZTIKAI RENDELÉS", discReq: "KÉZI GYŰJTÉS SZÜKSÉGES:", discStock: "Minden gyűjtés lefedve.", discCopied: "Másolva!",
+        discMarket: "PIACI VÁSÁRLÁSOK:", errWebhook: "Érvénytelen Webhook URL.", errSend: "Küldés sikertelen.", sucSend: "Rendelés elküldve!",
+        qAdd: "+10k", qAddStk: "+1 Halom", byproductsTitle: "VISSZANYERT MELLÉKTERMÉKEK",
+        categories: { raw: "Nyersanyagok", basicExt: "Alap Kivonások", intOre: "Köztes Ércek", advOre: "Fejlett Ércek", catalyst: "Katalizátorok", refined: "Finomított Fémek" },
+        items: { ...baseItems, water: "Víz", coal: "Szén", steel: "Acél" }
+    },
+
+    tr: {
+        tabPrefs: "Tercihler", tabInteg: "Entegrasyonlar", tabData: "Veriler", resetDesc: "Kayıtlı banka envanterini, sepet miktarlarını ve hedefleri temizle.",
+        themeToggle: "☀️ / 🌙 Gündüz/Gece Modu", format: "Görünüm Formatı", optUnits: "Birimler", optStacks: "Yığınlar (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Üretim Komutu", targetMetalLabel: "Hedef Metal", boSource: "Çıkarma Stratejisi", optAttractor: "Verimli", optCrusher: "Maks. Verim", crafters: "Zanaatkarlar", target: "Miktar", 
+        btnMaxText: "⚡ Envanterden üretilebilir olanı hesapla",
+        yieldMods: "Verim Çarpanları", mastery: "Ustalık (+6%)", refining: "Arıtma (+3%)", extraction: "Çıkarma (+3%)",
+        btnDiscord: "📋 Panoya Kopyala", btnSend: "🚀 Discord'a Gönder",
+        invBank: "Banka Envanteri", showAllBank: "Hepsini Göster", btnReset: "🧹 Her Şeyi Sıfırla", defGather: "Toplanacak Eksik", mfgPipe: "Üretim Hattı", marketCart: "Market Sepeti", btnAutoFill: "🛒 Tümünü Doldur",
+        tblPrice: "Fiyat/10k", tblBuy: "Alınacak Miktar", tblCost: "Maliyet (a)", tblStash: "Banka + Alım", cartTotal: "Sepet Toplamı:",
+        noTarget: "Hedef yok.", allCovered: "✅ Her şey güvence altında!",
+        stepYields: "verir", stepExtract: "Çıkar", stepAnd: "ve", perCrafter: "(Zanaatkar Başına)", stepPrefix: "Adım",
+        resetPrompt: "Tüm değerler sıfırlansın mı?", discHeader: "⚔️ LOJİSTİK SİPARİŞİ", discReq: "MANUEL TOPLAMA GEREKLİ:", discStock: "Tüm toplama tamamlandı.", discCopied: "Kopyalandı!",
+        discMarket: "MARKET ALIMLARI:", errWebhook: "Geçersiz Webhook URL.", errSend: "Gönderim başarısız.", sucSend: "Sipariş gönderildi!",
+        qAdd: "+10k", qAddStk: "+1 Yığın", byproductsTitle: "KURTARILAN YAN ÜRÜNLER",
+        categories: { raw: "Hammadde", basicExt: "Temel Çıkarımlar", intOre: "Orta Seviye Cevherler", advOre: "Gelişmiş Cevherler", catalyst: "Katalizörler", refined: "Arıtılmış Metaller" },
+        items: { ...baseItems, water: "Su", coal: "Kömür", steel: "Çelik" }
+    },
+
+    sv: {
+        tabPrefs: "Inställningar", tabInteg: "Integrationer", tabData: "Data", resetDesc: "Rensa sparat bankinventarie, varukorg och mål.",
+        themeToggle: "☀️ / 🌙 Dag/Nattläge", format: "Visningsformat", optUnits: "Enheter", optStacks: "Travar (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Produktionskommando", targetMetalLabel: "Målmetall", boSource: "Extraktionsstrategi", optAttractor: "Effektiv (Kvarnar)", optCrusher: "Max Utbyte (Krossar)", crafters: "Hantverkare", target: "Mängd", 
+        btnMaxText: "⚡ Beräkna tillverkningsbart",
+        yieldMods: "Utbytesmodifierare", mastery: "Mästerskap (+6%)", refining: "Raffinering (+3%)", extraction: "Extraktion (+3%)",
+        btnDiscord: "📋 Kopiera till Urklipp", btnSend: "🚀 Skicka till Discord",
+        invBank: "Bankinventarie", showAllBank: "Visa Allt", btnReset: "🧹 Återställ Allt", defGather: "Underskott att Samla", mfgPipe: "Tillverkningsprocess", marketCart: "Varukorg", btnAutoFill: "🛒 Fyll i Allt",
+        tblPrice: "Pris/10k", tblBuy: "Mängd att Köpa", tblCost: "Kostnad (g)", tblStash: "Bank + Köp", cartTotal: "Varukorg Totalt:",
+        noTarget: "Inget mål satt.", allCovered: "✅ Allt täckt!",
+        stepYields: "ger", stepExtract: "Extrahera", stepAnd: "och", perCrafter: "(Per Hantverkare)", stepPrefix: "Steg",
+        resetPrompt: "Återställ alla värden till noll?", discHeader: "⚔️ LOGISTIKORDER", discReq: "MANUELL INSAMLING KRÄVS:", discStock: "All insamling täckt.", discCopied: "Kopierat!",
+        discMarket: "MARKNADSKÖP:", errWebhook: "Ogiltig Webhook URL.", errSend: "Kunde inte skicka.", sucSend: "Order skickad!",
+        qAdd: "+10k", qAddStk: "+1 Trave", byproductsTitle: "ÅTERVUNNA BIPRODUKTER",
+        categories: { raw: "Råmaterial", basicExt: "Grundläggande Extraktioner", intOre: "Mellanmalmer", advOre: "Avancerade Malmer", catalyst: "Katalysatorer", refined: "Raffinerade Metaller" },
+        items: { ...baseItems, water: "Vatten", coal: "Kol", steel: "Stål" }
+    },
+
+    cs: {
+        tabPrefs: "Předvolby", tabInteg: "Integrace", tabData: "Data", resetDesc: "Vymazat uložený inventář, košík a cíle.",
+        themeToggle: "☀️ / 🌙 Den/Noc Režim", format: "Formát Zobrazení", optUnits: "Jednotky", optStacks: "Svazky (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "Výrobní Velitelství", targetMetalLabel: "Cílový Kov", boSource: "Strategie", optAttractor: "Efektivní", optCrusher: "Max. Výtěžek", crafters: "Řemeslníci", target: "Množství", 
+        btnMaxText: "⚡ Vypočítat vyrobitelné z inventáře",
+        yieldMods: "Modifikátory Výtěžku", mastery: "Mistrovství (+6%)", refining: "Rafinace (+3%)", extraction: "Těžba (+3%)",
+        btnDiscord: "📋 Kopírovat do Schránky", btnSend: "🚀 Odeslat na Discord",
+        invBank: "Banka Inventáře", showAllBank: "Zobrazit Vše", btnReset: "🧹 Resetovat Vše", defGather: "Deficit k Těžbě", mfgPipe: "Výrobní Proces", marketCart: "Nákupní Košík", btnAutoFill: "🛒 Vyplnit Vše",
+        tblPrice: "Cena/10k", tblBuy: "Množství k Nákupu", tblCost: "Cena (z)", tblStash: "Banka + Nákup", cartTotal: "Košík Celkem:",
+        noTarget: "Žádný cíl.", allCovered: "✅ Vše zajištěno!",
+        stepYields: "dává", stepExtract: "Vytěžit", stepAnd: "a", perCrafter: "(Na Řemeslníka)", stepPrefix: "Krok",
+        resetPrompt: "Vynulovat všechny hodnoty?", discHeader: "⚔️ LOGISTICKÁ OBJEDNÁVKA", discReq: "RUČNÍ TĚŽBA:", discStock: "Těžba pokryta.", discCopied: "Zkopírováno!",
+        discMarket: "NÁKUPY NA TRHU:", errWebhook: "Neplatná Webhook URL.", errSend: "Odeslání selhalo.", sucSend: "Objednávka odeslána!",
+        qAdd: "+10k", qAddStk: "+1 Svazek", byproductsTitle: "ZÍSKANÉ VEDLEJŠÍ PRODUKTY",
+        categories: { raw: "Suroviny", basicExt: "Základní Těžba", intOre: "Střední Rudy", advOre: "Pokročilé Rudy", catalyst: "Katalizátorok", refined: "Rafinované Kovy" },
+        items: { ...baseItems, water: "Voda", coal: "Uhlí", steel: "Ocel" }
+    },
+
+    ar: {
+        tabPrefs: "التفضيلات", tabInteg: "عمليات الدمج", tabData: "البيانات", resetDesc: "امسح جميع مخزون البنك المحفوظ، وكميات عربة السوق، والأهداف.",
+        themeToggle: "☀️ / 🌙 تبديل وضع النهار / الليل", format: "تنسيق العرض", optUnits: "الوحدات", optStacks: "المكدسات (10k)", webhook: "Discord Webhook URL",
+        prodCmd: "أمر الإنتاج", targetMetalLabel: "المعدن المستهدف", boSource: "استراتيجية الاستخراج", optAttractor: "فعال (مطاحن)", optCrusher: "الحد الأقصى للعائد (كسارات)", crafters: "الحرفيون", target: "الكمية", 
+        btnMaxText: "⚡ حساب ما يمكن صياغته من المخزون",
+        yieldMods: "معدلات العائد", mastery: "الإتقان (+6%)", refining: "التكرير (+3%)", extraction: "الاستخراج (+3%)",
+        btnDiscord: "📋 نسخ إلى الحافظة", btnSend: "🚀 إرسال الطلب إلى Discord",
+        invBank: "بنك المخزون", showAllBank: "إظهار كل المواد", btnReset: "🧹 إعادة تعيين الكل", defGather: "العجز المراد جمعه يدوياً", mfgPipe: "خط أنابيب التصنيع", marketCart: "عربة السوق", btnAutoFill: "🛒 ملء الكل تلقائياً",
+        tblPrice: "السعر / 10k", tblBuy: "الكمية للشراء", tblCost: "التكلفة (ذ)", tblStash: "البنك + الشراء", cartTotal: "إجمالي العربة:",
+        noTarget: "لم يتم تحديد هدف.", allCovered: "✅ تم تغطية جميع المواد الخام!",
+        stepYields: "ينتج", stepExtract: "استخراج", stepAnd: "و", perCrafter: "(لكل حرفي)", stepPrefix: "خطوة",
+        resetPrompt: "إعادة تعيين جميع قيم البنك والعربة إلى الصفر؟", discHeader: "⚔️ طلب لوجستي", discReq: "التجميع اليدوي المطلوب:", discStock: "تمت تغطية جميع التجميعات.", discCopied: "تم النسخ!",
+        discMarket: "مشتريات السوق:", errWebhook: "يرجى إدخال عنوان URL صالح لـ Discord Webhook.", errSend: "فشل الإرسال إلى Discord.", sucSend: "تم إرسال الطلب إلى Discord!",
+        qAdd: "+10k", qAddStk: "+1 مكدس", byproductsTitle: "المنتجات الثانوية المستردة",
+        categories: { raw: "المواد الخام", basicExt: "الاستخراجات الأساسية", intOre: "الخامات المتوسطة", advOre: "الخامات المتقدمة", catalyst: "المحفزات", refined: "المعادن المكررة" },
+        items: { ...baseItems, water: "ماء", coal: "فحم", steel: "صلب" }
+    }
 };
 
-['es', 'pt', 'de'].forEach(l => i18n[l] = { ...i18n.en, ...i18n[l], categories: { ...i18n.en.categories, ...i18n[l].categories }, items: { ...i18n.en.items, ...i18n[l].items } });
+// Map fallback to English for any language missing full translations
+['es', 'pt', 'de', 'ar', 'it', 'ro', 'pl', 'ru', 'fi', 'hu', 'tr', 'sv', 'cs'].forEach(l => i18n[l] = { ...i18n.en, ...(i18n[l] || {}), categories: { ...i18n.en.categories, ...((i18n[l] || {}).categories || {}) }, items: { ...i18n.en.items, ...((i18n[l] || {}).items || {}) } });

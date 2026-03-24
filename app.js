@@ -6,25 +6,6 @@ let completedSteps = [];
 let pureDeficits = {}; 
 let pipelineStepsRaw = []; 
 let byproductsRaw = {}; 
-let isMaxCalc = false;
-let maxCalcFallback = false;
-
-// Notification System
-function notify(msgKey, type, formatArg = null) {
-    const el = document.getElementById('sysNotification');
-    const textEl = document.getElementById('notifText');
-    const iconEl = document.getElementById('notifIcon');
-    
-    el.className = `sys-notif ${type}`;
-    let text = i18n[currentLang][msgKey] || msgKey;
-    if (formatArg) text = text.replace('{0}', formatArg);
-    textEl.innerText = text;
-    
-    if(type === 'info') iconEl.innerText = 'ℹ️';
-    if(type === 'success') iconEl.innerText = '✅';
-    if(type === 'warning') iconEl.innerText = '⚠️';
-    if(type === 'error') iconEl.innerText = '🛑';
-}
 
 function openSettings(tabId = 'prefs') { 
     document.getElementById('settingsModal').style.display = 'block'; 
@@ -93,7 +74,7 @@ function renderBankTable() {
             const val = Number(document.getElementById('b_'+k)?.value) || 0;
             html += `<tr id="row_b_${k}"><td style="width:35%; font-weight:bold; padding-left:10px;">${t.items[k] || k}</td>
                 <td style="text-align:right; white-space: nowrap;">
-                    <input type="number" id="b_${k}" value="${val}" oninput="run()" style="width: 55px;">
+                    <input type="number" id="b_${k}" value="${val}" oninput="run()">
                     <button class="btn-stack q-add" onclick="quickAdd('b_${k}')">${label}</button>
                     <button class="btn-clear" onclick="clearItem('b_${k}')" title="Clear">✖</button>
                 </td></tr>`;
@@ -116,7 +97,13 @@ function renderMarketTable() {
         html += `<div class="market-row" id="row_m_${k}">
             <div style="font-weight:bold; color:var(--accent);">${t.items[k] || k}</div>
             <div style="text-align:center"><span class="mobile-label">${t.tblPrice}</span><input type="number" id="p_${k}" value="${pVal}" oninput="run()"></div>
-            <div style="text-align:center"><span class="mobile-label">${t.tblBuy}</span><div class="buy-group"><input type="number" id="buy_${k}" value="${buyVal}" oninput="run()"><button class="btn-cart" onclick="autoFillRow('${k}')">🛒</button></div></div>
+            <div style="text-align:center"><span class="mobile-label">${t.tblBuy}</span>
+                <div class="buy-group">
+                    <input type="number" id="buy_${k}" value="${buyVal}" oninput="run()">
+                    <button class="btn-cart btn-mini" title="Fill" onclick="autoFillRow('${k}')">Fill</button>
+                    <button class="btn-clear btn-mini" title="Clear" onclick="clearMarketRow('${k}')">✖</button>
+                </div>
+            </div>
             <div style="text-align:right"><span class="mobile-label">${t.tblCost}</span><span style="font-weight:bold; color:var(--accent); font-size: 1.1em;" id="cost_${k}">0.00</span></div>
             <div style="text-align:right"><span class="mobile-label">${t.tblStash}</span><span style="color:var(--text-dim);" id="stash_${k}">0</span></div>
         </div>`;
@@ -135,7 +122,9 @@ function updateVisibility(targetMetal) {
         cat.items.forEach(k => {
             const row = document.getElementById('row_b_' + k);
             if (row) {
-                if (showAll || relevant.has(k)) {
+                if (k === targetMetal) {
+                    row.style.display = 'none';
+                } else if (showAll || relevant.has(k)) {
                     row.style.display = '';
                     catHasVisibleItem = true;
                 } else {
@@ -170,6 +159,11 @@ function quickAdd(id) {
 
 function clearItem(id) {
     const el = document.getElementById(id);
+    if (el) { el.value = 0; run(); }
+}
+
+function clearMarketRow(k) {
+    const el = document.getElementById('buy_' + k);
     if (el) { el.value = 0; run(); }
 }
 
@@ -258,16 +252,12 @@ function calculateMax() {
         }
     }
     
-    let fallback = false;
     if (maxPossible === 0) {
         maxPossible = mode === 'stacks' ? 10000 : 1;
-        fallback = true;
     }
     
     document.getElementById('targetAmount').value = mode === 'stacks' ? parseFloat((maxPossible / 10000).toFixed(4)) : maxPossible;
     
-    isMaxCalc = true;
-    maxCalcFallback = fallback;
     calculate();
 }
 
@@ -294,7 +284,6 @@ function calculate() {
             if(document.getElementById('stash_'+k)) document.getElementById('stash_'+k).innerText = "0";
         });
         updateVisibility(targetMetal);
-        notify('notifAwaiting', 'info');
         save(); return;
     }
 
@@ -329,26 +318,12 @@ function calculate() {
 
     if(document.getElementById('cartTotalGold')) document.getElementById('cartTotalGold').innerText = totalGold.toFixed(2) + " g";
 
-    // Track detailed missing items for the UI Notifier
-    let missingPrimaries = [];
-    let missingCatalysts = [];
-    const primaryChain = getPrimaryChain(targetMetal);
-
     Object.keys(pureDeficits).forEach(k => {
         const remainingToGather = Math.max(0, pureDeficits[k] - (purchased[k] || 0));
         if (remainingToGather > 0) {
             totalUnits += remainingToGather;
             const fmtVal = mode === 'stacks' ? (remainingToGather/10000).toFixed(2) + " Stk" : remainingToGather.toLocaleString();
             gHTML += `<div class="logistics-item ${remainingToGather < 10000 ? 'hm-low' : 'hm-high'}"><span>${t.items[k]||k}</span><span>${fmtVal}</span></div>`;
-            
-            // Collect Notification Strings
-            const itemName = t.items[k] || k;
-            const deficitStr = `${fmtVal} ${itemName}`;
-            if (primaryChain.includes(k)) {
-                missingPrimaries.push(deficitStr);
-            } else {
-                missingCatalysts.push(deficitStr);
-            }
         }
     });
 
@@ -388,31 +363,6 @@ function calculate() {
 
     document.getElementById('stepsOutput').innerHTML = outputHTML;
     updateVisibility(targetMetal);
-
-    // Dynamic Notification Routing
-    if (isMaxCalc) {
-        if (maxCalcFallback) {
-            notify('notifNoPrimaryDetails', 'error', missingPrimaries.join(', '));
-        } else {
-            if (missingCatalysts.length > 0) {
-                notify('notifMaxFoundDetails', 'success', missingCatalysts.join(', '));
-            } else {
-                notify('notifAllClear', 'success');
-            }
-        }
-        isMaxCalc = false;
-    } else {
-        if (totalUnits === 0) {
-            notify('notifAllClear', 'success');
-        } else {
-            if (missingPrimaries.length > 0) {
-                notify('notifMissingPrimaryDetails', 'warning', missingPrimaries.join(', '));
-            } else {
-                notify('notifMissingCatalystDetails', 'info', missingCatalysts.join(', '));
-            }
-        }
-    }
-
     save();
 }
 

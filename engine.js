@@ -59,7 +59,14 @@ const Engine = {
                 saburra: Math.max(0, reqSaburra - bankData.saburra),
                 water: Math.max(0, (waterForSaburra + waterForCalx) - bankData.water)
             },
-            details: { reqGS, reqPI, reqBlood, reqGranum, diffGS, diffPI, diffCoke, diffCP, diffSP, calxToGrind, calxToCrush, extraCoal, coalFromGrind, coalForCoke, cpForCoke, cpForBlood, cokeForPI, cokeForGS, cpForGS, coalForSteel, spForSteel, waterForSaburra, waterForCalx }
+            // FIXED: Explicitly exporting reqSaburra, reqGranum, reqBlood, and reqPI
+            details: { 
+                reqGS, reqPI, reqBlood, reqGranum, reqSaburra, 
+                diffGS, diffPI, diffCoke, diffCP, diffSP, 
+                calxToGrind, calxToCrush, extraCoal, coalFromGrind, 
+                coalForCoke, cpForCoke, cpForBlood, cokeForPI, cokeForGS, 
+                cpForGS, coalForSteel, spForSteel, waterForSaburra, waterForCalx 
+            }
         };
     },
 

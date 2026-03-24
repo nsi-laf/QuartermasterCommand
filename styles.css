@@ -5,10 +5,33 @@
     --hm-none: #444; --hm-low: #ffd700; --hm-high: #ff4500;
 }
 
+/* Enhanced Light Theme for High Contrast */
 .light-theme {
-    --bg-main: #f0f2f5; --bg-card: #ffffff; --bg-input: #f9f9f9;
-    --accent: #b5952f; --text: #1a1a1a; --text-dim: #666666;
-    --border: #cccccc; --hm-none: #bbbbbb;
+    --bg-main: #ebedf0; 
+    --bg-card: #ffffff; 
+    --bg-input: #f4f6f9;
+    --accent: #8a6312; /* Dark bronze/gold for high visibility against white */
+    --text: #111111; 
+    --text-dim: #5a5a5a;
+    --border: #c8ced5; 
+    --success: #16a34a; 
+    --warning: #d97706; 
+    --danger: #dc2626;
+    --hm-none: #9ca3af; 
+    --hm-low: #d97706; /* Darker orange instead of bright yellow for visibility */
+    --hm-high: #dc2626; /* Darker red */
+}
+
+/* Specific Light Theme Overrides */
+.light-theme .btn-stack,
+.light-theme .btn-max {
+    color: #ffffff; /* White text on dark bronze buttons */
+}
+.light-theme .bank-category {
+    background: rgba(0, 0, 0, 0.05); /* Dark background overlay instead of white */
+}
+.light-theme .module-header:hover {
+    background: rgba(0, 0, 0, 0.03); /* Dark hover overlay instead of light */
 }
 
 body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-main); color: var(--text); margin: 0; padding: 20px; font-size: 14px; transition: background 0.3s, color 0.3s; }
@@ -22,13 +45,19 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-main); 
 
 /* Modal & Tabs */
 .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6); backdrop-filter: blur(3px); }
-.modal-content { margin: 10% auto; width: 90%; max-width: 450px; position: relative; overflow: hidden; }
-.modal-tabs { display: flex; background: var(--bg-input); border-bottom: 1px solid var(--border); }
-.tab-btn { flex: 1; background: none; border: none; color: var(--text-dim); padding: 12px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 12px; border-bottom: 2px solid transparent; }
+.modal-content { margin: 10% auto; width: 90%; max-width: 480px; position: relative; overflow: hidden; }
+.modal-tabs { display: flex; background: var(--bg-input); border-bottom: 1px solid var(--border); overflow-x: auto; }
+.tab-btn { flex: 1; background: none; border: none; color: var(--text-dim); padding: 12px 8px; cursor: pointer; font-weight: bold; transition: 0.2s; font-size: 12px; border-bottom: 2px solid transparent; white-space: nowrap; }
 .tab-btn:hover { color: var(--text); }
 .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
 .close { color: var(--text-dim); font-size: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; }
 .close:hover { color: var(--danger); }
+
+/* Help Tab Specific Styles */
+.help-content { color: var(--text-dim); font-size: 13px; line-height: 1.6; max-height: 65vh; overflow-y: auto; padding-right: 5px; }
+.help-content h3 { color: var(--text); font-size: 15px; margin: 15px 0 5px 0; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
+.help-content ul, .help-content ol { padding-left: 20px; margin-top: 5px; }
+.help-content li { margin-bottom: 6px; }
 
 .dashboard { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 350px 1fr; gap: 20px; }
 .module { background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
@@ -44,7 +73,7 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-main); 
 
 .input-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
 
-/* Universal Input Normalization (Same Size for Dropdowns and Numbers) */
+/* Universal Input Normalization */
 input, select { 
     background: var(--bg-input); 
     border: 1px solid var(--border); 
@@ -56,15 +85,10 @@ input, select {
     height: 30px; 
     box-sizing: border-box; 
 }
-
-/* Explicit Checkbox sizing override to fix massive scaling */
 input[type="checkbox"] { 
     width: 14px !important; 
     height: 14px !important; 
-    padding: 0;
-    margin: 0 5px 0 0;
-    vertical-align: middle; 
-    cursor: pointer; 
+    padding: 0; margin: 0 5px 0 0; vertical-align: middle; cursor: pointer; 
 }
 
 .webhook-input { width: 100%; box-sizing: border-box; text-align: left; margin-bottom: 15px; font-family: monospace; font-size: 11px; color: var(--text-dim); border: 1px dashed var(--border); }
@@ -111,15 +135,13 @@ input[type="checkbox"] {
 .step-card.completed, .step-card.completed .highlight { text-decoration: line-through; color: var(--text-dim) !important; }
 
 .highlight { color: var(--accent); font-weight: bold; }
-
 .empty-msg { grid-column: span 2; text-align: center; padding: 20px; color: var(--success); font-weight: bold; font-size: 1.1em; }
 
 @media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } }
 @media (max-width: 650px) {
     .btn-settings { position: relative; width: 100%; margin-bottom: 15px; }
     .desktop-only { display: none !important; }
-    .market-row { grid-template-columns: 1fr 1fr; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 6px; margin-bottom: 10px; border: 1px solid var(--border); row-gap: 12px; column-gap: 15px; }
-    .light-theme .market-row { background: #f0f0f0; }
+    .market-row { grid-template-columns: 1fr 1fr; background: rgba(0,0,0,0.05); padding: 12px; border-radius: 6px; margin-bottom: 10px; border: 1px solid var(--border); row-gap: 12px; column-gap: 15px; }
     .market-row > div:nth-child(1) { grid-column: span 2; font-size: 1.2em; border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: -4px; }
     .market-row > div { text-align: left !important; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; width: 100%; }
     .market-row input { max-width: 100%; width: 100%; box-sizing: border-box; margin: 0; text-align: left; }

@@ -51,14 +51,41 @@ function toggleStep(index) {
 function changeLang() {
     currentLang = document.getElementById('lang').value;
     const t = i18n[currentLang];
-    ['tabPrefs', 'tabInteg', 'tabData', 'resetDesc', 'themeToggle', 'format', 'optUnits', 'optStacks', 'webhook', 'prodCmd', 'targetMetalLabel', 'boSource', 'optAttractor', 'optCrusher', 'target', 'crafters', 'yieldMods', 'mastery', 'refining', 'extraction', 'btnMaxText', 'btnDiscord', 'btnSend', 'invBank', 'showAllBank', 'btnReset', 'defGather', 'mfgPipe', 'marketCart', 'btnAutoFill', 'shareTitle', 'shareDesc', 'btnGenCode', 'btnLoadCode'].forEach(id => {
+    
+    // Arrays of elements to update.
+    const standardElements = [
+        'tabPrefs', 'tabInteg', 'tabData', 'tabHelp', 'resetDesc', 'themeToggle', 'format', 
+        'optUnits', 'optStacks', 'webhook', 'prodCmd', 'targetMetalLabel', 'boSource', 
+        'optAttractor', 'optCrusher', 'target', 'crafters', 'yieldMods', 'mastery', 
+        'refining', 'extraction', 'btnMaxText', 'btnDiscord', 'btnSend', 'invBank', 
+        'showAllBank', 'btnReset', 'defGather', 'mfgPipe', 'marketCart', 'btnAutoFill', 
+        'shareTitle', 'shareDesc', 'btnGenCode', 'btnLoadCode', 'helpFeatures', 'helpHowTo'
+    ];
+    
+    const htmlElements = [
+        'helpSubtitle', 'helpFeat1', 'helpFeat2', 'helpFeat3', 'helpFeat4', 'helpFeat5',
+        'helpHow1', 'helpHow2', 'helpHow3', 'helpHow4'
+    ];
+
+    // Standard text replacements
+    standardElements.forEach(id => {
         let el = document.getElementById('ui_' + id);
-        if(el) {
-            if (id === 'btnMaxText') el.innerText = t[id] || i18n.en[id];
-            else el.innerText = t[id] || i18n.en[id];
+        if (el) {
+            el.innerText = t[id] || i18n.en[id];
         }
     });
-    renderBankTable(); renderMarketTable(); run();
+
+    // InnerHTML replacements for the formatted Help guide text
+    htmlElements.forEach(id => {
+        let el = document.getElementById('ui_' + id);
+        if (el) {
+            el.innerHTML = t[id] || i18n.en[id];
+        }
+    });
+
+    renderBankTable(); 
+    renderMarketTable(); 
+    run();
 }
 
 function renderBankTable() {

@@ -1,4 +1,4 @@
-# ⚔️ Quartermaster Command: Steel Logistics v4.5
+# ⚔️ Quartermaster Command: Steel Logistics v4.2
 > **The ultimate Mortal Online 2 manufacturing calculator and logistics dashboard.** > *Designed and developed by Jaegh.*
 
 **Quartermaster Command** is a client-side web application designed for MO2 Guild Leaders and Logistics Officers. It instantly calculates exact raw material requirements, multi-stage manufacturing steps, and market costs needed to produce any quantity of Steel, factoring in your existing bank stock and character skills.

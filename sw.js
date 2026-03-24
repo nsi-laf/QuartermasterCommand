@@ -25,7 +25,6 @@ self.addEventListener('activate', (e) => {
     self.clients.claim();
 });
 
-// OPTIMIZATION: Stale-While-Revalidate Strategy
 self.addEventListener('fetch', (e) => {
     e.respondWith(
         caches.match(e.request).then((cachedResponse) => {

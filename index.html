@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steel Logistics v4.2 - Made by Jaegh</title>
+    <title>Steel Logistics v4.3 - Made by Jaegh</title>
     <style>
         :root {
             --bg-main: #0f0f12; --bg-card: #1c1c21; --bg-input: #0a0a0c;
@@ -37,10 +37,9 @@
         .btn-theme { background: var(--border); color: var(--text); width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--accent); cursor: pointer; font-weight: bold; }
 
         .data-table { width: 100%; border-collapse: collapse; }
-        .data-table td, .data-table th { padding: 6px 2px; border-bottom: 1px solid var(--border); text-align: center; }
+        .data-table td, .data-table th { padding: 8px 2px; border-bottom: 1px solid var(--border); text-align: center; }
         .data-table th { font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: normal; }
-        .data-table td:first-child { text-align: left; font-weight: bold; }
-        .data-table input { width: 70px; }
+        .data-table input { width: 65px; }
         
         .logistics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .logistics-item { padding: 10px; background: var(--bg-input); border-radius: 4px; border-left: 4px solid var(--hm-none); display: flex; justify-content: space-between; align-items: center; }
@@ -60,7 +59,7 @@
 
 <div class="app-header">
     <h1 class="app-title">Quartermaster Command</h1>
-    <div class="app-subtitle">STEEL LOGISTICS v4.2 • MADE BY JAEGH</div>
+    <div class="app-subtitle">STEEL LOGISTICS v4.3 • MADE BY JAEGH</div>
 </div>
 
 <div class="dashboard">
@@ -146,7 +145,7 @@
             yieldMods: "Yield Modifiers", mastery: "Mastery (+6%)", refining: "Refining (+3%)", extraction: "Extraction (+3%)",
             logStats: "Logistics Stats", totalStacksLabel: "Manual Gather Stacks:", totalGoldLabel: "Total Purchase Cost:", btnDiscord: "📋 Copy Discord Order",
             invBank: "Inventory Bank", btnReset: "🧹 Reset All Bank & Cart", defGather: "Deficit to Gather Manually", mfgPipe: "Manufacturing Pipeline", marketCart: "Market Cart", btnAutoFill: "🛒 Auto-Fill Missing",
-            tblPrice: "Price/10k", tblBuy: "Amount to Buy", tblCost: "Cost (g)",
+            tblPrice: "Price/10k", tblBuy: "Amount to Buy", tblCost: "Cost (g)", tblStash: "Bank + Buy", cartTotal: "Cart Total:",
             noTarget: "No target set.", allCovered: "✅ Bank & Cart cover all raw materials!",
             items: { granum: "Granum", calx: "Calx", saburra: "Saburra", water: "Water", sp: "Saburra Pwdr", cp: "Calx Pwdr", coal: "Coal", coke: "Coke", pi: "Pig Iron", gs: "Grain Steel", steel: "Steel", bo: "Blood Ore" },
             stepGrind: "Grind", stepCrush: "Crush", stepAttract: "Attract", stepFurnace: "Furnace", stepOven: "Oven", stepFinal: "Final Oven:",
@@ -161,7 +160,7 @@
             yieldMods: "Modificateurs", mastery: "Maîtrise (+6%)", refining: "Raffinage (+3%)", extraction: "Extraction (+3%)",
             logStats: "Statistiques", totalStacksLabel: "Stacks à Récolter :", totalGoldLabel: "Coût Total :", btnDiscord: "📋 Copier Discord",
             invBank: "Banque d'Inventaire", btnReset: "🧹 Tout Réinitialiser", defGather: "Déficit à Récolter", mfgPipe: "Processus de Fabrication", marketCart: "Panier du Marché", btnAutoFill: "🛒 Remplir Manquants",
-            tblPrice: "Prix/10k", tblBuy: "Acheter", tblCost: "Coût (g)",
+            tblPrice: "Prix/10k", tblBuy: "Acheter", tblCost: "Coût (g)", tblStash: "Banque + Achat", cartTotal: "Total du Panier :",
             noTarget: "Aucun objectif.", allCovered: "✅ Tout est couvert !",
             items: { granum: "Granum", calx: "Calx", saburra: "Saburra", water: "Eau", sp: "Poudre Saburra", cp: "Poudre Calx", coal: "Charbon", coke: "Coke", pi: "Fonte", gs: "Acier Brut", steel: "Acier", bo: "Minerai de Sang" },
             stepGrind: "Broyer", stepCrush: "Concasser", stepAttract: "Attirer", stepFurnace: "Fourneau", stepOven: "Four", stepFinal: "Fourneau Final:",
@@ -176,7 +175,7 @@
             yieldMods: "Modificadores", mastery: "Maestría (+6%)", refining: "Refinación (+3%)", extraction: "Extracción (+3%)",
             logStats: "Estadísticas", totalStacksLabel: "Stacks a Recolectar:", totalGoldLabel: "Costo Total:", btnDiscord: "📋 Copiar Discord",
             invBank: "Banco", btnReset: "🧹 Reiniciar Todo", defGather: "Déficit a Recolectar", mfgPipe: "Fabricación", marketCart: "Mercado", btnAutoFill: "🛒 Comprar Faltante",
-            tblPrice: "Precio/10k", tblBuy: "Comprar", tblCost: "Costo (g)",
+            tblPrice: "Precio/10k", tblBuy: "Comprar", tblCost: "Costo (g)", tblStash: "Banco + Compra", cartTotal: "Total Carrito:",
             noTarget: "Sin objetivo.", allCovered: "✅ ¡Todo cubierto!",
             items: { granum: "Granum", calx: "Calx", saburra: "Saburra", water: "Agua", sp: "Polvo Saburra", cp: "Polvo Calx", coal: "Carbón", coke: "Coque", pi: "Arrabio", gs: "Acero Grano", steel: "Acero", bo: "Mineral de Sangre" },
             stepGrind: "Moler", stepCrush: "Triturar", stepAttract: "Atraer", stepFurnace: "Horno", stepOven: "Horno Ref.", stepFinal: "Horno Final:",
@@ -191,7 +190,7 @@
             yieldMods: "Modificadores", mastery: "Maestria (+6%)", refining: "Refino (+3%)", extraction: "Extração (+3%)",
             logStats: "Estatísticas", totalStacksLabel: "Stacks Coletar:", totalGoldLabel: "Custo Total:", btnDiscord: "📋 Copiar Discord",
             invBank: "Banco", btnReset: "🧹 Zerar Tudo", defGather: "Déficit para Coletar", mfgPipe: "Fabricação", marketCart: "Mercado", btnAutoFill: "🛒 Comprar Faltante",
-            tblPrice: "Preço/10k", tblBuy: "Comprar", tblCost: "Custo (g)",
+            tblPrice: "Preço/10k", tblBuy: "Comprar", tblCost: "Custo (g)", tblStash: "Banco + Compra", cartTotal: "Total Carrinho:",
             noTarget: "Nenhuma meta.", allCovered: "✅ Tudo coberto!",
             items: { granum: "Granum", calx: "Calx", saburra: "Saburra", water: "Água", sp: "Pó de Sab.", cp: "Pó de Calx", coal: "Carvão", coke: "Coque", pi: "Ferro-Gusa", gs: "Aço Grão", steel: "Aço", bo: "Minério de Sangue" },
             stepGrind: "Moer", stepCrush: "Triturar", stepAttract: "Atrair", stepFurnace: "Fornalha", stepOven: "Forno", stepFinal: "Forno Final:",
@@ -206,7 +205,7 @@
             yieldMods: "Modifikatoren", mastery: "Meisterschaft (+6%)", refining: "Raffination (+3%)", extraction: "Extraktion (+3%)",
             logStats: "Statistiken", totalStacksLabel: "Sammel-Stacks:", totalGoldLabel: "Gesamtkosten:", btnDiscord: "📋 Für Discord kopieren",
             invBank: "Bank", btnReset: "🧹 Alles zurücksetzen", defGather: "Sammeldefizit", mfgPipe: "Herstellungsprozess", marketCart: "Markt", btnAutoFill: "🛒 Fehlende Kaufen",
-            tblPrice: "Preis/10k", tblBuy: "Kaufen", tblCost: "Kosten (g)",
+            tblPrice: "Preis/10k", tblBuy: "Kaufen", tblCost: "Kosten (g)", tblStash: "Bank + Kauf", cartTotal: "Warenkorb-Summe:",
             noTarget: "Kein Ziel.", allCovered: "✅ Alles abgedeckt!",
             items: { granum: "Granum", calx: "Calx", saburra: "Saburra", water: "Wasser", sp: "Saburra-Pulver", cp: "Calx-Pulver", coal: "Kohle", coke: "Koks", pi: "Roheisen", gs: "Kornstahl", steel: "Stahl", bo: "Bluterz" },
             stepGrind: "Mahlen", stepCrush: "Zerkleinern", stepAttract: "Anziehen", stepFurnace: "Ofen", stepOven: "Raffinierofen", stepFinal: "Letzter Ofen:",
@@ -225,7 +224,7 @@
     const rawKeys = ['granum', 'calx', 'saburra', 'water'];
     const defaultPrices = { granum: 15, calx: 35, saburra: 15, water: 1 };
 
-    let pureDeficits = { granum: 0, calx: 0, saburra: 0, water: 0 }; // Used for Auto-Fill
+    let pureDeficits = { granum: 0, calx: 0, saburra: 0, water: 0 }; 
 
     function changeLang() {
         currentLang = document.getElementById('lang').value;
@@ -258,7 +257,7 @@
         itemKeys.forEach(k => {
             const val = currentVals[k] || 0;
             table.innerHTML += `<tr>
-                <td style="width:25%">${t.items[k]}</td>
+                <td style="width:25%; font-weight:bold;">${t.items[k]}</td>
                 <td style="text-align:right">
                     <input type="number" id="b_${k}" value="${val}" oninput="run()">
                     <button class="btn-stack q-add" id="btn_${k}" onclick="quickAdd('b_${k}')">${label}</button>
@@ -279,15 +278,21 @@
             currentVals['buy_'+k] = cEl ? cEl.value : 0;
         });
 
-        table.innerHTML = `<tr><th></th><th>${t.tblPrice}</th><th>${t.tblBuy}</th><th style="text-align:right">${t.tblCost}</th></tr>`; 
+        table.innerHTML = `<tr><th></th><th>${t.tblPrice}</th><th>${t.tblBuy}</th><th style="text-align:right">${t.tblCost}</th><th style="text-align:right">${t.tblStash}</th></tr>`; 
         rawKeys.forEach(k => {
             table.innerHTML += `<tr>
-                <td style="width:25%">${t.items[k]}</td>
-                <td><input type="number" id="p_${k}" value="${currentVals['p_'+k]}" oninput="run()" style="width:50px"></td>
+                <td style="width:20%; font-weight:bold;">${t.items[k]}</td>
+                <td><input type="number" id="p_${k}" value="${currentVals['p_'+k]}" oninput="run()"></td>
                 <td><input type="number" id="buy_${k}" value="${currentVals['buy_'+k]}" oninput="run()"></td>
                 <td style="text-align:right; font-weight:bold; color:var(--accent);" id="cost_${k}">0.00</td>
+                <td style="text-align:right; color:var(--text-dim);" id="stash_${k}">0</td>
             </tr>`;
         });
+        table.innerHTML += `<tr>
+            <td colspan="3" style="text-align:right; font-weight:bold; padding-top:12px;">${t.cartTotal}</td>
+            <td style="text-align:right; font-weight:bold; color:var(--accent); font-size:1.15em; padding-top:12px;" id="cartTotalGold">0.00 g</td>
+            <td></td>
+        </tr>`;
     }
 
     function init() {
@@ -336,7 +341,6 @@
 
     function autoFillCart() {
         const mode = document.getElementById('mode').value;
-        const mult = mode === 'stacks' ? 10000 : 1;
         
         rawKeys.forEach(k => {
             let needed = pureDeficits[k] || 0;
@@ -354,7 +358,6 @@
         if (prevMode === 'units' && mode === 'stacks') targetEl.value = (targetVal / 10000).toFixed(4);
         else if (prevMode === 'stacks' && mode === 'units') targetEl.value = Math.round(targetVal * 10000);
 
-        // Convert Bank
         itemKeys.forEach(k => {
             const el = document.getElementById('b_' + k);
             if(el) {
@@ -364,7 +367,6 @@
             }
         });
 
-        // Convert Cart Buy Amounts
         rawKeys.forEach(k => {
             const el = document.getElementById('buy_' + k);
             if(el) {
@@ -476,40 +478,47 @@
         const getB = (id) => (Number(document.getElementById('b_' + id).value) || 0) * mult;
         const bank = {}; itemKeys.forEach(k => bank[k] = getB(k));
 
-        // Wipe UI if 0
         if (targetRaw <= 0) {
             document.getElementById('gatherOutput').innerHTML = `<div class="empty-msg">${t.noTarget}</div>`;
             document.getElementById('stepsOutput').innerHTML = "";
             document.getElementById('statStacks').innerText = "0.00";
             document.getElementById('statGold').innerText = "0.00 g";
-            rawKeys.forEach(k => document.getElementById('cost_' + k).innerText = "0.00");
+            if(document.getElementById('cartTotalGold')) document.getElementById('cartTotalGold').innerText = "0.00 g";
+            rawKeys.forEach(k => {
+                if(document.getElementById('cost_' + k)) document.getElementById('cost_' + k).innerText = "0.00";
+                if(document.getElementById('stash_' + k)) document.getElementById('stash_' + k).innerText = "0";
+            });
             save(); return;
         }
 
         const res = runEngine(targetRaw, bank, mode);
         
-        // Save pure deficits globally so the Auto-Fill button knows what to do
         pureDeficits = { granum: res.granum, calx: res.calx, saburra: res.saburra, water: res.water };
         
-        // Process Market Cart Data
         let totalGold = 0;
         let purchased = {};
         
         rawKeys.forEach(k => {
             const price = Number(document.getElementById('p_' + k).value) || 0;
             const buyQtyRaw = Number(document.getElementById('buy_' + k).value) || 0;
-            const buyQtyUnits = buyQtyRaw * mult;
+            const bankQtyRaw = Number(document.getElementById('b_' + k).value) || 0;
             
+            const buyQtyUnits = buyQtyRaw * mult;
             purchased[k] = buyQtyUnits;
             
             const cost = (buyQtyUnits / 10000) * price;
             totalGold += cost;
-            document.getElementById('cost_' + k).innerText = cost > 0 ? cost.toFixed(2) : "0.00";
+            if(document.getElementById('cost_' + k)) document.getElementById('cost_' + k).innerText = cost > 0 ? cost.toFixed(2) : "0.00";
+            
+            const totalStashRaw = bankQtyRaw + buyQtyRaw;
+            if(document.getElementById('stash_' + k)) {
+                document.getElementById('stash_' + k).innerText = mode === 'stacks' ? totalStashRaw.toFixed(2) + " Stk" : totalStashRaw.toLocaleString();
+            }
         });
 
         document.getElementById('statGold').innerText = totalGold.toFixed(2) + " g";
+        if(document.getElementById('cartTotalGold')) document.getElementById('cartTotalGold').innerText = totalGold.toFixed(2) + " g";
 
-        // Calculate Manual Gather (Deficit minus Purchased)
         const gather = { 
             granum: Math.max(0, res.granum - purchased.granum), 
             calx: Math.max(0, res.calx - purchased.calx), 
@@ -535,7 +544,6 @@
         const totalStacks = (totalUnits / 10000).toFixed(2);
         document.getElementById('statStacks').innerText = totalStacks;
 
-        // Render Steps
         const s = (v) => Math.ceil(v / crafters).toLocaleString();
         let steps = [];
         const perCr = crafters > 1 ? ` <span style="color:var(--warning); font-size:0.8em;">${t.perCrafter}</span>` : "";
@@ -559,12 +567,12 @@
         document.querySelectorAll('input[type="checkbox"]').forEach(el => data[el.id] = el.checked);
         data.theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
         data.lang = currentLang;
-        localStorage.setItem('QM_Steel_v4.2', JSON.stringify(data));
-        document.getElementById('saveStatus').innerText = `Saved: ${new Date().toLocaleTimeString()}`;
+        localStorage.setItem('QM_Steel_v4.3', JSON.stringify(data));
+        if(document.getElementById('saveStatus')) document.getElementById('saveStatus').innerText = `Saved: ${new Date().toLocaleTimeString()}`;
     }
 
     function load() {
-        const d = JSON.parse(localStorage.getItem('QM_Steel_v4.2'));
+        const d = JSON.parse(localStorage.getItem('QM_Steel_v4.3'));
         if (!d) return;
         Object.keys(d).forEach(id => {
             const el = document.getElementById(id);
@@ -583,10 +591,8 @@
         const mode = document.getElementById('mode').value;
         const mult = mode === 'stacks' ? 10000 : 1;
         
-        // Manual Gather Formatting
         let msg = `**${t.discHeader}**\n\n`;
         
-        // Market Formatting
         let marketString = "";
         let hasMarket = false;
         rawKeys.forEach(k => {

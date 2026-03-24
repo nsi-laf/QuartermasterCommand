@@ -135,16 +135,17 @@ const app = {
         document.getElementById('gatherOutput').innerHTML = hasDeficit ? gHTML : `<div class="empty-msg">✅ Bank covers all raw materials!</div>`;
         document.getElementById('statStacks').innerText = (totalUnits / 10000).toFixed(2);
 
-        // Steps Generation
+        // Steps Generation (FIXED: Variables match Engine output to prevent NaN)
         const d = result.details;
         const s = (v) => Math.ceil(v / this.state.crafters).toLocaleString();
         let steps = [];
-        if (d.rSaburra > 0) steps.push(`Grind <span class="highlight">${s(d.rSaburra)} Saburra</span> + <span class="highlight">${s(d.waterForSaburra)} Water</span> yields <span class="highlight">${s(d.diffSP)} Sab Pwdr</span>`);
+        
+        if (d.reqSaburra > 0) steps.push(`Grind <span class="highlight">${s(d.reqSaburra)} Saburra</span> + <span class="highlight">${s(d.waterForSaburra)} Water</span> yields <span class="highlight">${s(d.diffSP)} Sab Pwdr</span>`);
         if (d.calxToGrind > 0) steps.push(`Grind <span class="highlight">${s(d.calxToGrind)} Calx</span> + <span class="highlight">${s(d.waterForCalx)} Water</span> yields <span class="highlight">${s(d.diffCP)} Calx Pwdr</span> + <span class="highlight">${s(d.coalFromGrind)} Coal</span>`);
         if (d.calxToCrush > 0) steps.push(`Crush <span class="highlight">${s(d.calxToCrush)} Calx</span> yields <span class="highlight">${s(d.extraCoal)} Coal</span>`);
-        if (d.rGranum > 0) steps.push(`Attract: <span class="highlight">${s(d.rGranum)} Granum</span> + <span class="highlight">${s(d.cpForBlood)} Calx Pwdr</span> yields <span class="highlight">${s(d.rBlood)} Blood Ore</span>`);
+        if (d.reqGranum > 0) steps.push(`Attract: <span class="highlight">${s(d.reqGranum)} Granum</span> + <span class="highlight">${s(d.cpForBlood)} Calx Pwdr</span> yields <span class="highlight">${s(d.reqBlood)} Blood Ore</span>`);
         if (d.diffCoke > 0) steps.push(`Furnace: <span class="highlight">${s(d.coalForCoke)} Coal</span> + <span class="highlight">${s(d.cpForCoke)} Calx Pwdr</span> yields <span class="highlight">${s(d.diffCoke)} Coke</span>`);
-        if (d.diffPI > 0) steps.push(`Furnace: <span class="highlight">${s(d.rBlood)} Blood Ore</span> + <span class="highlight">${s(d.cokeForPI)} Coke</span> yields <span class="highlight">${s(d.diffPI)} Pig Iron</span>`);
+        if (d.diffPI > 0) steps.push(`Furnace: <span class="highlight">${s(d.reqBlood)} Blood Ore</span> + <span class="highlight">${s(d.cokeForPI)} Coke</span> yields <span class="highlight">${s(d.diffPI)} Pig Iron</span>`);
         if (d.diffGS > 0) steps.push(`Oven: <span class="highlight">${s(d.diffPI)} Pig Iron</span> + <span class="highlight">${s(d.cokeForGS)} Coke</span> + <span class="highlight">${s(d.cpForGS)} Calx Pwdr</span> yields <span class="highlight">${s(d.diffGS)} Grain Steel</span>`);
         steps.push(`Final Oven: <span class="highlight">${s(d.reqGS)} Grain Steel</span> + <span class="highlight">${s(d.coalForSteel)} Coal</span> + <span class="highlight">${s(d.spForSteel)} Sab Pwdr</span> yields <span class="highlight">${(this.state.target * (this.state.mode === 'stacks'?10000:1)).toLocaleString()} Steel</span>`);
         

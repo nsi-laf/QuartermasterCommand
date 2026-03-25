@@ -1,3 +1,11 @@
+function showToast(message) {
+    let toast = document.getElementById("toast");
+    if (!toast) return;
+    toast.innerText = message;
+    toast.className = "show";
+    setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+}
+
 function openModal(modalId) {
     document.querySelectorAll('.modal').forEach(m => m.style.display = 'none');
     document.getElementById(modalId).style.display = 'block';
@@ -119,6 +127,13 @@ function changeLang() {
         let el = document.getElementById('ui_' + id);
         if (el) el.innerHTML = t[id] || i18n.en[id];
     });
+
+    // Update search placeholders dynamically
+    const searchBank = document.getElementById('searchBank');
+    if(searchBank) searchBank.placeholder = t.searchPlaceholder || "Search...";
+    
+    const searchCart = document.getElementById('searchCart');
+    if(searchCart) searchCart.placeholder = t.searchPlaceholder || "Search...";
 
     renderBankTable(); 
     renderMarketTable(); 

@@ -146,7 +146,9 @@ function calculate() {
     const perCr = crafters > 1 ? ` <span style="color:var(--warning); font-size:0.8em;">${t.perCrafter || '(Per Crafter)'}</span>` : "";
 
     let outputHTML = pipelineStepsRaw.map((stepObj, index) => {
-        let isCompleted = completedSteps.includes(index) ? 'completed' : '';
+        let isCompleted = completedSteps.includes(index);
+        let completedClass = isCompleted ? 'completed' : '';
+        let checkIcon = isCompleted ? '✅' : '⬜';
         
         let modAction = stepObj.htmlAction.replace(/<span class="highlight">([\d,]+)/g, (match, p1) => {
             let num = parseInt(p1.replace(/,/g, ''));
@@ -178,15 +180,18 @@ function calculate() {
             routeHtml = `<div class="route-choices">${btns}</div>`;
         }
 
-        return `<div class="step-card ${isCompleted}" id="step_${index}" onclick="toggleStep(${index})">
-            <div><span style="color:var(--text-dim); font-weight:bold; margin-right:5px;">${t.stepPrefix || 'Step'} ${index + 1}.</span>${modAction}${perCr}</div>
+        return `<div class="step-card ${completedClass}" id="step_${index}" onclick="toggleStep(${index})">
+            <div>
+                <span style="cursor:pointer; margin-right:8px; font-size: 1.1em;">${checkIcon}</span>
+                <span style="color:var(--text-dim); font-weight:bold; margin-right:5px;">${t.stepPrefix || 'Step'} ${index + 1}.</span>${modAction}${perCr}
+            </div>
             
-            <div style="margin-top: 6px; font-size: 11px;">
+            <div style="margin-top: 6px; font-size: 11px; padding-left: 28px;">
                 <span style="color:var(--success); font-weight:bold;">${t.stepYieldsMain || 'Yields:'}</span> ${mainYieldsStr}<br>
                 <span style="color:var(--text-dim); font-weight:bold;">${t.stepByproducts || 'Byproducts:'}</span> <span style="color:var(--text-dim);">${bpYieldsStr}</span>
             </div>
 
-            ${routeHtml}
+            <div style="padding-left: 28px;">${routeHtml}</div>
         </div>`;
     }).join('');
 
@@ -262,6 +267,8 @@ function exportToCSV() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    
+    showToast(t.exportSuccess || "Exported to CSV!");
 }
 
 function toggleBpTab() {

@@ -112,19 +112,35 @@ function updateFocusView() {
 
 function updatePipelineVisuals() {
     document.querySelectorAll('#stepsOutput .step-card').forEach((card, index) => {
-        if (completedSteps.includes(index)) card.classList.add('completed');
-        else card.classList.remove('completed');
+        if (completedSteps.includes(index)) {
+            card.classList.add('completed');
+            const iconSpan = card.querySelector('span[style*="cursor:pointer"]');
+            if(iconSpan) iconSpan.innerText = '✅';
+        } else {
+            card.classList.remove('completed');
+            const iconSpan = card.querySelector('span[style*="cursor:pointer"]');
+            if(iconSpan) iconSpan.innerText = '⬜';
+        }
     });
     
     let percent = pipelineStepsRaw.length === 0 ? 100 : Math.round((completedSteps.length / pipelineStepsRaw.length) * 100);
     if(percent > 100) percent = 100;
     
     const progBar = document.getElementById('projectProgress');
+    const progContainer = document.querySelector('.progress-container');
     const progText = document.getElementById('projectProgressText');
     const t = i18n[currentLang] || i18n['en'];
     
     if(progBar) progBar.style.width = percent + '%';
     if(progText) progText.innerText = `${percent}% ${t.pipeCompleted || 'Production Progress'}`;
+
+    if (percent === 100 && pipelineStepsRaw.length > 0) {
+        if(progBar) progBar.classList.add('complete-pulse');
+        if(progContainer) progContainer.classList.add('complete-pulse');
+    } else {
+        if(progBar) progBar.classList.remove('complete-pulse');
+        if(progContainer) progContainer.classList.remove('complete-pulse');
+    }
 }
 
 function toggleStep(index) {

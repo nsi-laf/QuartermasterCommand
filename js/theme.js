@@ -48,7 +48,7 @@ function syncColorPickers() {
         } catch(e) {}
     }
 
-    const root = document.documentElement;
+    const root = document.body;
     if (savedColors) {
         document.getElementById('colorAccent').value = savedColors.accent;
         document.getElementById('colorBg').value = savedColors.bg;
@@ -69,7 +69,7 @@ function syncColorPickers() {
 }
 
 function applyColors() {
-    const root = document.documentElement;
+    const root = document.body;
     const accent = document.getElementById('colorAccent').value;
     const bg = document.getElementById('colorBg').value;
     const text = document.getElementById('colorText').value;
@@ -93,6 +93,11 @@ function resetColors() {
         delete existingData.customColors[themeKey];
         localStorage.setItem('qm_data', JSON.stringify(existingData));
     }
+    
+    const root = document.body;
+    root.style.removeProperty('--accent');
+    root.style.removeProperty('--bg-card');
+    root.style.removeProperty('--text');
     
     syncColorPickers();
     save();

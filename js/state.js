@@ -139,7 +139,8 @@ function load() {
 }
 
 function clearAll() {
-    if (!confirm(i18n[currentLang].resetPrompt || "Reset all inventory values and shopping cart to zero?")) return;
+    const t = i18n[currentLang] || i18n['en'];
+    if (!confirm(t.resetPrompt || "Reset all inventory values and shopping cart to zero?")) return;
     
     Object.values(CATEGORIES).flatMap(c => c.items).forEach(k => {
         let el = document.getElementById('b_' + k);
@@ -160,6 +161,7 @@ function clearAll() {
 }
 
 function generateShareCode() {
+    const t = i18n[currentLang] || i18n['en'];
     const data = {
         m: document.getElementById('targetMetal').value,
         t: document.getElementById('targetAmount').value,
@@ -180,10 +182,11 @@ function generateShareCode() {
     const str = btoa(JSON.stringify(data));
     document.getElementById('shareCode').value = str;
     navigator.clipboard.writeText(str);
-    alert(i18n[currentLang].exportSuccess || "Copied!");
+    showToast(t.exportSuccess || "Copied!");
 }
 
 function loadShareCode() {
+    const t = i18n[currentLang] || i18n['en'];
     try {
         const str = document.getElementById('shareCode').value;
         if (!str) return;
@@ -208,10 +211,10 @@ function loadShareCode() {
         renderBankTable();
         renderMarketTable();
         targetMetalChanged();
-        alert(i18n[currentLang].importSuccess || "Loaded!");
+        showToast(t.importSuccess || "Loaded!");
         document.getElementById('shareCode').value = '';
         closeModal('settingsModal');
     } catch (e) {
-        alert(i18n[currentLang].importError || "Invalid code!");
+        showToast(t.importError || "Invalid code!");
     }
 }

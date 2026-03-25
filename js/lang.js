@@ -29,6 +29,7 @@ const i18n = {
         invBank: "Inventory", invBankTitle: "Inventory", showAllBank: "Show All Materials", showAllCart: "Show All Materials", btnReset: "🧹 Reset All", defGather: "Missing Components", mfgPipe: "Manufacturing Pipeline", marketCart: "Market Cart", marketCartTitle: "Market Cart",
         tblPrice: "Price/10k", tblBuy: "Amount to Buy", tblCost: "Cost (g)", tblStash: "Stock + Buy", cartTotal: "Cart Total:",
         noTarget: "No target set.", allCovered: "✅ Inventory & Cart cover all required materials!",
+        searchPlaceholder: "Search...",
         
         verbCrush: "Crush", verbGrind: "Grind", verbExtract: "Extract", verbSmelt: "Smelt", verbBake: "Bake", verbAlloy: "Alloy", verbProcess: "Process",
         inMachine: "in the", stepWith: "with", stepAnd: "and", perCrafter: "(Per Crafter)", stepPrefix: "Step",
@@ -46,7 +47,7 @@ const i18n = {
         discHeader: "⚔️ LOGISTICS ORDER", discReq: "MANUAL GATHER REQUIRED:", discStock: "All gathering covered.", discCopied: "Copied to clipboard!",
         discMarket: "MARKET PURCHASES:", errWebhook: "Please enter a valid Discord Webhook URL.", errSend: "Failed to send to Discord.", sucSend: "Order dispatched to Discord!",
         
-        qAdd: "+10k", qAddStk: "+1 Stk", qSub: "-10k", qSubStk: "-1 Stk", bpTitle: "TOTAL RECOVERED BYPRODUCTS", btnBp: "Byproducts", btnPrefEfficient: "Efficiency", btnPrefYield: "Max Yield",
+        qAdd: "+10k", qAddStk: "+1 Stk", qSub: "-10k", qSubStk: "-1 Stk", byproductsTitle: "TOTAL RECOVERED BYPRODUCTS", bpTitle: "TOTAL RECOVERED BYPRODUCTS", btnBp: "Byproducts", btnPrefEfficient: "Efficiency", btnPrefYield: "Max Yield",
         
         colorAccent: "Primary Color", colorBg: "Secondary Color", colorText: "Text Color", btnResetColors: "Reset Colors to Default",
         viewPers: "Personalization", viewVis: "Module Visibility", viewLang: "Language", viewGather: "Missing Components", viewPipe: "Manufacturing Pipeline",
@@ -89,6 +90,7 @@ const i18n = {
         invBank: "Inventaire", invBankTitle: "Inventaire", showAllBank: "Afficher Tout", showAllCart: "Afficher Tout", btnReset: "🧹 Réinitialiser Tout", defGather: "Composants Manquants", mfgPipe: "Pipeline de Fabrication", marketCart: "Panier", marketCartTitle: "Panier",
         tblPrice: "Prix/10k", tblBuy: "Qté à Acheter", tblCost: "Coût (o)", tblStash: "Stock + Achat", cartTotal: "Total Panier :",
         noTarget: "Aucun objectif défini.", allCovered: "✅ L'inventaire couvre tout !",
+        searchPlaceholder: "Rechercher...",
         
         verbCrush: "Concassez", verbGrind: "Broyez", verbExtract: "Extrayez", verbSmelt: "Fondez", verbBake: "Cuisez", verbAlloy: "Alliez", verbProcess: "Traitez",
         inMachine: "dans le", stepWith: "avec", stepAnd: "et", perCrafter: "(Par Artisan)", stepPrefix: "Étape",
@@ -106,7 +108,7 @@ const i18n = {
         discHeader: "⚔️ ORDRE LOGISTIQUE", discReq: "RÉCOLTE MANUELLE REQUISE :", discStock: "Toute la récolte est couverte.", discCopied: "Copié dans le presse-papiers !",
         discMarket: "ACHATS AU MARCHÉ :", errWebhook: "URL Webhook invalide.", errSend: "Échec de l'envoi.", sucSend: "Ordre envoyé sur Discord !",
         
-        qAdd: "+10k", qAddStk: "+1 Pile", qSub: "-10k", qSubStk: "-1 Pile", bpTitle: "SOUS-PRODUITS RÉCUPÉRÉS TOTAL", btnBp: "Sous-produits", btnPrefEfficient: "Efficacité", btnPrefYield: "Rendement Max",
+        qAdd: "+10k", qAddStk: "+1 Pile", qSub: "-10k", qSubStk: "-1 Pile", byproductsTitle: "SOUS-PRODUITS RÉCUPÉRÉS TOTAL", bpTitle: "SOUS-PRODUITS RÉCUPÉRÉS TOTAL", btnBp: "Sous-produits", btnPrefEfficient: "Efficacité", btnPrefYield: "Rendement Max",
         
         colorAccent: "Couleur Primaire", colorBg: "Couleur Secondaire", colorText: "Couleur du Texte", btnResetColors: "Réinitialiser les Couleurs",
         viewPers: "Personnalisation", viewVis: "Visibilité des Modules", viewLang: "Langue", viewGather: "Composants Manquants", viewPipe: "Pipeline de Fabrication",

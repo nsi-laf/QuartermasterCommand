@@ -71,40 +71,45 @@
 </div>
 
 <div id="bankModal" class="modal">
-    <div class="modal-content module" style="padding: 15px; max-width: 500px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+    <div class="modal-content module" style="padding: 0; max-width: 550px;">
+        <div class="modal-header-sticky">
             <h3 style="margin:0; color:var(--accent);" id="ui_invBankTitle">Inventory</h3>
             <span class="close" onclick="closeModal('bankModal')" title="Close">&times;</span>
         </div>
-        <div style="text-align: right; margin-bottom: 8px;">
-            <label style="font-size: 11px; color: var(--text-dim); cursor: pointer; display: inline-flex; align-items: center;" title="Show items not strictly related to the target metal">
-                <input type="checkbox" id="showAllBank" onchange="run()"> 
-                <span id="ui_showAllBank">Show All Materials</span>
-            </label>
-        </div>
-        <div style="max-height: 60vh; overflow-y: auto; padding-right: 5px;">
-            <table class="data-table" id="bankTable"></table>
+        <div class="modal-body-scroll">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="display:flex; gap:5px;">
+                    <button class="btn-mini" id="ui_btnMaxText" onclick="calculateMax(); closeModal('bankModal');" title="Calculate how much you can make with just your inventory" style="background:rgba(212, 175, 55, 0.1); color:var(--accent); border-color:var(--accent);">⚡ Calculate Limit</button>
+                </div>
+                <label style="font-size: 11px; color: var(--text-dim); cursor: pointer; display: inline-flex; align-items: center;" title="Show items not strictly related to the target metal">
+                    <input type="checkbox" id="showAllBank" onchange="run()"> 
+                    <span id="ui_showAllBank">Show All Materials</span>
+                </label>
+            </div>
+            <input type="text" id="searchBank" class="search-input" placeholder="Search..." onkeyup="run()">
+            <div id="bankContainer"></div>
         </div>
     </div>
 </div>
 
 <div id="cartModal" class="modal">
-    <div class="modal-content module" style="padding: 15px; max-width: 700px;">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 15px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">
+    <div class="modal-content module" style="padding: 0; max-width: 700px;">
+        <div class="modal-header-sticky">
             <h3 style="margin:0; color:var(--accent);" id="ui_marketCartTitle">Market Cart</h3>
             <span class="close" onclick="closeModal('cartModal')" title="Close">&times;</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-            <div style="display:flex; gap:5px;">
-                <button class="btn-mini" id="ui_btnAutoFill" onclick="autoFillCart()" style="background:var(--success); color:#fff; border-color:var(--success);">🛒 Auto-Fill</button>
-                <button class="btn-mini btn-danger" id="ui_btnClearCart" onclick="clearCart()" style="border-color:var(--danger); color: white;">🧹 Clear</button>
+        <div class="modal-body-scroll">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="display:flex; gap:5px;">
+                    <button class="btn-mini" id="ui_btnAutoFill" onclick="autoFillCart()" style="background:var(--success); color:#fff; border-color:var(--success);">🛒 Auto-Fill</button>
+                    <button class="btn-mini btn-danger" id="ui_btnClearCart" onclick="clearCart()" style="border-color:var(--danger); color: white;">🧹 Clear</button>
+                </div>
+                <label style="font-size: 11px; color: var(--text-dim); cursor: pointer; display: inline-flex; align-items: center;" title="Show items not strictly related to the target metal">
+                    <input type="checkbox" id="showAllCart" onchange="run()"> 
+                    <span id="ui_showAllCart">Show All Materials</span>
+                </label>
             </div>
-            <label style="font-size: 11px; color: var(--text-dim); cursor: pointer; display: inline-flex; align-items: center;" title="Show items not strictly related to the target metal">
-                <input type="checkbox" id="showAllCart" onchange="run()"> 
-                <span id="ui_showAllCart">Show All Materials</span>
-            </label>
-        </div>
-        <div style="max-height: 60vh; overflow-y: auto; padding-right: 5px;">
+            <input type="text" id="searchCart" class="search-input" placeholder="Search..." onkeyup="run()">
             <div id="marketContainer"></div>
         </div>
     </div>
@@ -118,7 +123,7 @@
             <span class="close" onclick="closeModal('helpModal')" style="padding: 10px 15px;" title="Close">&times;</span>
         </div>
 
-        <div id="tab_help_guide" class="tab-content active" style="padding: 15px;">
+        <div id="tab_help_guide" class="tab-content active modal-body-scroll">
             <div class="help-content">
                 <p style="margin-top: 0;" id="ui_helpSubtitle">The ultimate MO2 manufacturing calculator and logistics dashboard.</p>
                 <h3 id="ui_helpFeatures">🌟 Feature Overview</h3>
@@ -138,7 +143,7 @@
             </div>
         </div>
 
-        <div id="tab_help_legend" class="tab-content" style="padding: 15px; display: none;">
+        <div id="tab_help_legend" class="tab-content modal-body-scroll" style="display: none;">
             <div class="help-content" style="font-size: 13px;">
                 <div style="margin-bottom:8px;" id="ui_legCP"><b>CP</b> = Calx Powder</div>
                 <div style="margin-bottom:8px;" id="ui_legSP"><b>SP</b> = Saburra Powder</div>
@@ -165,7 +170,7 @@
             <span class="close" onclick="closeModal('settingsModal')" style="padding: 10px 15px;" title="Close">&times;</span>
         </div>
 
-        <div id="tab_view" class="tab-content active" style="padding: 15px;">
+        <div id="tab_view" class="tab-content active modal-body-scroll">
             <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--border);">
                 <label style="font-weight: bold; color: var(--accent); margin-bottom: 8px; display: block;" id="ui_viewPers">Personalization</label>
                 <div class="input-row">
@@ -197,7 +202,7 @@
             </div>
         </div>
 
-        <div id="tab_data" class="tab-content" style="padding: 15px; display: none;">
+        <div id="tab_data" class="tab-content modal-body-scroll" style="display: none;">
             <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--border);">
                 <label style="font-weight: bold; color: var(--accent); margin-bottom: 8px; display: block;" id="ui_actDiscord">Discord Dispatch</label>
                 <input type="password" id="webhookUrl" class="webhook-input" placeholder="https://discord.com/api/webhooks/..." onchange="save()" style="margin-bottom: 8px;" title="Paste your Discord Webhook URL here">
@@ -274,6 +279,8 @@
 </div>
 
 <button id="btnReturnTop" class="btn-return-top" onclick="scrollToTop()" title="Return to Top">▲</button>
+
+<div id="toast"></div>
 
 <script src="js/lang.js"></script>
 <script src="js/data.js"></script>

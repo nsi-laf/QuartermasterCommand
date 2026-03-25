@@ -18,12 +18,12 @@
 
 * 🧠 **Pipeline Intelligence:** Automatically maps out multi-step extraction, refining, and smelting tasks.
     * *Cartographie automatiquement les étapes d'extraction, de raffinage et de fusion.*
-* ⚡ **Calculate Craftable:** Scans your current bank inventory to calculate the absolute maximum yield.
-    * *Analyse votre inventaire bancaire pour calculer la production maximale possible.*
+* ⚡ **Calculate Limit:** Scans your current inventory to calculate the absolute maximum yield.
+    * *Analyse votre inventaire pour calculer la production maximale absolue.*
 * 🛒 **Smart Market Cart:** Calculate exactly how much you need to buy to cover a deficit.
     * *Calculez exactement ce dont vous avez besoin pour combler un déficit.*
-* 🚀 **Discord Dispatch:** Generates beautifully formatted Markdown work orders for Discord Webhooks.
-    * *Génère des ordres de travail Markdown pour vos Webhooks Discord.*
+* 🚀 **Discord Dispatch & CSV Export:** Generates beautifully formatted Markdown work orders for Discord Webhooks and exports data to CSV.
+    * *Génère des ordres de travail Markdown pour vos Webhooks Discord et exporte vos données en CSV.*
 * 📱 **PWA Ready:** Installable on Desktop or Mobile with full offline caching.
     * *Installable sur PC ou Mobile avec un support complet hors ligne.*
 
@@ -62,9 +62,9 @@ This project is built using **100% Vanilla Web Technologies**. No external frame
 
 ### 📖 Guide de Démarrage Rapide
 1.  **Définissez votre Objectif :** Sélectionnez votre Métal Cible et la Quantité.
-2.  **Vérifiez votre Banque :** Entrez votre inventaire actuel pour voir ce que vous pouvez déjà produire.
-3.  **Faites vos Achats :** Utilisez le **Panier Intelligent** pour calculer le coût total en or de vos matériaux manquants.
-4.  **Envoyez l'Ordre :** Poussez l'ordre de travail directement sur votre canal logistique Discord via les paramètres d'intégration.
+2.  **Vérifiez votre Inventaire :** Entrez votre stock actuel pour voir ce que vous pouvez déjà produire. Cliquez sur **⚡ Calculer la limite** pour analyser vos possibilités.
+3.  **Faites vos Achats :** Utilisez l'**Auto-Fill** (Remplissage automatique) dans le Panier pour calculer le coût total en or de vos matériaux manquants.
+4.  **Envoyez l'Ordre :** Allez dans **Paramètres > Données** pour exporter votre liste en CSV ou poussez l'ordre de travail directement sur votre canal logistique Discord via Webhook.
 
 ---
 
@@ -72,10 +72,10 @@ This project is built using **100% Vanilla Web Technologies**. No external frame
 
 Navigate to the **Settings** menu to personalize your experience:
 * Toggle **Light/Dark Mode**.
-* Set custom **Hex Colors** for the UI.
+* Set custom **Hex Colors** for the UI (saving independently for light and dark themes).
 * Switch between **Units** or **Stacks (10k)** display formats.
 
-*Naviguez vers le menu **Paramètres** pour basculer entre le mode Clair/Sombre, personnaliser les couleurs, et changer le format d'affichage (Unités ou Piles).*
+*Naviguez vers le menu **Paramètres** pour basculer entre le mode Clair/Sombre, personnaliser les couleurs d'interface (sauvegardées indépendamment par thème), et changer le format d'affichage (Unités ou Piles).*
 
 ---
 

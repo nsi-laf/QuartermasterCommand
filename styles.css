@@ -15,8 +15,11 @@
 .light-theme .btn-stack, .light-theme .btn-max { color: #ffffff; }
 .light-theme .bank-category { background: rgba(0, 0, 0, 0.05); }
 .light-theme .module-header:hover { background: rgba(0, 0, 0, 0.03); }
+.light-theme .progress-text { color: #111; text-shadow: 1px 1px 2px rgba(255,255,255,0.9); }
 
-body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-main); color: var(--text); margin: 0; padding: 20px; font-size: 14px; transition: background 0.3s, color 0.3s; }
+*, *::before, *::after { box-sizing: border-box; }
+
+body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-main); color: var(--text); margin: 0; padding: 15px; font-size: 14px; transition: background 0.3s, color 0.3s; overflow-x: hidden; }
 
 .app-header { text-align: center; margin-bottom: 25px; position: relative; }
 .app-title { color: var(--accent); margin: 0; font-size: 26px; text-transform: uppercase; letter-spacing: 2px; }
@@ -41,11 +44,14 @@ body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg-main); 
 .help-content li { margin-bottom: 6px; }
 
 /* Layout Grid */
-.dashboard { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 360px 1fr; gap: 20px; }
+.dashboard { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 360px 1fr; gap: 20px; width: 100%; }
 .module { background: var(--bg-card); border: 1px solid var(--border); border-radius: 4px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
 .module-header { color: var(--accent); font-weight: bold; text-transform: uppercase; border-bottom: 1px solid var(--border); padding: 12px 15px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; user-select: none; transition: background 0.2s; }
 .module-header:hover { background: rgba(255,255,255,0.03); }
 .module-body { padding: 15px; transition: max-height 0.3s ease-out; }
+
+/* Hidden Module Toggle */
+.module-hidden { display: none !important; }
 
 .toggle-icon { font-size: 10px; transition: transform 0.3s; color: var(--text-dim); }
 .collapsed .module-body { display: none; }
@@ -63,10 +69,10 @@ input, select {
     border-radius: 2px; 
     text-align: center; 
     height: 28px; 
-    box-sizing: border-box; 
     font-family: inherit;
     vertical-align: middle;
 }
+input[type="color"] { border: none; padding: 0; background: transparent; cursor: pointer; width: 40px; height: 28px; }
 input[type="checkbox"] { width: 14px !important; height: 14px !important; padding: 0; margin: 0 6px 0 0; vertical-align: middle; cursor: pointer; }
 
 .webhook-input { width: 100%; text-align: left; margin-bottom: 15px; font-family: monospace; font-size: 11px; color: var(--text-dim); border: 1px dashed var(--border); }
@@ -75,7 +81,6 @@ input[type="checkbox"] { width: 14px !important; height: 14px !important; paddin
 /* --- Uniform Action Buttons --- */
 .btn-stack, .btn-clear, .btn-cart, .btn-sq {
     height: 28px;
-    box-sizing: border-box;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -84,6 +89,7 @@ input[type="checkbox"] { width: 14px !important; height: 14px !important; paddin
     font-weight: bold;
     cursor: pointer;
     transition: filter 0.2s, border-color 0.2s, color 0.2s;
+    margin: 0;
 }
 
 .btn-stack { background: var(--accent); color: #000; border: none; font-size: 11px; padding: 0 8px; min-width: 50px; }
@@ -91,24 +97,24 @@ input[type="checkbox"] { width: 14px !important; height: 14px !important; paddin
 
 .btn-clear { background: var(--danger); color: white; border: none; font-size: 10px; padding: 0 8px; }
 .btn-clear:hover { filter: brightness(1.2); }
+.btn-clear-bank { width: 60px; } 
 
 .btn-cart { background: var(--bg-input); color: var(--text); border: 1px solid var(--border); font-size: 11px; padding: 0 8px; }
 .btn-cart:hover { border-color: var(--accent); color: var(--accent); }
 
 .btn-sq { width: 28px !important; padding: 0 !important; font-size: 14px; }
 
-
 /* Large Dispatch/Settings Buttons */
-.btn-max { background: var(--accent); color: #000; width: 100%; padding: 10px; margin-top: 15px; border: none; border-radius: 2px; cursor: pointer; font-weight: bold; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; box-sizing: border-box; }
+.btn-max { background: var(--accent); color: #000; width: 100%; padding: 10px; margin-top: 15px; border: none; border-radius: 2px; cursor: pointer; font-weight: bold; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; height: auto; }
 .btn-max:hover { filter: brightness(1.2); }
-.btn-dispatch { background: #5865F2; color: white; width: 100%; padding: 12px; margin-bottom: 5px; border: none; border-radius: 2px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; display: block; text-align: center; box-sizing: border-box; }
+.btn-dispatch { background: #5865F2; color: white; width: 100%; padding: 12px; margin-bottom: 5px; border: none; border-radius: 2px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.2s; display: block; text-align: center; }
 .btn-dispatch:hover { filter: brightness(1.1); }
 .btn-danger { background: var(--danger); color: white; }
-.btn-theme { background: var(--border); color: var(--text); width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--accent); cursor: pointer; font-weight: bold; box-sizing: border-box; }
+.btn-theme { background: var(--border); color: var(--text); width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid var(--accent); cursor: pointer; font-weight: bold; height: auto; }
 
 /* View Toggles */
 .view-toggles { display: flex; gap: 4px; }
-.btn-mini { background: var(--bg-input); color: var(--text-dim); border: 1px solid var(--border); padding: 4px 8px; font-size: 10px; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: 0.2s; height: 26px; display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; }
+.btn-mini { background: var(--bg-input); color: var(--text-dim); border: 1px solid var(--border); padding: 4px 8px; font-size: 10px; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: 0.2s; height: 26px; display: inline-flex; align-items: center; justify-content: center; }
 .btn-mini.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
 .btn-mini:hover { border-color: var(--accent); color: var(--accent); }
 .btn-mini.active:hover { color: #000; }
@@ -118,7 +124,7 @@ input[type="checkbox"] { width: 14px !important; height: 14px !important; paddin
 .data-table td, .data-table th { padding: 6px 2px; border-bottom: 1px solid var(--border); text-align: center; vertical-align: middle; }
 .bank-category { background: rgba(255,255,255,0.05); color: var(--accent); font-size: 11px; text-transform: uppercase; font-weight: bold; padding: 4px 10px !important; letter-spacing: 1px; }
 
-/* Fixed Market Grid alignment (Price and Buy get own columns) */
+/* Fixed Market Grid alignment */
 .market-row { display: grid; grid-template-columns: 1fr 0.8fr 2.5fr 0.8fr 0.8fr; align-items: start; gap: 5px; padding: 8px 0; border-bottom: 1px solid var(--border); }
 .market-row:last-child { border-bottom: none; }
 .market-header { font-size: 11px; color: var(--text-dim); text-transform: uppercase; border-bottom: 2px solid var(--border); padding-bottom: 6px; }

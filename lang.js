@@ -10,7 +10,8 @@ const baseItems = {
 
 const i18n = {
     en: {
-        tabPrefs: "Preferences", tabInteg: "Integrations", tabData: "Data", tabHelp: "Help", resetDesc: "Clear all your saved bank inventory, market cart quantities, and targets.",
+        tabPrefs: "Preferences", tabInteg: "Integrations", tabData: "Data", tabHelp: "Help", tabView: "View", 
+        resetDesc: "Clear all your saved bank inventory, market cart quantities, and targets.",
         shareTitle: "Share / Import Setup", shareDesc: "Generate a code to share your current bank, market cart, and target with others, or paste a code to load theirs.",
         btnGenCode: "📤 Generate & Copy", btnLoadCode: "📥 Load Code", importSuccess: "Setup loaded successfully!", importError: "Invalid code provided.", exportSuccess: "Code copied to clipboard!",
         themeToggle: "☀️ / 🌙 Toggle Day/Night Mode", format: "Display Format", optUnits: "Units", optStacks: "Stacks (10k)", webhook: "Discord Webhook URL",
@@ -27,11 +28,18 @@ const i18n = {
         stepAlloy: "Alloy", stepSmelt: "Smelt", stepBake: "Bake", stepRefine: "Refine",
         stepWhichYields: "which yields", stepYields: "yields", stepAnd: "and", perCrafter: "(Per Crafter)", stepPrefix: "Step",
 
-        resetPrompt: "Reset all bank values and shopping cart to zero?", discHeader: "⚔️ LOGISTICS ORDER", discReq: "MANUAL GATHER REQUIRED:", discStock: "All gathering covered.", discCopied: "Copied to clipboard!",
+        resetPrompt: "Reset all bank values and shopping cart to zero?", 
+        restartPrompt: "Restart the pipeline? This will un-check all steps and remove their yields from your bank.",
+        btnRestart: "🔄 Restart",
+        
+        discHeader: "⚔️ LOGISTICS ORDER", discReq: "MANUAL GATHER REQUIRED:", discStock: "All gathering covered.", discCopied: "Copied to clipboard!",
         discMarket: "MARKET PURCHASES:", errWebhook: "Please enter a valid Discord Webhook URL.", errSend: "Failed to send to Discord.", sucSend: "Order dispatched to Discord!",
         
         qAdd: "+10k", qAddStk: "+1 Stk", qSub: "-10k", qSubStk: "-1 Stk", byproductsTitle: "RECOVERED BYPRODUCTS",
         
+        colorAccent: "Primary Color", colorBg: "Secondary Color", colorText: "Text Color", btnResetColors: "Reset Colors",
+        viewProd: "Production Command", viewYield: "Yield Modifiers", viewRoute: "Routing Preferences", viewBank: "Inventory Bank", viewCart: "Market Cart", viewGather: "Deficit to Gather", viewPipe: "Manufacturing Pipeline",
+
         categories: { raw: "Raw Materials", basicExt: "Basic Extractions", intOre: "Intermediate Ores", advOre: "Advanced Ores", catalyst: "Catalysts", refined: "Refined Metals" },
         items: { ...baseItems, water: "Water", coal: "Coal", coke: "Coke", steel: "Steel", pi: "Pig Iron" },
         helpSubtitle: "The ultimate MO2 manufacturing calculator and logistics dashboard.",
@@ -49,7 +57,8 @@ const i18n = {
     },
     
     fr: {
-        tabPrefs: "Préférences", tabInteg: "Intégrations", tabData: "Données", tabHelp: "Aide", resetDesc: "Effacez tout votre inventaire, les quantités du panier et les objectifs.",
+        tabPrefs: "Préférences", tabInteg: "Intégrations", tabData: "Données", tabHelp: "Aide", tabView: "Affichage",
+        resetDesc: "Effacez tout votre inventaire, les quantités du panier et les objectifs.",
         shareTitle: "Partager / Importer", shareDesc: "Générez un code pour partager votre banque, panier et objectif, ou collez un code pour charger celui d'un autre joueur.",
         btnGenCode: "📤 Générer & Copier", btnLoadCode: "📥 Charger", importSuccess: "Configuration chargée avec succès !", importError: "Code invalide.", exportSuccess: "Code copié dans le presse-papiers !",
         themeToggle: "☀️ / 🌙 Mode Jour/Nuit", format: "Format d'affichage", optUnits: "Unités", optStacks: "Piles (10k)", webhook: "URL Webhook Discord",
@@ -66,11 +75,18 @@ const i18n = {
         stepAlloy: "Alliez", stepSmelt: "Fondez", stepBake: "Cuisez", stepRefine: "Raffinez",
         stepWhichYields: "qui produit", stepYields: "produit", stepAnd: "et", perCrafter: "(Par Artisan)", stepPrefix: "Étape",
 
-        resetPrompt: "Réinitialiser toutes les valeurs à zéro ?", discHeader: "⚔️ ORDRE LOGISTIQUE", discReq: "RÉCOLTE MANUELLE REQUISE :", discStock: "Toute la récolte est couverte.", discCopied: "Copié dans le presse-papiers !",
+        resetPrompt: "Réinitialiser toutes les valeurs à zéro ?", 
+        restartPrompt: "Redémarrer le pipeline ? Cela décochea toutes les étapes et supprimera leurs rendements de votre banque.",
+        btnRestart: "🔄 Redémarrer",
+        
+        discHeader: "⚔️ ORDRE LOGISTIQUE", discReq: "RÉCOLTE MANUELLE REQUISE :", discStock: "Toute la récolte est couverte.", discCopied: "Copié dans le presse-papiers !",
         discMarket: "ACHATS AU MARCHÉ :", errWebhook: "URL Webhook invalide.", errSend: "Échec de l'envoi.", sucSend: "Ordre envoyé sur Discord !",
         
         qAdd: "+10k", qAddStk: "+1 Pile", qSub: "-10k", qSubStk: "-1 Pile", byproductsTitle: "SOUS-PRODUITS RÉCUPÉRÉS",
         
+        colorAccent: "Couleur Primaire", colorBg: "Couleur Secondaire", colorText: "Couleur du Texte", btnResetColors: "Réinitialiser les Couleurs",
+        viewProd: "Commande de Production", viewYield: "Modificateurs de Rendement", viewRoute: "Préférences de Routage", viewBank: "Banque d'Inventaire", viewCart: "Panier", viewGather: "Déficit à Récolter", viewPipe: "Pipeline de Fabrication",
+
         categories: { raw: "Matières Premières", basicExt: "Extractions de Base", intOre: "Minerais Intermédiaires", advOre: "Minerais Avancés", catalyst: "Catalyseurs", refined: "Métaux Raffinés" },
         items: { ...baseItems, water: "Eau", coal: "Charbon", coke: "Coke", steel: "Acier", pi: "Fonte (Pig Iron)" },
         helpSubtitle: "L'ultime calculateur de fabrication et tableau de bord logistique pour MO2.",

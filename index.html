@@ -22,6 +22,7 @@
     <div class="modal-content module" style="padding: 0;">
         <div class="modal-tabs">
             <button class="tab-btn active" id="tabBtn_prefs" onclick="switchTab('prefs')">⚙️ <span id="ui_tabPrefs">Preferences</span></button>
+            <button class="tab-btn" id="tabBtn_view" onclick="switchTab('view')">👁️ <span id="ui_tabView">View</span></button>
             <button class="tab-btn" id="tabBtn_integ" onclick="switchTab('integ')">📤 <span id="ui_tabInteg">Integrations</span></button>
             <button class="tab-btn" id="tabBtn_data" onclick="switchTab('data')">💾 <span id="ui_tabData">Data</span></button>
             <button class="tab-btn" id="tabBtn_help" onclick="switchTab('help')">❓ <span id="ui_tabHelp">Help</span></button>
@@ -35,13 +36,30 @@
                     <option value="fr">Français</option>
                 </select>
             </div>
+            
+            <div class="input-row"><label id="ui_colorAccent">Primary Color</label><input type="color" id="colorAccent" onchange="applyColors()"></div>
+            <div class="input-row"><label id="ui_colorBg">Secondary Color</label><input type="color" id="colorBg" onchange="applyColors()"></div>
+            <div class="input-row"><label id="ui_colorText">Text Color</label><input type="color" id="colorText" onchange="applyColors()"></div>
+            <button class="btn-theme" id="ui_btnResetColors" onclick="resetColors()" style="margin-top: 5px;">Reset Colors</button>
+
             <button class="btn-theme" id="ui_themeToggle" onclick="toggleTheme()">☀️ / 🌙 Day/Night Mode</button>
+            
             <div class="input-row"><label id="ui_format">Display Format</label>
                 <select id="mode" onchange="handleModeChange()" style="width: 160px;">
                     <option value="units" id="ui_optUnits">Units</option>
                     <option value="stacks" id="ui_optStacks">Stacks (10k)</option>
                 </select>
             </div>
+        </div>
+
+        <div id="tab_view" class="tab-content" style="padding: 15px; display: none;">
+            <div class="input-row" style="justify-content: flex-start; gap: 10px;"><input type="checkbox" id="view_prodCmd" onchange="toggleModule('mod_prodCmd', this.checked)" checked> <label id="ui_viewProd">Production Command</label></div>
+            <div class="input-row" style="justify-content: flex-start; gap: 10px;"><input type="checkbox" id="view_yieldMods" onchange="toggleModule('mod_yieldMods', this.checked)" checked> <label id="ui_viewYield">Yield Modifiers</label></div>
+            <div class="input-row" style="justify-content: flex-start; gap: 10px;"><input type="checkbox" id="view_constraints_wrapper" onchange="toggleModule('mod_constraints_wrapper', this.checked)" checked> <label id="ui_viewRoute">Routing Preferences</label></div>
+            <div class="input-row" style="justify-content: flex-start; gap: 10px;"><input type="checkbox" id="view_invBank" onchange="toggleModule('mod_invBank', this.checked)" checked> <label id="ui_viewBank">Inventory Bank</label></div>
+            <div class="input-row" style="justify-content: flex-start; gap: 10px;"><input type="checkbox" id="view_marketCart" onchange="toggleModule('mod_marketCart', this.checked)" checked> <label id="ui_viewCart">Market Cart</label></div>
+            <div class="input-row" style="justify-content: flex-start; gap: 10px;"><input type="checkbox" id="view_defGather" onchange="toggleModule('mod_defGather', this.checked)" checked> <label id="ui_viewGather">Deficit to Gather</label></div>
+            <div class="input-row" style="justify-content: flex-start; gap: 10px;"><input type="checkbox" id="view_mfgPipe" onchange="toggleModule('mod_mfgPipe', this.checked)" checked> <label id="ui_viewPipe">Manufacturing Pipeline</label></div>
         </div>
 
         <div id="tab_integ" class="tab-content" style="padding: 15px; display: none;">
@@ -159,8 +177,8 @@
         </div>
 
         <div class="module" id="mod_constraints_wrapper">
-            <div class="module-header" onclick="toggleCollapse('mod_constraints')">
-                <span>Routing Preferences</span>
+            <div class="module-header" onclick="toggleCollapse('mod_constraints_wrapper')">
+                <span id="ui_viewRoute">Routing Preferences</span>
                 <span class="toggle-icon">▼</span>
             </div>
             <div class="module-body" id="mod_constraints">
@@ -223,6 +241,7 @@
                 <div class="view-toggles">
                     <button class="btn-mini active" id="btnOverview" onclick="setPipelineView('overview')">📄 Overview</button>
                     <button class="btn-mini" id="btnFocus" onclick="setPipelineView('focus')">🎯 Focus</button>
+                    <button class="btn-mini" id="ui_btnRestart" onclick="restartPipeline()" style="border-color:var(--danger); color:var(--danger); margin-left:10px;">🔄 Restart</button>
                 </div>
             </div>
             <div class="module-body" style="position:relative;">

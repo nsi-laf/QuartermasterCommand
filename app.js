@@ -10,6 +10,12 @@ let pipelineViewMode = 'overview';
 let marketData = {}; 
 let focusIndex = 0;
 
+let moduleVisibility = {
+    'mod_prodCmd': true, 'mod_yieldMods': true, 'mod_constraints_wrapper': true,
+    'mod_invBank': true, 'mod_marketCart': true, 'mod_defGather': true, 'mod_mfgPipe': true
+};
+let customColors = { accent: null, bg: null, text: null };
+
 function initMarketData() {
     rawKeys.forEach(k => {
         if (!marketData[k]) marketData[k] = [{ p: defaultPrices[k], q: 0 }];
@@ -40,6 +46,47 @@ function toggleCollapse(id) {
         collapsedState[id] = true;
     }
     save();
+}
+
+function toggleModule(modId, isVisible) {
+    moduleVisibility[modId] = isVisible;
+    const el = document.getElementById(modId);
+    if(el) {
+        if(isVisible) el.classList.remove('module-hidden');
+        else el.classList.add('module-hidden');
+    }
+    save();
+}
+
+function applyColors() {
+    const acc = document.getElementById('colorAccent').value;
+    const bg = document.getElementById('colorBg').value;
+    const txt = document.getElementById('colorText').value;
+    customColors.accent = acc;
+    customColors.bg = bg;
+    customColors.text = txt;
+    document.documentElement.style.setProperty('--accent', acc);
+    document.documentElement.style.setProperty('--bg-card', bg);
+    document.documentElement.style.setProperty('--text', txt);
+    save();
+}
+
+function resetColors() {
+    customColors = { accent: null, bg: null, text: null };
+    document.documentElement.style.removeProperty('--accent');
+    document.documentElement.style.removeProperty('--bg-card');
+    document.documentElement.style.removeProperty('--text');
+    
+    const isLight = document.body.classList.contains('light-theme');
+    document.getElementById('colorAccent').value = isLight ? '#8a6312' : '#d4af37';
+    document.getElementById('colorBg').value = isLight ? '#ffffff' : '#1c1c21';
+    document.getElementById('colorText').value = isLight ? '#111111' : '#e0e0e0';
+    save();
+}
+
+function toggleTheme() { 
+    document.body.classList.toggle('light-theme'); 
+    resetColors(); // Instantly overwrite user-set custom colors when toggling themes
 }
 
 function updateConstraintUI() {
@@ -124,35 +171,80 @@ function updateFocusView() {
     }
 }
 
-function toggleStep(index) {
-    const idx = completedSteps.indexOf(index);
-    if (idx > -1) completedSteps.splice(idx, 1);
-    else completedSteps.push(index);
+function updatePipelineVisuals() {
+    document.querySelectorAll('#stepsOutput .step-card').forEach((card, index) => {
+        if (completedSteps.includes(index)) card.classList.add('completed');
+        else card.classList.remove('completed');
+    });
     
-    if (pipelineViewMode === 'focus') {
-        if(idx === -1) navFocus(1);
-        else updateFocusView();
-    }
-    run();
+    let percent = pipelineStepsRaw.length === 0 ? 100 : Math.round((completedSteps.length / pipelineStepsRaw.length) * 100);
+    if(percent > 100) percent = 100;
+    
+    const progBar = document.getElementById('projectProgress');
+    const progText = document.getElementById('projectProgressText');
+    if(progBar) progBar.style.width = percent + '%';
+    if(progText) progText.innerText = percent + '% Pipeline Completed';
 }
 
-function markStepCompleted(index, yieldsJson) {
-    if(event) event.stopPropagation();
-    if (!completedSteps.includes(index)) completedSteps.push(index);
+function toggleStep(index) {
+    const idx = completedSteps.indexOf(index);
+    const stepObj = pipelineStepsRaw[index];
+    const isStacks = document.getElementById('mode').value === 'stacks';
     
-    const yields = JSON.parse(yieldsJson);
-    yields.forEach(y => {
-        const bankInput = document.getElementById('b_' + y.item);
-        if (bankInput) {
-            let current = Number(bankInput.value) || 0;
-            let isStacks = document.getElementById('mode').value === 'stacks';
-            let addition = isStacks ? y.amount / 10000 : y.amount;
-            bankInput.value = (current + addition).toFixed(isStacks ? 4 : 0);
+    if (idx > -1) {
+        completedSteps.splice(idx, 1);
+        if (stepObj && stepObj.yields) {
+            stepObj.yields.forEach(y => {
+                const bankInput = document.getElementById('b_' + y.item);
+                if (bankInput) {
+                    let current = Number(bankInput.value) || 0;
+                    let sub = isStacks ? y.amount / 10000 : y.amount;
+                    bankInput.value = Math.max(0, current - sub).toFixed(isStacks ? 4 : 0);
+                }
+            });
+        }
+    } else {
+        completedSteps.push(index);
+        if (stepObj && stepObj.yields) {
+            stepObj.yields.forEach(y => {
+                const bankInput = document.getElementById('b_' + y.item);
+                if (bankInput) {
+                    let current = Number(bankInput.value) || 0;
+                    let add = isStacks ? y.amount / 10000 : y.amount;
+                    bankInput.value = (current + add).toFixed(isStacks ? 4 : 0);
+                }
+            });
+        }
+        if (pipelineViewMode === 'focus') navFocus(1);
+    }
+    
+    updatePipelineVisuals();
+    save();
+}
+
+function restartPipeline() {
+    if (!confirm(i18n[currentLang].restartPrompt || "Restart the pipeline? This will un-check all steps and remove their yields from your bank.")) return;
+    
+    const isStacks = document.getElementById('mode').value === 'stacks';
+    completedSteps.forEach(index => {
+        const stepObj = pipelineStepsRaw[index];
+        if (stepObj && stepObj.yields) {
+            stepObj.yields.forEach(y => {
+                const bankInput = document.getElementById('b_' + y.item);
+                if (bankInput) {
+                    let current = Number(bankInput.value) || 0;
+                    let sub = isStacks ? y.amount / 10000 : y.amount;
+                    bankInput.value = Math.max(0, current - sub).toFixed(isStacks ? 4 : 0);
+                }
+            });
         }
     });
     
-    if (pipelineViewMode === 'focus') navFocus(1);
-    run();
+    completedSteps = [];
+    focusIndex = 0;
+    updatePipelineVisuals();
+    if(pipelineViewMode === 'focus') updateFocusView();
+    save();
 }
 
 function addMarketTier(k) {
@@ -236,7 +328,7 @@ function renderMarketTable() {
                 <input type="number" style="width: 70px;" value="${tier.p}" title="Price" oninput="updateMarketTier('${k}', ${idx}, 'p', this.value)">
             </div>`;
             
-            buyHtml += `<div style="display:flex; gap: 2px; margin-bottom: 4px; justify-content: center; align-items: center;">
+            buyHtml += `<div style="display:flex; gap: 4px; margin-bottom: 4px; justify-content: center; align-items: center;">
                 <button class="btn-stack q-sub" style="min-width:30px; padding:0 4px;" onclick="quickSubMarket('${k}', ${idx})">${subLabel}</button>
                 <input type="number" style="width: 75px;" value="${tier.q}" title="Qty" oninput="updateMarketTier('${k}', ${idx}, 'q', this.value)">
                 <button class="btn-stack q-add" style="min-width:30px; padding:0 4px;" onclick="quickAddMarket('${k}', ${idx})">${addLabel}</button>
@@ -274,11 +366,13 @@ function renderBankTable() {
         html += `<tr><td colspan="2" class="bank-category">${t.categories[cat.id] || cat.id}</td></tr>`;
         cat.items.forEach(k => {
             const val = Number(document.getElementById('b_'+k)?.value) || 0;
+            
+            // Adjusted exact visual order using uniform flex gap: [-10k] [Input] [+10k] [Clear]
             html += `<tr id="row_b_${k}"><td style="width:35%; font-weight:bold; padding-left:10px;">${t.items[k] || k}</td>
                 <td style="text-align:right; white-space: nowrap;">
-                    <div style="display:flex; gap: 2px; justify-content: flex-end; align-items:center;">
-                        <input type="number" id="b_${k}" value="${val}" oninput="run()" style="width: 75px;">
+                    <div style="display:flex; gap: 4px; justify-content: flex-end; align-items:center;">
                         <button class="btn-stack q-sub" style="min-width:30px; padding:0 4px;" onclick="quickSub('b_${k}')">${subLabel}</button>
+                        <input type="number" id="b_${k}" value="${val}" oninput="run()" style="width: 75px;">
                         <button class="btn-stack q-add" style="min-width:30px; padding:0 4px;" onclick="quickAdd('b_${k}')">${addLabel}</button>
                         <button class="btn-clear btn-clear-bank" onclick="clearItem('b_${k}')">Clear</button>
                     </div>
@@ -327,8 +421,6 @@ function init() {
     document.getElementById('lang').value = currentLang; 
     changeLang(); 
 }
-
-function toggleTheme() { document.body.classList.toggle('light-theme'); save(); }
 
 function quickAdd(id) {
     const el = document.getElementById(id);
@@ -590,13 +682,15 @@ function calculate() {
     document.getElementById('gatherOutput').innerHTML = totalUnits > 0 ? gHTML : `<div class="empty-msg">${t.allCovered}</div>`;
     document.getElementById('statStacks').innerText = (totalUnits / 10000).toFixed(2);
 
-    pipelineStepsRaw = [...extractions.extSteps, ...tree.steps];
-    const perCr = crafters > 1 ? ` <span style="color:var(--warning); font-size:0.8em;">${t.perCrafter}</span>` : "";
+    let newPipeline = [...extractions.extSteps, ...tree.steps];
     
-    let percent = pipelineStepsRaw.length === 0 ? 100 : Math.round((completedSteps.length / pipelineStepsRaw.length) * 100);
-    if(percent > 100) percent = 100;
-    document.getElementById('projectProgress').style.width = percent + '%';
-    document.getElementById('projectProgressText').innerText = percent + '% Pipeline Completed';
+    if (JSON.stringify(newPipeline) !== JSON.stringify(pipelineStepsRaw)) {
+        completedSteps = [];
+        focusIndex = 0;
+    }
+    pipelineStepsRaw = newPipeline;
+
+    const perCr = crafters > 1 ? ` <span style="color:var(--warning); font-size:0.8em;">${t.perCrafter}</span>` : "";
 
     let outputHTML = pipelineStepsRaw.map((stepObj, index) => {
         let isCompleted = completedSteps.includes(index) ? 'completed' : '';
@@ -605,15 +699,9 @@ function calculate() {
             let num = parseInt(p1.replace(/,/g, ''));
             return `<span class="highlight">${Math.ceil(num / crafters).toLocaleString()}`;
         });
-        
-        let yieldsJson = JSON.stringify(stepObj.yields).replace(/'/g, "\\'"); 
-        let btnHTML = isCompleted ? '' : `<button class="btn-stack" style="margin-left:10px; font-size:9px; height:auto; padding:4px 8px;" onclick='markStepCompleted(${index}, \`${yieldsJson}\`)'>✔️ Add Yield to Bank</button>`;
 
-        return `<div class="step-card ${isCompleted}" id="step_${index}" onclick="if(pipelineViewMode==='overview') toggleStep(${index})">
-            <div style="display:flex; justify-content:space-between; align-items:center;">
-                <div><span style="color:var(--text-dim); font-weight:bold; margin-right:5px;">${t.stepPrefix} ${index + 1}.</span>${modStep}${perCr}</div>
-                <div>${btnHTML}</div>
-            </div>
+        return `<div class="step-card ${isCompleted}" id="step_${index}" onclick="toggleStep(${index})">
+            <div><span style="color:var(--text-dim); font-weight:bold; margin-right:5px;">${t.stepPrefix} ${index + 1}.</span>${modStep}${perCr}</div>
         </div>`;
     }).join('');
 
@@ -636,6 +724,7 @@ function calculate() {
 
     document.getElementById('stepsOutput').innerHTML = outputHTML;
     
+    updatePipelineVisuals();
     if(pipelineViewMode === 'focus') updateFocusView();
 
     updateVisibility(targetMetal);
@@ -643,8 +732,8 @@ function calculate() {
 }
 
 function save() {
-    const data = { collapsed: collapsedState, completedSteps: completedSteps, market: marketData };
-    document.querySelectorAll('input:not([type="checkbox"]):not([type="password"]), select').forEach(el => data[el.id] = el.value);
+    const data = { collapsed: collapsedState, completedSteps: completedSteps, market: marketData, moduleVisibility: moduleVisibility, customColors: customColors };
+    document.querySelectorAll('input:not([type="checkbox"]):not([type="password"]):not([type="color"]), select').forEach(el => data[el.id] = el.value);
     document.querySelectorAll('input[type="checkbox"]').forEach(el => data[el.id] = el.checked);
     data.webhookUrl = document.getElementById('webhookUrl').value;
     data.theme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
@@ -657,7 +746,7 @@ function load() {
     if (!d) return;
     Object.keys(d).forEach(id => {
         const el = document.getElementById(id);
-        if (el && el.id !== 'webhookUrl' && id !== 'collapsed' && id !== 'completedSteps' && id !== 'prefs' && id !== 'market') {
+        if (el && el.id !== 'webhookUrl' && id !== 'collapsed' && id !== 'completedSteps' && id !== 'prefs' && id !== 'market' && id !== 'moduleVisibility' && id !== 'customColors') {
             if(el.type === 'checkbox') el.checked = d[id];
             else el.value = d[id];
         }
@@ -681,6 +770,41 @@ function load() {
                 if (el) el.classList.add('collapsed');
             }
         });
+    }
+
+    if (d.moduleVisibility) {
+        moduleVisibility = d.moduleVisibility;
+        Object.keys(moduleVisibility).forEach(modId => {
+            const isVisible = moduleVisibility[modId];
+            const checkboxId = modId.replace('mod_', 'view_');
+            const checkbox = document.getElementById(checkboxId); 
+            if(checkbox) checkbox.checked = isVisible;
+            toggleModule(modId, isVisible);
+        });
+    }
+    
+    if (d.customColors) {
+        customColors = d.customColors;
+        if(customColors.accent) {
+            document.getElementById('colorAccent').value = customColors.accent;
+            document.documentElement.style.setProperty('--accent', customColors.accent);
+        }
+        if(customColors.bg) {
+            document.getElementById('colorBg').value = customColors.bg;
+            document.documentElement.style.setProperty('--bg-card', customColors.bg);
+        }
+        if(customColors.text) {
+            document.getElementById('colorText').value = customColors.text;
+            document.documentElement.style.setProperty('--text', customColors.text);
+        }
+    }
+    
+    // Ensure pickers have default values if null in local storage
+    if (!customColors.accent || !customColors.bg || !customColors.text) {
+        const isLight = document.body.classList.contains('light-theme');
+        if(!customColors.accent) document.getElementById('colorAccent').value = isLight ? '#8a6312' : '#d4af37';
+        if(!customColors.bg) document.getElementById('colorBg').value = isLight ? '#ffffff' : '#1c1c21';
+        if(!customColors.text) document.getElementById('colorText').value = isLight ? '#111111' : '#e0e0e0';
     }
     
     prevMode = document.getElementById('mode').value || 'units';
@@ -764,12 +888,14 @@ function changeLang() {
     const t = i18n[currentLang];
     
     const standardElements = [
-        'tabPrefs', 'tabInteg', 'tabData', 'tabHelp', 'resetDesc', 'themeToggle', 'format', 
+        'tabPrefs', 'tabInteg', 'tabData', 'tabHelp', 'tabView', 'resetDesc', 'themeToggle', 'format', 
         'optUnits', 'optStacks', 'webhook', 'prodCmd', 'targetMetalLabel', 'boSource', 
         'optAttractor', 'optCrusher', 'target', 'crafters', 'yieldMods', 'mastery', 
         'refining', 'extraction', 'btnMaxText', 'btnDiscord', 'btnSend', 'invBank', 
         'showAllBank', 'btnReset', 'defGather', 'mfgPipe', 'marketCart', 'btnAutoFill', 
-        'shareTitle', 'shareDesc', 'btnGenCode', 'btnLoadCode', 'helpFeatures', 'helpHowTo'
+        'shareTitle', 'shareDesc', 'btnGenCode', 'btnLoadCode', 'helpFeatures', 'helpHowTo',
+        'colorAccent', 'colorBg', 'colorText', 'btnResetColors', 'viewProd', 'viewYield', 'viewRoute',
+        'viewBank', 'viewCart', 'viewGather', 'viewPipe', 'btnRestart'
     ];
     
     const htmlElements = [

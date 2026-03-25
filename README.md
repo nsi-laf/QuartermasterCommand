@@ -6,7 +6,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
 ![PWA](https://img.shields.io/badge/PWA-Ready-success)
 
-**Quartermaster Command** (formerly *Jaegh's Refining Suite*) is the ultimate manufacturing calculator and logistics dashboard for **Mortal Online 2**. Designed for guild quartermasters, gatherers, and master crafters, this suite handles complex extraction math, market budgeting, and work-order dispatching in a sleek, offline-capable interface.
+**Quartermaster Command** is the ultimate manufacturing calculator and logistics dashboard for **Mortal Online 2**. Designed for guild quartermasters, gatherers, and master crafters, this suite handles complex extraction math, market budgeting, and work-order dispatching in a sleek, offline-capable interface.
 
 *"Steel wins battles, silver wins wars."* — [MTM] Jaegh
 
@@ -91,7 +91,7 @@ Navigate to the **Settings** menu to fully personalize your Quartermaster Comman
 ![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
 ![PWA](https://img.shields.io/badge/PWA-Ready-success)
 
-**Quartermaster Command** (anciennement *Jaegh's Refining Suite*) est l'ultime calculateur de fabrication et tableau de bord logistique pour **Mortal Online 2**. Conçu pour les quartiers-maîtres de guilde, les récolteurs et les maîtres artisans, cette suite gère les mathématiques complexes d'extraction, la budgétisation du marché et l'expédition des bons de travail dans une interface élégante et utilisable hors ligne.
+**Quartermaster Command** est l'ultime calculateur de fabrication et tableau de bord logistique pour **Mortal Online 2**. Conçu pour les quartiers-maîtres de guilde, les récolteurs et les maîtres artisans, cette suite gère les mathématiques complexes d'extraction, la budgétisation du marché et l'expédition des bons de travail dans une interface élégante et utilisable hors ligne.
 
 *"L'acier gagne les batailles, l'argent gagne les guerres."* — [MTM] Jaegh
 

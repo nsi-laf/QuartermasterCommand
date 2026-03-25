@@ -82,3 +82,88 @@ Navigate to the **Settings** menu to fully personalize your Quartermaster Comman
 
 ---
 *Happy Refining.*
+
+# ⚔️ Quartermaster Command
+
+![Version](https://img.shields.io/badge/version-v8.0-blue.svg)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
+![PWA](https://img.shields.io/badge/PWA-Ready-success)
+
+**Quartermaster Command** (anciennement *Jaegh's Refining Suite*) est l'ultime calculateur de fabrication et tableau de bord logistique pour **Mortal Online 2**. Conçu pour les quartiers-maîtres de guilde, les récolteurs et les maîtres artisans, cette suite gère les mathématiques complexes d'extraction, la budgétisation du marché et l'expédition des bons de travail dans une interface élégante et utilisable hors ligne.
+
+*"L'acier gagne les batailles, l'argent gagne les guerres."* — [MTM] Jaegh
+
+---
+
+## ✨ Aperçu des Fonctionnalités
+
+* 🧠 **Intelligence du Pipeline :** Cartographie automatiquement les étapes d'extraction, de raffinage et de fusion. Le moteur dynamique calcule s'il faut Concassez, Broyer ou Cuire selon vos préférences globales (⭐ Plus Efficace vs 💎 Max Sous-produits).
+* ⚡ **Calculer la Production Possible :** Analyse votre inventaire bancaire actuel pour calculer la quantité maximale absolue du métal ciblé que vous pouvez produire avec votre stock existant.
+* 🛒 **Panier Intelligent :** Entrez les prix du marché local et les quantités d'achat. Utilisez *Tout Remplir* pour calculer exactement combien vous devez acheter pour combler un déficit, en suivant votre **Coût Total en Or** en temps réel.
+* 💾 **Partager & Importer (Base64) :** Générez un code sécurisé de votre configuration actuelle (Banque, Panier, Pipeline) pour le partager instantanément avec vos camarades de guilde ou le transférer entre vos appareils.
+* 🚀 **Envoi Discord :** Génère un ordre de travail Markdown magnifiquement formaté, séparant les Achats au Marché de la Récolte Manuelle, prêt à être envoyé directement sur le serveur Discord de votre guilde via Webhook.
+* 📱 **PWA Ready :** Installable en tant que Progressive Web App (Application Web Progressive) sur bureau ou mobile. Entièrement mis en cache pour une utilisation hors ligne.
+
+---
+
+## 🛠️ Architecture et Stack Technique
+
+Ce projet est construit en utilisant **100% de Technologies Web Vanilla** (HTML, CSS, JS). Aucun framework ou dépendance externe n'est requis, ce qui le rend incroyablement rapide et facile à héberger n'importe où.
+
+### Base de code modulaire
+La logique de base a été divisée en modules dédiés et maintenables :
+* `data.js` : Contient les dictionnaires `EXTRACTION_ROUTES` et `RECIPES`. Contient toutes les mathématiques brutes de MO2, les rendements et les exigences en catalyseurs.
+* `engine.js` : Le cerveau algorithmique. Trie topologiquement les matériaux requis et construit dynamiquement le pipeline étape par étape.
+* `pipeline.js` : Gère l'activation interactive des étapes, les remplacements de routage globaux et la visualisation de la barre de progression.
+* `market_bank.js` : Gère la grille interactive, les mathématiques et l'interface utilisateur pour la Banque d'Inventaire et le Panier.
+* `discord.js` : Analyse l'état actuel en Markdown et pousse les données via l'API Webhook de Discord.
+* `state.js` : Gère toute la logique de sauvegarde, de chargement du `localStorage` et d'import/export Base64.
+* `theme.js` & `ui.js` : Contrôle la personnalisation des couleurs hexadécimales, le mode Jour/Nuit, les fenêtres modales et la visibilité des modules.
+* `lang.js` : Support i18n complet (actuellement Anglais et Français).
+
+---
+
+## 🚀 Installation et Utilisation
+
+Comme il s'agit d'une application statique côté client, le déploiement est instantané.
+
+### Utilisation Locale
+1. Clonez ou téléchargez ce dépôt.
+2. Ouvrez `index.html` dans n'importe quel navigateur web moderne.
+
+### Hébergement (GitHub Pages / Netlify / Vercel)
+1. Poussez le dépôt sur votre hébergeur Git préféré.
+2. Activez l'hébergement statique pointant vers le répertoire racine.
+3. Le fichier `sw.js` (Service Worker) et le `manifest.json` inclus permettront automatiquement aux utilisateurs d'installer l'application directement sur leurs appareils.
+
+---
+
+## 📖 Guide de Démarrage Rapide
+
+1. **Définissez votre Objectif :** Sélectionnez votre *Métal Cible* (ex. Acier) et la *Quantité* désirée. Définissez le nombre d'*Artisans* pour diviser automatiquement la charge de travail.
+2. **Vérifiez votre Banque :** Entrez votre inventaire actuel dans la *Banque d'Inventaire*. 
+   > *Astuce : Si vous ne savez pas quoi fabriquer, entrez vos matériaux et cliquez sur **⚡ Calculer la production possible** pour voir vos limites.*
+3. **Faites vos Achats :** Consultez le module *Panier*. Définissez les prix locaux, puis cliquez sur **🛒 Tout Remplir** pour calculer votre déficit manquant et votre budget en or requis.
+4. **Envoyez l'Ordre :** Passez en revue le *Déficit à Récolter* et le *Pipeline de Fabrication*. Allez dans **Paramètres > Intégrations** et poussez l'ordre sur votre canal logistique Discord.
+
+---
+
+## 🎨 Personnalisation
+
+Naviguez vers le menu **Paramètres** pour personnaliser entièrement votre Quartermaster Command :
+* Basculez entre le mode Clair et le mode Sombre.
+* Définissez des valeurs hexadécimales personnalisées pour les couleurs d'Accent Primaire, de Fond et de Texte.
+* Masquez ou affichez des modules spécifiques pour épurer votre tableau de bord.
+* Basculez entre les formats d'affichage **Unités** ou **Piles (10k)**.
+
+---
+
+## 📜 Licence et Crédits
+
+* **Auteur :** Créé par [MTM] Jaegh pour la guilde MERCANTORM.
+* **Jeu :** Mortal Online 2 par Star Vault AB. (Cet outil est un projet créé par un fan et n'est pas affilié à Star Vault).
+
+---
+*Bon raffinage.*

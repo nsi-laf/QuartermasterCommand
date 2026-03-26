@@ -1,41 +1,88 @@
-# Quartermaster Command
-**The Ultimate Mortal Online 2 Refining Suite & Logistics Dashboard**
+# ⚔️ Quartermaster Command
 
-Quartermaster Command is an advanced, offline-capable Progressive Web Application (PWA) designed to calculate, track, and dispatch complex metallurgy and extraction pipelines in Mortal Online 2. 
+![Version](https://img.shields.io/badge/version-v8.0-blue.svg)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-323330?style=flat&logo=javascript&logoColor=F7DF1E)
+![PWA](https://img.shields.io/badge/PWA-Ready-success)
 
-Made by **[MTM] Jaegh** for the MERCANTORM guild.
+**Quartermaster Command** is the ultimate manufacturing calculator and logistics dashboard for **Mortal Online 2**. Designed for guild quartermasters, gatherers, and master crafters, this suite handles complex extraction math, market budgeting, and work-order dispatching in a sleek, offline-capable interface.
 
-## 🌟 Key Features
+🇬🇧 **English** | [🇫🇷 **Français (#fr)**](#-version-française)
 
-* **Pipeline Intelligence:** Automatically maps out multi-step extraction, refining, and smelting tasks for complex metals like Steel, Tungsteel, and Oghmium.
-* **Dynamic Recipe Routing:** Force the calculation engine to prioritize the **[E] Efficient Path** (lowest material cost), **[Y] Max Yield** (highest byproduct generation), or utilize **[R] Region Locked** machinery.
-* **Calculate Max Craftable:** Instantly calculates the absolute maximum amount of a target metal you can craft using strictly the materials currently in your inventory.
-* **Smart Market Cart:** Enter local market prices and desired buy quantities. The "Auto-Fill" system calculates exactly what you are missing and tracks total gold expenditure.
-* **Discord Dispatch:** Automatically generates a beautifully formatted Markdown work order—separating Market Purchases from Manual Gathering—ready to be pushed directly to a Discord Webhook.
-* **Bilingual Support:** Fully translated into both English (EN) and French (FR).
-* **Deep Customization:** Toggle Dark/Light modes, adjust primary/secondary accent colors, and hide modules you don't actively need.
-* **Shareable States:** Export your current inventory, cart, and goals to a short string code to share with other crafters, or export directly to a CSV file.
+*"Steel wins battles, silver wins wars."* — [MTM] Jaegh
 
-## 🚀 Installation & Setup
+---
 
-Quartermaster Command is a static, client-side application. No backend server or database is required.
+## ✨ Feature Overview | Aperçu des Fonctionnalités
 
-1. **Local Use:** Simply download the repository and double-click `index.html` to open it in any modern web browser.
-2. **Web Hosting:** Upload the files to any static file host (e.g., GitHub Pages, Vercel, Netlify). 
-3. **Mobile / App Install:** Because this app includes a `manifest.json` and a Service Worker (`sw.js`), visiting the hosted URL on a mobile device will prompt you to "Add to Home Screen", installing it as a native offline app.
+* 🧠 **Pipeline Intelligence:** Automatically maps out multi-step extraction, refining, and smelting tasks.
+    * *Cartographie automatiquement les étapes d'extraction, de raffinage et de fusion.*
+* ⚡ **Calculate Craftable:** Scans your current bank inventory to calculate the absolute maximum yield.
+    * *Analyse votre inventaire bancaire pour calculer la production maximale possible.*
+* 🛒 **Smart Market Cart:** Calculate exactly how much you need to buy to cover a deficit.
+    * *Calculez exactement ce dont vous avez besoin pour combler un déficit.*
+* 🚀 **Discord Dispatch:** Generates beautifully formatted Markdown work orders for Discord Webhooks.
+    * *Génère des ordres de travail Markdown pour vos Webhooks Discord.*
+* 📱 **PWA Ready:** Installable on Desktop or Mobile with full offline caching.
+    * *Installable sur PC ou Mobile avec un support complet hors ligne.*
 
-## 📂 Project Structure
+---
 
-* `/index.html` - The core application layout and UI framework.
-* `/styles.css` - Custom styling, responsive mobile grids, and theme variables.
-* `/js/app.js` - Main initialization and DOM interaction logic.
-* `/js/engine.js` - The heavy-lifting recursive extraction and recipe resolution math.
-* `/js/data.js` - Database containing all MO2 item categories, prices, recipes, and yield tables.
-* `/js/lang.js` - Bilingual translation dictionary.
-* `/js/market_bank.js` - Inventory, shopping cart, and search filtering logic.
-* `/js/pipeline.js` - Logic for checking off steps, routing path choices, and progress bar updates.
-* `/js/ui.js` - Modal triggers, sidebar toggles, and UI interactions.
-* `/js/state.js` - LocalStorage saving/loading mechanisms.
-* `/js/discord.js` - Webhook payload generation and string formatting.
-* `/js/theme.js` - Dark/Light mode and custom color hex handlers.
-* `/sw.js` - Service Worker for offline PWA caching.
+## 🛠️ Tech Stack | Architecture Technique
+
+This project is built using **100% Vanilla Web Technologies**. No external frameworks are required.
+*Ce projet est construit à 100% avec des **Technologies Web Vanilla**.*
+
+* **Logic:** `engine.js` (Algorithmic brain), `data.js` (Yields & Recipes).
+* **UI/UX:** `theme.js`, `ui.js`, and `pipeline.js` (Interactive visualization).
+* **Storage:** `state.js` (Localstorage & Base64 Import/Export).
+* **i18n:** `lang.js` (Support for English and French).
+
+---
+
+## 🚀 Installation & Usage | Utilisation
+
+### 🇬🇧 English
+1.  **Local:** Clone the repo and open `index.html` in any browser.
+2.  **Hosting:** Deploy to GitHub Pages, Netlify, or Vercel. The `sw.js` will handle PWA installation automatically.
+
+### 🇫🇷 Français
+1.  **Local :** Clonez le dépôt et ouvrez `index.html` dans n'importe quel navigateur.
+2.  **Hébergement :** Déployez sur GitHub Pages, Netlify ou Vercel. Le fichier `sw.js` gérera l'installation PWA.
+
+---
+
+<a name="fr"></a>
+
+## 🇫🇷 Version Française
+
+### ✨ Aperçu
+**Quartermaster Command** est l'ultime calculateur de fabrication et tableau de bord logistique pour **Mortal Online 2**. Conçu pour les quartiers-maîtres de guilde, les récolteurs et les maîtres artisans, cette suite gère les mathématiques complexes d'extraction et la budgétisation du marché.
+
+### 📖 Guide de Démarrage Rapide
+1.  **Définissez votre Objectif :** Sélectionnez votre Métal Cible et la Quantité.
+2.  **Vérifiez votre Banque :** Entrez votre inventaire actuel pour voir ce que vous pouvez déjà produire.
+3.  **Faites vos Achats :** Utilisez le **Panier Intelligent** pour calculer le coût total en or de vos matériaux manquants.
+4.  **Envoyez l'Ordre :** Poussez l'ordre de travail directement sur votre canal logistique Discord via les paramètres d'intégration.
+
+---
+
+## 🎨 Customization | Personnalisation
+
+Navigate to the **Settings** menu to personalize your experience:
+* Toggle **Light/Dark Mode**.
+* Set custom **Hex Colors** for the UI.
+* Switch between **Units** or **Stacks (10k)** display formats.
+
+*Naviguez vers le menu **Paramètres** pour basculer entre le mode Clair/Sombre, personnaliser les couleurs, et changer le format d'affichage (Unités ou Piles).*
+
+---
+
+## 📜 License & Credits
+
+* **Author:** Created by [MTM] Jaegh for the **MERCANTORM** guild.
+* **Game:** Mortal Online 2 by Star Vault AB. (This tool is a fan-made project and is not affiliated with Star Vault).
+
+---
+*Happy Refining. / Bon raffinage.*

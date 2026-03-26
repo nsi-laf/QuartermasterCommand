@@ -89,6 +89,10 @@ function changeLang() {
     document.getElementById('flag_en').classList.toggle('active', currentLang === 'en');
     document.getElementById('flag_fr').classList.toggle('active', currentLang === 'fr');
 
+    // Toggle Hardcoded Help Docs
+    if (document.getElementById('help-en')) document.getElementById('help-en').style.display = currentLang === 'en' ? 'block' : 'none';
+    if (document.getElementById('help-fr')) document.getElementById('help-fr').style.display = currentLang === 'fr' ? 'block' : 'none';
+
     const standardElements = [
         'tabPrefs', 'tabData', 'tabHelp', 'tabView', 'resetDesc', 'format',
         'optUnits', 'optStacks', 'targetMetalLabel', 'target', 'crafters',
